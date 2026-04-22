@@ -3,285 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fattah Studio</title>
+<title>Fattah Widjaya Gandhi</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #020617;
-    color: #e2e8f0;
-  }
+:root {
+  --bg: #0b0b0b;
+  --surface: #111;
+  --border: #222;
+  --accent: #f97316;
+  --text: #e5e5e5;
+  --muted: #a3a3a3;
+}
 
-  header {
-    padding: 80px 20px;
-    text-align: center;
-    background: radial-gradient(circle at top, #1e293b, #020617);
-  }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-  header h1 {
-    font-size: 42px;
-    margin: 0;
-  }
+/* HEADER */
+header {
+  text-align: center;
+  padding: 72px 20px 56px;
+  background: radial-gradient(circle at top, #1a1a1a, var(--bg));
+}
 
-  header p {
-    color: #94a3b8;
-    margin-top: 10px;
-  }
+.profile-img {
+  width: 110px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  margin-bottom: 16px;
+}
 
-  section {
-    padding: 60px 20px;
-    max-width: 1100px;
-    margin: auto;
-  }
+header h1 {
+  margin: 0;
+  font-size: 34px;
+}
 
-  h2 {
-    border-left: 4px solid #38bdf8;
-    padding-left: 12px;
-    margin-bottom: 25px;
-  }
+header p {
+  color: var(--muted);
+  margin-top: 6px;
+}
 
-  /* Cards */
-  .card, .project {
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    padding: 20px;
-    border-radius: 14px;
-    transition: 0.3s ease;
-  }
+/* SECTIONS */
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+  border-bottom: 1px solid #141414;
+}
 
-  .card:hover, .project:hover {
-    transform: translateY(-6px);
-    border-color: #38bdf8;
-  }
+h2 {
+  border-left: 4px solid var(--accent);
+  padding-left: 10px;
+  margin-bottom: 16px;
+}
 
-  /* Skills */
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
+/* PROJECT CARD */
+.project {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 10px;
+  transition: 0.25s;
+}
 
-  .card h3 {
-    margin-top: 0;
-    color: #38bdf8;
-  }
+.project:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
 
-  /* Projects */
-  .project {
-    margin-bottom: 25px;
-  }
+/* FEATURED */
+.featured {
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 30px rgba(249,115,22,0.12);
+}
 
-  .btn {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 10px 16px;
-    background: #38bdf8;
-    color: #020617;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.2s;
-  }
+/* TEXT */
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 12px;
+}
 
-  .btn:hover {
-    background: #0ea5e9;
-  }
+/* SHOWCASE GRID */
+.showcase {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+  margin: 16px 0;
+}
 
-  /* Evidence Section */
-  .evidence-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-  }
+/* IMAGE */
+.media img,
+.project img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  transition: 0.3s;
+}
 
-  .evidence-card {
-    background: #020617;
-    border: 1px solid #1e293b;
-    padding: 12px;
-    border-radius: 10px;
-  }
+.media img:hover,
+.project img:hover {
+  transform: scale(1.03);
+}
 
-  .evidence-card h4 {
-    margin: 0 0 6px;
-    color: #38bdf8;
-    font-size: 14px;
-  }
+/* TIKTOK */
+.tiktok-container {
+  display: flex;
+  justify-content: center;
+}
 
-  .evidence-card img {
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #1e293b;
-  }
+.tiktok-container blockquote {
+  width: 100%;
+  max-width: 420px;
+}
 
-  footer {
-    text-align: center;
-    padding: 25px;
-    color: #64748b;
-    font-size: 14px;
-  }
+/* LIST */
+.feature-list {
+  margin: 10px 0 0;
+  color: #ccc;
+}
 
+/* BUTTON */
+.btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: black;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.btn i {
+  margin-right: 6px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+/* 2 COLUMN PROJECT GRID */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* COMMUNITY */
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* CONTACT */
+.contact a {
+  display: inline-block;
+  margin-right: 16px;
+  color: var(--accent);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 24px;
+  color: #777;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .showcase {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Fattah Studio</h1>
-  <p>Roblox Developer • AI-Assisted Creator • Environment Designer</p>
+  <img src="https://avatars.githubusercontent.com/u/71250692?v=4" class="profile-img">
+  <h1>Fattah Widjaya Gandhi</h1>
+  <p>Quality Assurance Tester • Roblox Developer • AI-Assisted Creator</p>
 </header>
 
 <section>
-  <h2>About Me</h2>
+  <h2>About</h2>
   <p>
-    I build immersive Roblox experiences focused on atmosphere, interaction, and gameplay flow.
-    I combine AI tools with development workflows to accelerate production and create richer game environments.
+    QA Tester with structured testing mindset combined with hands-on Roblox development.
+    Focused on gameplay systems, environment design, and efficient AI-assisted workflows.
   </p>
 </section>
 
 <section>
-  <h2>Skills</h2>
+  <h2>Featured Project</h2>
 
-  <div class="skills">
+  <div class="project featured">
+    <h3>⛰️ Gunung Lawak</h3>
+    <p class="subtitle">Exploration-based semi-obby with progression and environmental storytelling.</p>
 
-    <div class="card">
-      <h3>🎮 Roblox Development</h3>
-      <p>
-        Level design (horror / exploration)<br>
-        Environment & lighting setup<br>
-        Gameplay systems & interaction
-      </p>
+    <div class="showcase">
+      <div class="media">
+        <img src="https://tr.rbxcdn.com/180DAY-30c8a44fcdd23462daf43591570f67d3/768/432/Image/Webp/noFilter">
+      </div>
+
+      <div class="tiktok-container">
+        <blockquote class="tiktok-embed"
+          cite="https://www.tiktok.com/@nonkeira/video/7539393431018212613"
+          data-video-id="7539393431018212613">
+        </blockquote>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🤖 AI-Assisted Creation</h3>
-      <p>
-        Texture & decal generation<br>
-        Prompt engineering<br>
-        Rapid prototyping workflows<br>
-        AI → in-game asset pipeline
-      </p>
-    </div>
+    <ul class="feature-list">
+      <li>Terrain-based progression</li>
+      <li>Exploration gameplay flow</li>
+      <li>Lighting & atmosphere design</li>
+    </ul>
 
-    <div class="card">
-      <h3>🎨 Visual Design</h3>
-      <p>
-        Atmosphere & mood building<br>
-        Composition & storytelling<br>
-        UI layout basics
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>🌐 Web</h3>
-      <p>
-        HTML & CSS<br>
-        Portfolio hosting (GitHub Pages)
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<section>
-  <h2>Projects</h2>
-
-  <div class="project">
-    <h3>🕯️ Horror Tunnel Experience</h3>
-    <p>
-      Underground horror map focused on tension, lighting, and exploration.
-      Built using custom textures and AI-assisted workflows.
-    </p>
-
-    <!-- REPLACE THIS -->
-    <a href="https://www.roblox.com" target="_blank" class="btn">
-      Play on Roblox
+    <a href="https://www.roblox.com/games/85931900901290/Gunung-Lawak" target="_blank" class="btn">
+      <i class="fa-solid fa-play"></i>Play on Roblox
     </a>
   </div>
 
 </section>
 
 <section>
-  <h2>AI Workflow Evidence</h2>
+  <h2>Other Projects</h2>
 
-  <div class="project">
-    <h3>🕯️ Environment Creation Pipeline</h3>
+  <div class="project-grid">
 
-    <div class="evidence-grid">
-
-      <div class="evidence-card">
-        <h4>Prompt</h4>
-        <p>
-          Dark tunnel, wet concrete, horror lighting, realistic texture, seamless surface
-        </p>
-      </div>
-
-      <div class="evidence-card">
-        <h4>AI Output</h4>
-        <img src="images/tunnel-texture.jpg">
-      </div>
-
-      <div class="evidence-card">
-        <h4>In-Game</h4>
-        <img src="images/tunnel-ingame.jpg">
-      </div>
-
-      <div class="evidence-card">
-        <h4>Implementation</h4>
-        <p>
-          Applied as material with lighting + fog tuning to create immersive environment.
-        </p>
-      </div>
-
+    <div class="project">
+      <h3>🌫️ Lembah Kabut</h3>
+      <img src="https://tr.rbxcdn.com/180DAY-be28a62ba650640cfc5b0eca786f9a8f/768/432/Image/Webp/noFilter">
+      <p>Atmospheric hangout map focused on immersion.</p>
+      <a href="https://www.roblox.com/games/72428174449275/Lembah-Kabut" target="_blank" class="btn">
+        <i class="fa-solid fa-play"></i>Play
+      </a>
     </div>
+
   </div>
 
-  <div class="project">
-    <h3>⚙️ Gameplay System Design</h3>
+</section>
 
-    <div class="evidence-grid">
+<section>
+  <h2>Skills</h2>
 
-      <div class="evidence-card">
-        <h4>Prompt</h4>
-        <p>
-          Roblox carry system, interaction request, accept/cancel UI, overhead indicator
-        </p>
-      </div>
+  <div class="project-grid">
+    <div class="project">Roblox Development</div>
+    <div class="project">AI Workflow</div>
+    <div class="project">QA Testing</div>
+    <div class="project">Web Development</div>
+  </div>
 
-      <div class="evidence-card">
-        <h4>Concept</h4>
-        <img src="images/system-concept.jpg">
-      </div>
+</section>
 
-      <div class="evidence-card">
-        <h4>In-Game</h4>
-        <img src="images/system-ingame.jpg">
-      </div>
+<section>
+  <h2>Community</h2>
 
-      <div class="evidence-card">
-        <h4>Implementation</h4>
-        <p>
-          Built interaction system with UI prompts, player states, and cancel logic.
-        </p>
-      </div>
+  <div class="community-grid">
 
+    <div class="project">
+      <h3>Roblox Group</h3>
+      <a href="https://www.roblox.com/communities/510724970/Lawak-Gamehouse#!/about" target="_blank" class="btn">
+        <i class="fa-brands fa-roblox"></i>Visit
+      </a>
     </div>
+
+    <div class="project">
+      <h3>Discord</h3>
+      <a href="https://discord.gg/Z8RcWRpuJQ" target="_blank" class="btn">
+        <i class="fa-brands fa-discord"></i>Join
+      </a>
+    </div>
+
   </div>
 
 </section>
 
 <section>
   <h2>Contact</h2>
-  <p>
-    GitHub: <a href="https://github.com/FattahWG" target="_blank">fattahstudio</a><br>
-    Roblox: (add your profile link)
-  </p>
+
+  <div class="contact">
+    <a href="https://github.com/FattahWG" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+    <a href="https://www.linkedin.com/in/fattahwg/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+  </div>
+
 </section>
 
 <footer>
-  © 2026 Fattah Studio — Built with intent.
+  © 2026 Fattah Widjaya Gandhi
 </footer>
+
+<script async src="https://www.tiktok.com/embed.js"></script>
 
 </body>
 </html>
