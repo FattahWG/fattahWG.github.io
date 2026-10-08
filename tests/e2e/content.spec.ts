@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { GAMES, LINKS, TOOL_LINKS } from '../../src/data/site.js';
+import { EDUCATION, EXPERIENCE, GAMES, LINKS, TOOL_LINKS } from '../../src/data/site.js';
 import { PAGES } from './support';
 
 test.describe('Content and links', () => {
@@ -70,6 +70,30 @@ test.describe('Content and links', () => {
       expect(fs.statSync(file).size, 'PDF size in bytes').toBeGreaterThan(20_000);
     });
   }
+
+  test('TC-CNT-007 Experience shows every employer, title, date range, and project from the CV', async ({ page }) => {
+    await page.goto('/experience');
+    const work = page.locator('#work');
+    for (const job of EXPERIENCE) {
+      const card = work.locator('article.job', { has: page.getByRole('heading', { name: job.company }) });
+      await expect(card, job.company).toBeVisible();
+      await expect(card.locator('.role-org')).toHaveText(`${job.title} · ${job.dates}`);
+      for (const proj of job.projects) {
+        await expect(card.getByRole('heading', { name: proj.name }), proj.name).toBeVisible();
+      }
+    }
+    await expect(work.getByText('Current role')).toHaveCount(EXPERIENCE.filter((j) => j.current).length);
+    for (const e of EDUCATION) {
+      await expect(page.locator('#education').getByText(e.name), e.name).toBeVisible();
+    }
+  });
+
+  test('TC-CNT-008 No page shows an unfilled placeholder', async ({ page }) => {
+    for (const path of ['/', '/about', '/experience', '/projects', '/contact']) {
+      await page.goto(path);
+      await expect(page.locator('body'), path).not.toContainText(/\{\{|TODO/);
+    }
+  });
 
   test('TC-CNT-005 Demo videos and their posters load', async ({ page, request }) => {
     await page.goto('/experience');

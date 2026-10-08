@@ -4,43 +4,85 @@ import Icon from "../components/Icon.astro";
 import Chips from "../components/Chips.astro";
 import Cta from "../components/Cta.astro";
 import DemoVideo from "../components/DemoVideo.astro";
-import { QA_ITEMS, GAME_ITEMS, SKILLS, LINKS } from "../data/site.js";
+import { CAREER_SUMMARY, EXPERIENCE, EDUCATION, GAME_ITEMS, SKILLS, LINKS } from "../data/site.js";
 import { hasVideo } from "../data/video.js";
 
 const qaMedia = hasVideo("qa-playwright");
 const gameMedia = hasVideo("studio-loop");
 ---
-<Base title="Experience | Fattah Widjaya Gandhi" description="QA and SQA experience, game direction at Lawak Studio, and skills.">
+<Base
+  title="Experience | Fattah Widjaya Gandhi"
+  description="Work history: QA Software Engineer at Astragraphia Information Technology and QA Engineer at Nawa Data Solutions, plus automation, skills, and education."
+>
   <section class="container" data-reveal>
     <p class="kicker">Career</p>
     <h1 class="page-title">Experience</h1>
-    <p class="lead">My main career is in software quality. Game development is a side project that I take seriously.</p>
+    <p class="lead">{CAREER_SUMMARY} Game development is a side project that I take seriously.</p>
     <div class="btn-row" style="margin-top:24px">
       <a class="btn primary" href={LINKS.cv} download="CV-Fattah Widjaya Gandhi.pdf"><Icon name="i-file-down" />Download CV (PDF)</a>
     </div>
   </section>
 
-  <section class="container">
+  <section class="container" id="work">
+    <div data-reveal>
+      <p class="kicker">Work history</p>
+      <h2 class="section-title">Where I test</h2>
+    </div>
+    <div class="timeline">
+      {EXPERIENCE.map((job) => (
+        <article class="raised role job" data-reveal>
+          <div class="role-head">
+            <div>
+              <h2>{job.company}</h2>
+              <p class="role-org">{job.title} &middot; {job.dates}</p>
+            </div>
+            {job.current && <span class="tag"><Icon name="i-briefcase" />Current role</span>}
+          </div>
+          {job.projects.map((proj) => (
+            <div class="project-block">
+              <div class="project-head">
+                <h3>{proj.name}</h3>
+                {proj.dates && <span class="project-dates">{proj.dates}</span>}
+              </div>
+              <p class="project-domain">{proj.domain}</p>
+              <ul class="checklist single">{proj.items.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          ))}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container" id="automation">
     <article class="raised role" data-reveal>
       <div class="role-head">
         <div>
-          <h2>SQA Engineer / QA IT</h2>
-          <p class="role-org">Software quality for web and mobile applications</p>
+          <h2>Test automation</h2>
+          <p class="role-org">From UFT One and Java frameworks to Playwright and Bruno in CI</p>
         </div>
-        <span class="tag"><Icon name="i-briefcase" />Current role</span>
+        <span class="tag"><Icon name="i-workflow" />Growing now</span>
       </div>
       <div class={`role-body${qaMedia ? " has-media" : ""}`}>
-        <ul class="checklist">{QA_ITEMS.map((x) => <li>{x}</li>)}</ul>
+        <ul class="checklist single">
+          <li>At work, I built and maintained automation test scripts with UFT One.</li>
+          <li>In my Alterra Academy QA bootcamp projects, I automated web, API, and Android tests with Selenium, Serenity BDD, Cucumber, Rest Assured, and Appium in Java.</li>
+          <li>Now I build with Playwright and Bruno: a suite that tests this site in GitHub Actions and blocks the deploy when a test fails.</li>
+          <li>I work with AI agents under rules I write. An expected result comes from the test case, never from the app, and I review every change before it counts.</li>
+        </ul>
         <DemoVideo slug="qa-playwright" caption="A real run from this site's test suite: the Playwright smoke test, recorded in Microsoft Edge." />
       </div>
       <div class="tools">
-        <span class="tools-label">Tools</span>
-        <Chips items={["Playwright", "Bruno", "JMeter", "Jira", "Claude Code", "GitHub Copilot"]} />
+        <span class="tools-label">Now</span>
+        <Chips items={["Playwright", "Bruno", "GitHub Actions", "Claude Code", "GitHub Copilot"]} />
       </div>
-      <p class="note">With AI agents, I write the rules: what they may change, how they report, and that an expected
-        result comes from the test case, never from the app. I review every change before it counts.</p>
     </article>
+  </section>
 
+  <section class="container" id="side-project">
+    <div data-reveal>
+      <p class="kicker game">Side project</p>
+      <h2 class="section-title">Outside work</h2>
+    </div>
     <article class="raised role game-role" data-reveal>
       <div class="role-head">
         <div>
@@ -74,5 +116,16 @@ const gameMedia = hasVideo("studio-loop");
     </div>
   </section>
 
-  <Cta title="See the games" text="The Roblox projects I direct at Lawak Studio." href="/projects" label="View projects" variant="game" />
+  <section class="container" id="education">
+    <div class="raised card education" data-reveal>
+      <h3><span class="badge"><Icon name="i-clipboard-list" /></span>Education and certification</h3>
+      <ul>
+        {EDUCATION.map((e) => (
+          <li><span><b>{e.name}</b> &middot; {e.detail}</span><span class="project-dates">{e.dates}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Cta title="See the work" text="The test suite, the automation preset, and the Roblox games." href="/projects" label="View projects" />
 </Base>

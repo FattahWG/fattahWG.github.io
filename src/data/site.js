@@ -38,6 +38,16 @@ export const TOOL_LINKS = {
   Java: "https://dev.java/",
   "Claude Code": "https://www.anthropic.com/claude-code",
   "GitHub Copilot": "https://github.com/features/copilot",
+  Selenium: "https://www.selenium.dev/",
+  "Serenity BDD": "https://serenity-bdd.info/",
+  Cucumber: "https://cucumber.io/",
+  "Rest Assured": "https://rest-assured.io/",
+  Appium: "https://appium.io/",
+  Grafana: "https://grafana.com/",
+  Postman: "https://www.postman.com/",
+  Swagger: "https://swagger.io/",
+  Git: "https://git-scm.com/",
+  "IntelliJ IDEA": "https://www.jetbrains.com/idea/",
 };
 
 // Text comes from each game's Roblox page. Desa has no Roblox description yet.
@@ -72,13 +82,62 @@ export const GAMES = [
   },
 ];
 
-export const QA_ITEMS = [
-  "Own QA on projects as the independent tester, from test case design through SIT, UAT, and regression cycles",
-  "Test web and mobile applications by hand, with functional and regression coverage",
-  "Test APIs directly, and automate API checks with Bruno",
-  "Build and maintain UI test automation with Playwright",
-  "Report and follow up bugs in Jira, and coordinate testing with development and business teams",
-  "Work alongside AI agents (Claude Code, GitHub Copilot) under rules I write, so they speed up repetitive work without changing what we test",
+export const CAREER_SUMMARY =
+  "2.5+ years testing banking, insurance, and enterprise applications, as the independent tester on projects and as part of QA teams.";
+
+export const EXPERIENCE = [
+  {
+    company: "Astragraphia Information Technology",
+    title: "QA Software Engineer",
+    dates: "Oct 2025 – Present",
+    current: true,
+    projects: [
+      {
+        name: "Manulife Insurance – EBClick",
+        dates: "Apr 2026 – Present",
+        domain: "Insurance web applications and their business workflows.",
+        items: [
+          "Own QA as the independent tester, from test planning and test case design to execution and defect validation.",
+          "Run API testing, SIT, UAT support, and regression testing.",
+          "Check stability and response times under different workloads with JMeter performance tests.",
+          "Track defects in Jira, and work directly with business analysts, developers, and stakeholders to support release delivery.",
+        ],
+      },
+      {
+        name: "Toyota Astra Motor (TAM) – Employee Self-Service",
+        dates: "Oct 2025 – Apr 2026",
+        domain: "An ESS platform that connects attendance, employee claims, company news, and employee services.",
+        items: [
+          "Created and ran test cases, with SIT, UAT, regression, and exploratory testing across the business modules.",
+          "Built and maintained automation test scripts with UFT One.",
+          "Monitored API performance in Grafana: response times, concurrent users, and peak activity.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "Nawa Data Solutions",
+    title: "Quality Assurance Engineer",
+    dates: "Feb 2023 – Aug 2024",
+    current: false,
+    projects: [
+      {
+        name: "Client: CIMB Niaga – Banking E-Procurement System",
+        dates: "",
+        domain: "Procurement from vendor management to payment: purchase requests and orders, tenders, approvals, budgets, contracts, and invoices.",
+        items: [
+          "Created and maintained test cases across the e-procurement modules.",
+          "Validated end-to-end procurement flows with multi-level approvals and business rules through SIT, regression, and exploratory testing.",
+          "Analyzed requirements with business analysts and developers, and tracked and verified defects in Jira.",
+        ],
+      },
+    ],
+  },
+];
+
+export const EDUCATION = [
+  { name: "Tarumanagara University", detail: "Bachelor of Computer Science (S.Kom.), Jakarta", dates: "2018 – 2022" },
+  { name: "Alterra Academy", detail: "Quality Assurance Engineer Bootcamp (certification)", dates: "2022" },
 ];
 
 export const GAME_ITEMS = [
@@ -92,13 +151,17 @@ export const GAME_ITEMS = [
 
 export const SKILLS = [
   { icon: "i-list-checks", title: "Testing", game: false,
-    items: ["Manual testing (web & mobile)", "Functional testing", "Regression testing", "SIT", "UAT", "API testing"] },
-  { icon: "i-workflow", title: "Automation & tools", game: false,
-    items: ["Playwright", "Bruno", "JMeter", "Jira", "GitHub Actions", "Test automation", "API automation"] },
+    items: ["Test planning", "Test case design", "Manual testing (web & mobile)", "Functional & regression", "Exploratory testing", "SIT & UAT", "API testing", "Defect management"] },
+  { icon: "i-workflow", title: "Automation", game: false,
+    items: ["Playwright", "Bruno", "UFT One", "Selenium", "Serenity BDD", "Cucumber", "Rest Assured", "Appium"] },
+  { icon: "i-gauge", title: "Performance & monitoring", game: false,
+    items: ["Performance testing", "JMeter", "Grafana"] },
+  { icon: "i-layers", title: "Tools", game: false,
+    items: ["Jira", "Postman", "Swagger", "Git", "GitHub Actions", "IntelliJ IDEA"] },
   { icon: "i-bot", title: "Languages & AI pair tools", game: false,
-    items: ["Python", "Java", "Luau", "Claude Code", "GitHub Copilot"] },
+    items: ["Java", "Python", "SQL", "Luau", "Claude Code", "GitHub Copilot"] },
   { icon: "i-users", title: "Ways of working", game: false,
-    items: ["Independent QA ownership", "Working with dev and business teams", "Writing rules for AI agents"] },
+    items: ["Independent QA ownership", "Requirement analysis", "Business process validation", "Working with dev and business teams", "Writing rules for AI agents"] },
   { icon: "i-gamepad-2", title: "Game development", game: true,
     items: ["Roblox Studio", "Game direction", "Game design", "Feature planning", "Gameplay systems & UI", "Level design review", "Playtesting & player feedback", "Team coordination"] },
 ];
