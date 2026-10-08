@@ -28,13 +28,14 @@ const gameMedia = hasVideo("studio-loop");
       </div>
       <div class={`role-body${qaMedia ? " has-media" : ""}`}>
         <ul class="checklist">{QA_ITEMS.map((x) => <li>{x}</li>)}</ul>
-        <DemoVideo slug="qa-playwright" caption="A real Playwright run: an end-to-end smoke test of this portfolio in Microsoft Edge." />
+        <DemoVideo slug="qa-playwright" caption="A real run from this site's test suite: the Playwright smoke test, recorded in Microsoft Edge." />
       </div>
       <div class="tools">
         <span class="tools-label">Tools</span>
-        <Chips items={["Jira", "JMeter", "Bruno", "Playwright", "AI-assisted tools"]} />
+        <Chips items={["Playwright", "Bruno", "JMeter", "Jira", "Claude Code", "GitHub Copilot"]} />
       </div>
-      <p class="note">Plus other QA and testing tools when a project needs them.</p>
+      <p class="note">With AI agents, I write the rules: what they may change, how they report, and that an expected
+        result comes from the test case, never from the app. I review every change before it counts.</p>
     </article>
 
     <article class="raised role game-role" data-reveal>
@@ -49,8 +50,8 @@ const gameMedia = hasVideo("studio-loop");
         <ul class="checklist">{GAME_ITEMS.map((x) => <li>{x}</li>)}</ul>
         <DemoVideo slug="studio-loop" caption="Illustrated loop: how a Lawak Studio game goes from idea to playtest, shown with our four Roblox games." game />
       </div>
-      <p class="note">This is a side project and a learning journey, not a long professional game career.
-        It gives me hands-on practice in game direction, teamwork, and product thinking.</p>
+      <p class="note">A side project I run seriously. It gives me hands-on practice in game direction, teamwork, and
+        product thinking, and writing game systems in Luau keeps me close to code.</p>
     </article>
   </section>
 

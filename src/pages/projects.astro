@@ -5,18 +5,49 @@ import Chips from "../components/Chips.astro";
 import Cta from "../components/Cta.astro";
 import { GAMES, LINKS } from "../data/site.js";
 ---
-<Base title="Projects | Fattah Widjaya Gandhi" description="Roblox games from Lawak Studio and public test automation work.">
+<Base title="Projects | Fattah Widjaya Gandhi" description="Public test automation work, and the Roblox games Fattah directs at Lawak Studio.">
   <section class="container" data-reveal>
     <p class="kicker">Projects</p>
     <h1 class="page-title">Projects</h1>
-    <p class="lead">Roblox games from Lawak Studio, and the automation work I share in public.</p>
+    <p class="lead">Test automation that you can open and check, and the Roblox games I direct at Lawak Studio.</p>
+  </section>
+
+  <section class="container">
+    <div data-reveal>
+      <p class="kicker">QA &amp; automation</p>
+      <h2 class="section-title">Testing work</h2>
+      <p class="section-sub">Real suites with real results. The portfolio itself is the system under test.</p>
+    </div>
+    <div class="grid-2" data-reveal data-stagger>
+      <article class="raised card repo-card" id="portfolio-tests">
+        <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
+        <h3>Portfolio test suite</h3>
+        <p>Playwright end-to-end, accessibility (axe), and phone-layout tests, plus a Bruno collection for HTTP checks.
+          GitHub Actions runs them on every push, a failing test blocks the deploy, and the latest report is published.</p>
+        <Chips items={["Playwright", "Bruno", "axe", "GitHub Actions"]} />
+        <div class="btn-row">
+          <a class="btn small primary" href={LINKS.report}><Icon name="i-list-checks" />Playwright report</a>
+          <a class="btn small" href={LINKS.apiReport}><Icon name="i-braces" />Bruno report</a>
+          <a class="btn small" href={LINKS.tests} target="_blank" rel="noopener"><Icon name="b-github" />View the tests</a>
+        </div>
+      </article>
+      <article class="raised card repo-card">
+        <span class="badge"><Icon name="i-folder-kanban" class="icon icon-lg" /></span>
+        <h3>Automations Test Preset</h3>
+        <p>My starting kit for web test automation with Playwright and Bruno CLI: setup guides, test case structure,
+          reporting, and the rules that AI agents must follow when they work with me.</p>
+        <Chips items={["Playwright", "Bruno CLI", "Claude Code"]} />
+        <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
+      </article>
+    </div>
   </section>
 
   <section class="container">
     <div data-reveal>
       <p class="kicker game">Roblox games</p>
       <h2 class="section-title">Games at Lawak Studio</h2>
-      <p class="section-sub">Published under Lawak Gamehouse. I direct these projects with our programmers, level designers, and 3D artists.</p>
+      <p class="section-sub">Lawak Studio publishes its games under the Lawak Gamehouse community on Roblox. I direct these
+        projects with our programmers, level designers, and 3D artists.</p>
     </div>
     <div class="grid-2" data-reveal data-stagger>
       {GAMES.map((g) => (
@@ -45,30 +76,12 @@ import { GAMES, LINKS } from "../data/site.js";
       <img src="/assets/img/lawak-gamehouse.webp" alt="Lawak Gamehouse logo" width="84" height="84" loading="lazy" />
       <div>
         <h3>Lawak Gamehouse</h3>
-        <p>Play. Explore. Have fun. The Roblox community where our games live.</p>
+        <p>Play. Explore. Have fun. The Roblox community where Lawak Studio games live.</p>
       </div>
       <div class="btn-row">
         <a class="btn small" href={LINKS.group} target="_blank" rel="noopener"><Icon name="b-roblox" />Community</a>
         <a class="btn small" href={LINKS.discord} target="_blank" rel="noopener"><Icon name="b-discord" />Discord</a>
       </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div data-reveal>
-      <p class="kicker">QA &amp; automation</p>
-      <h2 class="section-title">Testing work</h2>
-      <p class="section-sub">Public material from my move into test automation.</p>
-    </div>
-    <div class="grid-2" data-reveal data-stagger>
-      <article class="raised card repo-card">
-        <span class="badge"><Icon name="i-folder-kanban" class="icon icon-lg" /></span>
-        <h3>Automations Test Preset</h3>
-        <p>A personal preset for web test automation with Playwright and Bruno CLI: setup guides, test case structure,
-          reporting, and working rules for AI-assisted testing.</p>
-        <Chips items={["Playwright", "Bruno CLI", "Test automation"]} />
-        <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
-      </article>
     </div>
   </section>
 

@@ -7,7 +7,8 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
-const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/$/, "") || "/";
+// Astro 7 reports the home page as /index.html during the build, so drop "index" too.
+const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/?index$/, "").replace(/\/$/, "") || "/";
 const canonical = new URL(path, Astro.site);
 ---
 <!doctype html>
@@ -23,7 +24,10 @@ const canonical = new URL(path, Astro.site);
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content="https://fattahwg.github.io/assets/img/github-avatar.webp" />
+  <meta property="og:image" content="https://fattahwg.github.io/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -64,12 +68,12 @@ const canonical = new URL(path, Astro.site);
     <div class="container footer-row">
       <p style="margin:0">&copy; <span data-year>2026</span> Fattah Widjaya Gandhi</p>
       <div class="socials">
-        <a href={LINKS.github} target="_blank" rel="noopener" aria-label="GitHub"><Icon name="b-github" /></a>
         <a href={LINKS.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="i-linkedin" /></a>
+        <a href={LINKS.github} target="_blank" rel="noopener" aria-label="GitHub"><Icon name="b-github" /></a>
+        <a href={`mailto:${LINKS.email}`} aria-label="Email"><Icon name="i-mail" /></a>
         <a href={LINKS.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="b-tiktok" /></a>
         <a href={LINKS.roblox} target="_blank" rel="noopener" aria-label="Roblox profile"><Icon name="b-roblox" /></a>
         <a href={LINKS.discord} target="_blank" rel="noopener" aria-label="Discord"><Icon name="b-discord" /></a>
-        <a href={`mailto:${LINKS.email}`} aria-label="Email"><Icon name="i-mail" /></a>
       </div>
     </div>
   </footer>

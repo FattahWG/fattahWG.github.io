@@ -2,7 +2,8 @@
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import Cta from "../components/Cta.astro";
-import { GAMES } from "../data/site.js";
+import DemoVideo from "../components/DemoVideo.astro";
+import { GAMES, LINKS } from "../data/site.js";
 ---
 <Base
   title="Fattah Widjaya Gandhi | SQA Engineer"
@@ -12,8 +13,9 @@ import { GAMES } from "../data/site.js";
     <div data-reveal>
       <p class="kicker">SQA Engineer &middot; Studio Director</p>
       <h1>Fattah Widjaya Gandhi<span>I test software for a living and build Roblox games on the side.</span></h1>
-      <p class="lead">I work as an SQA Engineer on web and mobile apps, and I'm moving from manual QA toward
-        automation-focused testing. Outside work, I lead Roblox game projects at Lawak Studio.</p>
+      <p class="lead">I work as an SQA Engineer on web and mobile apps, and I build my automation in public:
+        a Playwright and Bruno suite tests this site before every deploy. Outside work, I lead Roblox game projects
+        at Lawak Studio.</p>
       <div class="btn-row">
         <a class="btn primary" href="/experience">View experience<Icon name="i-arrow-right" /></a>
         <a class="btn" href="/projects"><Icon name="i-gamepad-2" />Play my games</a>
@@ -21,7 +23,7 @@ import { GAMES } from "../data/site.js";
     </div>
     <div class="raised portrait" data-reveal>
       <img src="/assets/img/github-avatar.webp" alt="Portrait of Fattah Widjaya Gandhi" width="320" height="320" />
-      <span class="status"><span class="dot" aria-hidden="true"></span>Growing into test automation</span>
+      <span class="status"><span class="dot" aria-hidden="true"></span>Playwright + Bruno in CI</span>
     </div>
   </section>
 
@@ -45,7 +47,7 @@ import { GAMES } from "../data/site.js";
         <span class="badge"><Icon name="i-workflow" class="icon icon-lg" /></span>
         <span class="step">02 &middot; Growing</span>
         <h3>Automation &amp; modern testing</h3>
-        <p>Building and maintaining UI and API automation with Playwright and Bruno, with AI-assisted tools for repetitive QA work.</p>
+        <p>UI and API automation with Playwright and Bruno that runs in CI, with AI agents working under rules I set.</p>
         <span class="more">Current focus<Icon name="i-arrow-right" /></span>
       </a>
       <a class="raised path-card game" href="/projects">
@@ -61,7 +63,38 @@ import { GAMES } from "../data/site.js";
   <section class="container">
     <div class="section-head" data-reveal>
       <div>
-        <p class="kicker game">Lawak Gamehouse</p>
+        <p class="kicker">Featured QA work</p>
+        <h2 class="section-title">Automation you can check</h2>
+        <p class="section-sub">This site is my test subject. The suite runs in GitHub Actions, and a failing test stops the deploy.</p>
+      </div>
+    </div>
+    <div class="featured-qa raised" data-reveal>
+      <DemoVideo slug="qa-playwright" caption="The smoke test from the suite, recorded in Microsoft Edge." />
+      <ul class="proof-list">
+        <li>
+          <span class="badge"><Icon name="i-monitor" class="icon icon-lg" /></span>
+          <div><h3>End-to-end with Playwright</h3><p>Navigation, links, contact actions, and phone layouts, on desktop and mobile browsers.</p></div>
+        </li>
+        <li>
+          <span class="badge"><Icon name="i-braces" class="icon icon-lg" /></span>
+          <div><h3>HTTP checks with Bruno</h3><p>Status codes, content types, clean URLs, and the 404 page, run from the Bruno CLI.</p></div>
+        </li>
+        <li>
+          <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
+          <div><h3>Accessibility with axe</h3><p>Every page is scanned for serious accessibility problems before release.</p></div>
+        </li>
+        <li class="proof-links">
+          <a class="btn small primary" href={LINKS.report}><Icon name="i-list-checks" />Latest test report</a>
+          <a class="btn small" href={LINKS.tests} target="_blank" rel="noopener"><Icon name="b-github" />View the tests</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="kicker game">Lawak Studio</p>
         <h2 class="section-title">Games we made</h2>
       </div>
       <a class="text-link game" href="/projects">All projects<Icon name="i-arrow-right" /></a>

@@ -7,6 +7,11 @@ export const LINKS = {
   discord: "https://discord.gg/WujZkWJ3uz",
   group: "https://www.roblox.com/communities/510724970/Lawak-Gamehouse",
   preset: "https://github.com/FattahWG/Automations-Test-Preset",
+  repo: "https://github.com/FattahWG/fattahWG.github.io",
+  tests: "https://github.com/FattahWG/fattahWG.github.io/tree/main/tests",
+  ci: "https://github.com/FattahWG/fattahWG.github.io/actions/workflows/deploy.yml",
+  report: "/qa-report/",
+  apiReport: "/qa-report/api",
 };
 
 export const NAV = [
@@ -24,7 +29,14 @@ export const TOOL_LINKS = {
   Bruno: "https://www.usebruno.com/",
   "Bruno CLI": "https://docs.usebruno.com/bru-cli/overview",
   Playwright: "https://playwright.dev/",
-  "Roblox Studio (learning)": "https://create.roblox.com/docs/studio",
+  "GitHub Actions": "https://github.com/features/actions",
+  axe: "https://github.com/dequelabs/axe-core",
+  "Roblox Studio": "https://create.roblox.com/docs/studio",
+  Luau: "https://luau.org/",
+  Python: "https://www.python.org/",
+  Java: "https://dev.java/",
+  "Claude Code": "https://www.anthropic.com/claude-code",
+  "GitHub Copilot": "https://github.com/features/copilot",
 };
 
 // Text comes from each game's Roblox page. Desa has no Roblox description yet.
@@ -60,41 +72,39 @@ export const GAMES = [
 ];
 
 export const QA_ITEMS = [
-  "Manual testing for web and mobile applications",
-  "Functional, regression, SIT, and UAT testing",
-  "API testing",
-  "Building and maintaining test automation",
-  "API automation testing",
-  "AI-assisted tools for test efficiency, coverage, and analysis",
-  "Working independently as QA on projects",
-  "Coordinating testing with development and business requirements",
+  "Own QA on projects as the independent tester, from test case design through SIT, UAT, and regression cycles",
+  "Test web and mobile applications by hand, with functional and regression coverage",
+  "Test APIs directly, and automate API checks with Bruno",
+  "Build and maintain UI test automation with Playwright",
+  "Report and follow up bugs in Jira, and coordinate testing with development and business teams",
+  "Work alongside AI agents (Claude Code, GitHub Copilot) under rules I write, so they speed up repetitive work without changing what we test",
 ];
 
 export const GAME_ITEMS = [
-  "Starting and developing game ideas",
-  "Defining game direction and the overall player experience",
-  "Game design and feature planning",
-  "Coordinating the development team",
-  "Reviewing gameplay flow and level design",
-  "Working with programmers, level designers, and 3D artists",
-  "Iterating through playtesting and player feedback",
-  "Learning Roblox Studio and game development workflows",
+  "Start game ideas, and set the direction and the player experience",
+  "Plan game design and features",
+  "Coordinate our programmers, level designers, and 3D artists",
+  "Build gameplay systems and UI flow hands-on in Luau, such as interaction and carry systems",
+  "Review gameplay flow and level design",
+  "Run playtests and iterate on player feedback",
 ];
 
 export const SKILLS = [
   { icon: "i-list-checks", title: "Testing", game: false,
     items: ["Manual testing (web & mobile)", "Functional testing", "Regression testing", "SIT", "UAT", "API testing"] },
   { icon: "i-workflow", title: "Automation & tools", game: false,
-    items: ["Test automation", "API automation", "Playwright", "Bruno", "Jira", "JMeter", "AI-assisted QA"] },
+    items: ["Playwright", "Bruno", "JMeter", "Jira", "GitHub Actions", "Test automation", "API automation"] },
+  { icon: "i-bot", title: "Languages & AI pair tools", game: false,
+    items: ["Python", "Java", "Luau", "Claude Code", "GitHub Copilot"] },
   { icon: "i-users", title: "Ways of working", game: false,
-    items: ["Independent QA ownership", "Working with dev and business teams", "Test coverage & analysis"] },
+    items: ["Independent QA ownership", "Working with dev and business teams", "Writing rules for AI agents"] },
   { icon: "i-gamepad-2", title: "Game development", game: true,
-    items: ["Game direction", "Game design", "Feature planning", "Gameplay flow & level design review", "Playtesting & player feedback", "Team coordination", "Roblox Studio (learning)"] },
+    items: ["Roblox Studio", "Game direction", "Game design", "Feature planning", "Gameplay systems & UI", "Level design review", "Playtesting & player feedback", "Team coordination"] },
 ];
 
 export const FOCUS = [
-  { icon: "i-workflow", title: "Test automation", text: "Building and maintaining UI and API automation with Playwright and Bruno.", game: false },
-  { icon: "i-bot", title: "AI-assisted QA", text: "Using AI tools to speed up repetitive QA work and to improve test coverage and analysis.", game: false },
-  { icon: "i-gamepad-2", title: "Roblox Studio", text: "Learning Roblox Studio and game development workflows, one project at a time.", game: true },
+  { icon: "i-workflow", title: "Test automation in CI", text: "Growing the Playwright and Bruno suite that checks this site on every deploy.", game: false },
+  { icon: "i-bot", title: "Working with AI agents", text: "Writing clear rules for Claude Code and GitHub Copilot, so they take the repetitive work while I keep the test decisions.", game: false },
+  { icon: "i-gamepad-2", title: "Gameplay systems", text: "Building gameplay systems and UI in Roblox Studio with Luau.", game: true },
   { icon: "i-repeat", title: "Playtest and iterate", text: "Improving our games through playtesting and player feedback.", game: true },
 ];
