@@ -8,7 +8,7 @@ import { QA_ITEMS, GAME_ITEMS, SKILLS } from "../data/site.js";
 import { hasVideo } from "../data/video.js";
 
 const qaMedia = hasVideo("qa-playwright");
-const gameMedia = hasVideo("roblox-studio");
+const gameMedia = hasVideo("studio-loop");
 ---
 <Base title="Experience | Fattah Widjaya Gandhi" description="QA and SQA experience, game direction at Lawak Studio, and skills.">
   <section class="container" data-reveal>
@@ -47,7 +47,7 @@ const gameMedia = hasVideo("roblox-studio");
       </div>
       <div class={`role-body${gameMedia ? " has-media" : ""}`}>
         <ul class="checklist">{GAME_ITEMS.map((x) => <li>{x}</li>)}</ul>
-        <DemoVideo slug="roblox-studio" caption="Inside Roblox Studio: a walk through one of our Lawak Gamehouse maps." game />
+        <DemoVideo slug="studio-loop" caption="Illustrated loop: how a Lawak Studio game goes from idea to playtest, shown with our four Roblox games." game />
       </div>
       <p class="note">This is a side project and a learning journey, not a long professional game career.
         It gives me hands-on practice in game direction, teamwork, and product thinking.</p>

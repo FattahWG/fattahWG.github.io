@@ -32,7 +32,8 @@ Live site: https://fattahwg.github.io/
 
 - `qa-playwright.*`: a real Playwright 1.55 smoke test of this portfolio in Microsoft Edge (5 steps, all pass),
   captured with the browser screencast and encoded with ffmpeg.
-- `roblox-studio.*`: footage from Roblox Studio of a Lawak Gamehouse map.
+- `studio-loop.*`: an illustrated 12 s loop (HTML and CSS animation, recorded the same way) of the idea-to-playtest
+  process, shown with the four game covers.
 
 A video shows on the Experience page only when its `.mp4` file exists.
 
