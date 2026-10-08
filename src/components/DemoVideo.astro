@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+import { hasVideo } from "../data/video.js";
+
+interface Props {
+  slug: string;
+  caption: string;
+  game?: boolean;
+}
+const { slug, caption, game = false } = Astro.props;
+---
+{hasVideo(slug) && (
+  <figure class={`media${game ? " game" : ""}`}>
+    <div class="media-frame">
+      <video class="loop-video" autoplay muted loop playsinline preload="metadata"
+        poster={`/assets/video/${slug}.webp`} width="960" height="540" aria-label={caption}>
+        <source src={`/assets/video/${slug}.mp4`} type="video/mp4" />
+        <source src={`/assets/video/${slug}.webm`} type="video/webm" />
+      </video>
+      <span class="media-badge"><Icon name="i-play" />Loop</span>
+    </div>
+    <figcaption>{caption}</figcaption>
+  </figure>
+)}

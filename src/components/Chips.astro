@@ -1,0 +1,21 @@
+---
+import Icon from "./Icon.astro";
+import { TOOL_LINKS } from "../data/site.js";
+
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+<div class="chips">
+  {items.map((item) =>
+    TOOL_LINKS[item] ? (
+      <a class="chip chip-link" href={TOOL_LINKS[item]} target="_blank" rel="noopener"
+        aria-label={`${item} official site (opens in a new tab)`}>
+        {item}<Icon name="i-arrow-up-right" class="icon chip-ext" />
+      </a>
+    ) : (
+      <span class="chip">{item}</span>
+    )
+  )}
+</div>

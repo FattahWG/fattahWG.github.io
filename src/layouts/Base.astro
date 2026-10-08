@@ -1,0 +1,77 @@
+---
+import Icon from "../components/Icon.astro";
+import { LINKS, NAV } from "../data/site.js";
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/$/, "") || "/";
+const canonical = new URL(path, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#1e2228" />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content="https://fattahwg.github.io/assets/img/github-avatar.webp" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script is:inline>
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("motion-ready");
+      setTimeout(function () {
+        if (!window.__motionOk) document.documentElement.classList.remove("motion-ready");
+      }, 2500);
+    }
+  </script>
+  <script is:inline type="module" src="/assets/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="/" aria-label="Fattah Widjaya Gandhi, home">
+        <span class="brand-mark" aria-hidden="true">FW</span>
+        <span class="brand-name">Fattah W. Gandhi</span>
+      </a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <Icon name="i-menu" class="icon i-open" /><Icon name="i-x" class="icon i-close" />
+      </button>
+      <nav id="site-nav" class="nav" aria-label="Main">
+        {NAV.map((item) => (
+          <a href={item.href} aria-current={item.href === path ? "page" : undefined}>{item.label}</a>
+        ))}
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <slot />
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p style="margin:0">&copy; <span data-year>2026</span> Fattah Widjaya Gandhi</p>
+      <div class="socials">
+        <a href={LINKS.github} target="_blank" rel="noopener" aria-label="GitHub"><Icon name="b-github" /></a>
+        <a href={LINKS.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="i-linkedin" /></a>
+        <a href={LINKS.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="b-tiktok" /></a>
+        <a href={LINKS.roblox} target="_blank" rel="noopener" aria-label="Roblox profile"><Icon name="b-roblox" /></a>
+        <a href={LINKS.discord} target="_blank" rel="noopener" aria-label="Discord"><Icon name="b-discord" /></a>
+        <a href={`mailto:${LINKS.email}`} aria-label="Email"><Icon name="i-mail" /></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

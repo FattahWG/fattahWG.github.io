@@ -373,6 +373,58 @@ section + section { margin-top: clamp(56px, 8vw, 96px); }
   box-shadow: 3px 3px 8px var(--shadow-dark), -2px -2px 7px var(--shadow-light);
 }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { cursor: default; }
+.chip-link { gap: 6px; cursor: pointer; transition: color 0.2s, box-shadow 0.15s, transform 0.2s; }
+.chip-link .chip-ext { width: 13px; height: 13px; color: var(--faint); transition: color 0.2s, transform 0.2s; }
+.chip-link:hover { color: #fff; transform: translateY(-1px); }
+.chip-link:hover .chip-ext { color: var(--qa); transform: translate(1px, -1px); }
+.chip-link:active { transform: none; box-shadow: var(--press); }
+.skill-group.game .chip-link:hover .chip-ext { color: var(--game); }
+
+/* Role body: checklist beside a looping demo video */
+.role-body.has-media { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 28px; align-items: start; }
+.role-body.has-media .checklist { grid-template-columns: 1fr; }
+@media (max-width: 960px) {
+  .role-body.has-media { grid-template-columns: 1fr; }
+  .role-body.has-media .media { order: -1; }
+}
+
+.media { margin: 0; }
+.media-frame {
+  position: relative;
+  padding: 10px;
+  border-radius: 22px;
+  background: var(--bg);
+  box-shadow: var(--press);
+}
+.media-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #15181d;
+}
+.media-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font: 600 11.5px/1 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #13201d;
+  background: rgba(127, 209, 189, 0.92);
+  pointer-events: none;
+}
+.media.game .media-badge { color: #2a1c10; background: rgba(239, 184, 137, 0.92); }
+.media-badge .icon { width: 12px; height: 12px; }
+.media figcaption { margin-top: 12px; font-size: 13.5px; color: var(--faint); }
 
 .skill-group h3 { display: flex; align-items: center; gap: 12px; font-size: 17px; margin-bottom: 18px; }
 .skill-group .badge { width: 40px; height: 40px; border-radius: 12px; }

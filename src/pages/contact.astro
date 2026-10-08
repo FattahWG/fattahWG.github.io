@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { LINKS } from "../data/site.js";
+
+const cards = [
+  { href: LINKS.tiktok, icon: "b-tiktok", title: "TikTok", handle: "@BedulDah", go: "Follow" },
+  { href: LINKS.roblox, img: "/assets/img/avatar.webp", title: "Roblox", handle: "BedulDah", go: "View profile", game: true },
+  { href: LINKS.discord, icon: "b-discord", title: "Discord", handle: "Lawak Gamehouse server", go: "Join", game: true },
+  { href: LINKS.group, icon: "b-roblox", title: "Roblox community", handle: "Lawak Gamehouse", go: "Visit", game: true },
+  { href: LINKS.github, icon: "b-github", title: "GitHub", handle: "FattahWG", go: "View" },
+  { href: LINKS.linkedin, icon: "i-linkedin", title: "LinkedIn", handle: "fattahwg", go: "Connect" },
+];
+---
+<Base title="Contact | Fattah Widjaya Gandhi" description="Email, TikTok, Roblox, Discord, GitHub, and LinkedIn.">
+  <section class="container" data-reveal>
+    <p class="kicker">Contact</p>
+    <h1 class="page-title">Let's talk</h1>
+    <p class="lead">For QA work or collaboration, email is the fastest way to reach me. For game updates, join the Discord.</p>
+  </section>
+
+  <section class="container">
+    <div class="contact-grid" data-reveal data-stagger>
+      <div class="raised email-card">
+        <div>
+          <p class="kicker" style="margin-bottom:8px">Email</p>
+          <a class="addr" href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+          <p>For work, QA roles, or collaboration.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn" type="button" data-copy={LINKS.email}><Icon name="i-copy" /><span data-copy-label>Copy email</span></button>
+          <a class="btn primary" href={`mailto:${LINKS.email}`}><Icon name="i-mail" />Send email</a>
+        </div>
+      </div>
+      {cards.map((c) => (
+        <a class="raised contact-card" href={c.href} target="_blank" rel="noopener">
+          <div class="head">
+            <span class={`badge${c.game ? " game" : ""}`}>
+              {c.img ? <img src={c.img} alt="" width="34" height="34" loading="lazy" /> : <Icon name={c.icon} class="icon icon-lg" />}
+            </span>
+            <div><h3>{c.title}</h3><p class="handle" style="margin:0">{c.handle}</p></div>
+          </div>
+          <span class="go">{c.go}<Icon name="i-arrow-up-right" /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

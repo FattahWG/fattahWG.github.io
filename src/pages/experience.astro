@@ -1,0 +1,74 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Chips from "../components/Chips.astro";
+import Cta from "../components/Cta.astro";
+import DemoVideo from "../components/DemoVideo.astro";
+import { QA_ITEMS, GAME_ITEMS, SKILLS } from "../data/site.js";
+import { hasVideo } from "../data/video.js";
+
+const qaMedia = hasVideo("qa-playwright");
+const gameMedia = hasVideo("roblox-studio");
+---
+<Base title="Experience | Fattah Widjaya Gandhi" description="QA and SQA experience, game direction at Lawak Studio, and skills.">
+  <section class="container" data-reveal>
+    <p class="kicker">Career</p>
+    <h1 class="page-title">Experience</h1>
+    <p class="lead">My main career is in software quality. Game development is a side project that I take seriously.</p>
+  </section>
+
+  <section class="container">
+    <article class="raised role" data-reveal>
+      <div class="role-head">
+        <div>
+          <h2>SQA Engineer / QA IT</h2>
+          <p class="role-org">Software quality for web and mobile applications</p>
+        </div>
+        <span class="tag"><Icon name="i-briefcase" />Current role</span>
+      </div>
+      <div class={`role-body${qaMedia ? " has-media" : ""}`}>
+        <ul class="checklist">{QA_ITEMS.map((x) => <li>{x}</li>)}</ul>
+        <DemoVideo slug="qa-playwright" caption="A real Playwright run: an end-to-end smoke test of this portfolio in Microsoft Edge." />
+      </div>
+      <div class="tools">
+        <span class="tools-label">Tools</span>
+        <Chips items={["Jira", "JMeter", "Bruno", "Playwright", "AI-assisted tools"]} />
+      </div>
+      <p class="note">Plus other QA and testing tools when a project needs them.</p>
+    </article>
+
+    <article class="raised role game-role" data-reveal>
+      <div class="role-head">
+        <div>
+          <h2>Studio Director</h2>
+          <p class="role-org">Lawak Studio &middot; Roblox game projects</p>
+        </div>
+        <span class="tag game"><Icon name="i-gamepad-2" />Side project</span>
+      </div>
+      <div class={`role-body${gameMedia ? " has-media" : ""}`}>
+        <ul class="checklist">{GAME_ITEMS.map((x) => <li>{x}</li>)}</ul>
+        <DemoVideo slug="roblox-studio" caption="Inside Roblox Studio: a walk through one of our Lawak Gamehouse maps." game />
+      </div>
+      <p class="note">This is a side project and a learning journey, not a long professional game career.
+        It gives me hands-on practice in game direction, teamwork, and product thinking.</p>
+    </article>
+  </section>
+
+  <section class="container" id="skills">
+    <div data-reveal>
+      <p class="kicker">Skills</p>
+      <h2 class="section-title">Skills and tools</h2>
+      <p class="section-sub">What I use in my QA work and in my game projects.</p>
+    </div>
+    <div class="grid-2" data-reveal data-stagger>
+      {SKILLS.map((s) => (
+        <div class={`raised card skill-group${s.game ? " game" : ""}`}>
+          <h3><span class={`badge${s.game ? " game" : ""}`}><Icon name={s.icon} /></span>{s.title}</h3>
+          <Chips items={s.items} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Cta title="See the games" text="The Roblox projects I direct at Lawak Studio." href="/projects" label="View projects" variant="game" />
+</Base>

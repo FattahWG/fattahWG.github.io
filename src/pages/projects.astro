@@ -1,0 +1,76 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Chips from "../components/Chips.astro";
+import Cta from "../components/Cta.astro";
+import { GAMES, LINKS } from "../data/site.js";
+---
+<Base title="Projects | Fattah Widjaya Gandhi" description="Roblox games from Lawak Studio and public test automation work.">
+  <section class="container" data-reveal>
+    <p class="kicker">Projects</p>
+    <h1 class="page-title">Projects</h1>
+    <p class="lead">Roblox games from Lawak Studio, and the automation work I share in public.</p>
+  </section>
+
+  <section class="container">
+    <div data-reveal>
+      <p class="kicker game">Roblox games</p>
+      <h2 class="section-title">Games at Lawak Studio</h2>
+      <p class="section-sub">Published under Lawak Gamehouse. I direct these projects with our programmers, level designers, and 3D artists.</p>
+    </div>
+    <div class="grid-2" data-reveal data-stagger>
+      {GAMES.map((g) => (
+        <article class="raised game-card" id={g.slug}>
+          <div class="cover">
+            <img src={`/assets/img/${g.slug}-cover.webp`} alt={`${g.name} thumbnail`} width="768" height="432" loading="lazy" />
+          </div>
+          <div class="game-body">
+            <div class="game-title">
+              <img src={`/assets/img/${g.slug}-icon.webp`} alt="" width="40" height="40" loading="lazy" />
+              <h3>{g.name}</h3>
+            </div>
+            <p>{g.text}</p>
+            <Chips items={g.chips} />
+            <div class="actions">
+              <a class="btn game small" href={g.url} target="_blank" rel="noopener"><Icon name="i-play" />Play on Roblox</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container" data-reveal>
+    <div class="raised community">
+      <img src="/assets/img/lawak-gamehouse.webp" alt="Lawak Gamehouse logo" width="84" height="84" loading="lazy" />
+      <div>
+        <h3>Lawak Gamehouse</h3>
+        <p>Play. Explore. Have fun. The Roblox community where our games live.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn small" href={LINKS.group} target="_blank" rel="noopener"><Icon name="b-roblox" />Community</a>
+        <a class="btn small" href={LINKS.discord} target="_blank" rel="noopener"><Icon name="b-discord" />Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div data-reveal>
+      <p class="kicker">QA &amp; automation</p>
+      <h2 class="section-title">Testing work</h2>
+      <p class="section-sub">Public material from my move into test automation.</p>
+    </div>
+    <div class="grid-2" data-reveal data-stagger>
+      <article class="raised card repo-card">
+        <span class="badge"><Icon name="i-folder-kanban" class="icon icon-lg" /></span>
+        <h3>Automations Test Preset</h3>
+        <p>A personal preset for web test automation with Playwright and Bruno CLI: setup guides, test case structure,
+          reporting, and working rules for AI-assisted testing.</p>
+        <Chips items={["Playwright", "Bruno CLI", "Test automation"]} />
+        <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
+      </article>
+    </div>
+  </section>
+
+  <Cta title="Like what you see?" text="Say hi, or join the Lawak Gamehouse Discord." href="/contact" label="Contact me" />
+</Base>

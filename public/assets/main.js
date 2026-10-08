@@ -34,15 +34,46 @@ document.querySelectorAll("[data-copy]").forEach((btn) => {
       return;
     }
     if (label) label.textContent = "Copied";
-    if (icon) icon.setAttribute("href", "assets/icons.svg#i-check");
+    if (icon) icon.setAttribute("href", "/assets/icons.svg#i-check");
     setTimeout(() => {
       if (label) label.textContent = "Copy email";
-      if (icon) icon.setAttribute("href", "assets/icons.svg#i-copy");
+      if (icon) icon.setAttribute("href", "/assets/icons.svg#i-copy");
     }, 1800);
   });
 });
 
 document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
+
+// Demo videos: play only while on screen. With reduced motion, stop and show controls instead.
+const videos = document.querySelectorAll("video.loop-video");
+if (videos.length) {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const stopAll = () =>
+    videos.forEach((v) => {
+      v.pause();
+      v.controls = true;
+      v.closest(".media-frame")?.querySelector(".media-badge")?.remove();
+    });
+  if (reduce.matches) {
+    stopAll();
+  } else {
+    const vio = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.play().catch(() => (e.target.controls = true));
+          else e.target.pause();
+        }),
+      { threshold: 0.25 }
+    );
+    videos.forEach((v) => vio.observe(v));
+    reduce.addEventListener("change", (e) => {
+      if (e.matches) {
+        vio.disconnect();
+        stopAll();
+      }
+    });
+  }
+}
 
 // Reveal on scroll. The head script hides [data-reveal] only when motion is allowed,
 // and shows everything again if this import fails.

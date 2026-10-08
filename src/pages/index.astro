@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Cta from "../components/Cta.astro";
+import { GAMES } from "../data/site.js";
+---
+<Base
+  title="Fattah Widjaya Gandhi | SQA Engineer"
+  description="Fattah Widjaya Gandhi: SQA Engineer growing into test automation, and Studio Director for Roblox games at Lawak Studio."
+>
+  <section class="container hero">
+    <div data-reveal>
+      <p class="kicker">SQA Engineer &middot; Studio Director</p>
+      <h1>Fattah Widjaya Gandhi<span>I test software for a living and build Roblox games on the side.</span></h1>
+      <p class="lead">I work as an SQA Engineer on web and mobile apps, and I'm moving from manual QA toward
+        automation-focused testing. Outside work, I lead Roblox game projects at Lawak Studio.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="/experience">View experience<Icon name="i-arrow-right" /></a>
+        <a class="btn" href="/projects"><Icon name="i-gamepad-2" />Play my games</a>
+      </div>
+    </div>
+    <div class="raised portrait" data-reveal>
+      <img src="/assets/img/github-avatar.webp" alt="Portrait of Fattah Widjaya Gandhi" width="320" height="320" />
+      <span class="status"><span class="dot" aria-hidden="true"></span>Growing into test automation</span>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="kicker">What I do</p>
+        <h2 class="section-title">From QA to automation, plus games</h2>
+        <p class="section-sub">Three areas, in the order where most of my time goes.</p>
+      </div>
+    </div>
+    <div class="path" data-reveal data-stagger>
+      <a class="raised path-card" href="/experience">
+        <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
+        <span class="step">01 &middot; Career</span>
+        <h3>QA / SQA engineering</h3>
+        <p>Manual, functional, regression, SIT, UAT, and API testing for web and mobile applications.</p>
+        <span class="more">Experience<Icon name="i-arrow-right" /></span>
+      </a>
+      <a class="raised path-card" href="/about#focus">
+        <span class="badge"><Icon name="i-workflow" class="icon icon-lg" /></span>
+        <span class="step">02 &middot; Growing</span>
+        <h3>Automation &amp; modern testing</h3>
+        <p>Building and maintaining UI and API automation with Playwright and Bruno, with AI-assisted tools for repetitive QA work.</p>
+        <span class="more">Current focus<Icon name="i-arrow-right" /></span>
+      </a>
+      <a class="raised path-card game" href="/projects">
+        <span class="badge game"><Icon name="i-gamepad-2" class="icon icon-lg" /></span>
+        <span class="step">03 &middot; Side project</span>
+        <h3>Roblox game development</h3>
+        <p>As Studio Director at Lawak Studio, I take game ideas from first concept to playtest with the team.</p>
+        <span class="more">Projects<Icon name="i-arrow-right" /></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="kicker game">Lawak Gamehouse</p>
+        <h2 class="section-title">Games we made</h2>
+      </div>
+      <a class="text-link game" href="/projects">All projects<Icon name="i-arrow-right" /></a>
+    </div>
+    <div class="mini-games" data-reveal data-stagger>
+      {GAMES.map((g) => (
+        <a class="raised mini-game" href={`/projects#${g.slug}`}>
+          <img src={`/assets/img/${g.slug}-icon.webp`} alt="" width="52" height="52" loading="lazy" />
+          <span>{g.name}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Cta title="Want to talk about QA or a game idea?" text="Email is the fastest way to reach me." href="/contact" label="Contact me" />
+</Base>

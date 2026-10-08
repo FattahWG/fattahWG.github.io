@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Cta from "../components/Cta.astro";
+import { FOCUS } from "../data/site.js";
+---
+<Base title="About | Fattah Widjaya Gandhi" description="About Fattah and what he is focused on now.">
+  <section class="container" data-reveal>
+    <p class="kicker">About me</p>
+    <h1 class="page-title">Hi, I'm Fattah.</h1>
+    <p class="lead">I'm an SQA Engineer. Most days I test web and mobile applications, write and maintain test automation,
+      and work with developers and business requirements to make sure releases do what they should.</p>
+    <p class="lead">I started in traditional QA, and now I'm growing toward automation-focused, modern quality engineering.
+      On the side, I lead Roblox game projects at Lawak Studio, where I learn game design, teamwork, and product thinking.</p>
+  </section>
+
+  <section class="container">
+    <div data-reveal>
+      <p class="kicker">How I work</p>
+      <h2 class="section-title">What shapes my work</h2>
+      <p class="section-sub">A short look at the habits behind my QA work and my game projects.</p>
+    </div>
+    <div class="grid-3" data-reveal data-stagger>
+      <div class="raised card">
+        <span class="badge"><Icon name="i-list-checks" class="icon icon-lg" /></span>
+        <h3 style="margin-top:18px">Testing across the cycle</h3>
+        <p>Functional, regression, SIT, and UAT testing on web and mobile, plus API testing.</p>
+      </div>
+      <div class="raised card">
+        <span class="badge"><Icon name="i-user" class="icon icon-lg" /></span>
+        <h3 style="margin-top:18px">Independent QA</h3>
+        <p>I often own QA on a project and coordinate testing with development and business requirements.</p>
+      </div>
+      <div class="raised card">
+        <span class="badge game"><Icon name="i-compass" class="icon icon-lg" /></span>
+        <h3 style="margin-top:18px">Product thinking from games</h3>
+        <p>Directing Roblox projects teaches me to think about player experience, scope, and teamwork.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="focus">
+    <div data-reveal>
+      <p class="kicker">Current focus</p>
+      <h2 class="section-title">What I'm working on now</h2>
+      <p class="section-sub">Where I'm putting my learning time this year.</p>
+    </div>
+    <div class="grid-2 focus-list" data-reveal data-stagger>
+      {FOCUS.map((f) => (
+        <div class="raised focus-item">
+          <span class={`badge${f.game ? " game" : ""}`}><Icon name={f.icon} class="icon icon-lg" /></span>
+          <div><h3>{f.title}</h3><p>{f.text}</p></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Cta title="See the details" text="My responsibilities, tools, and skills are on the Experience page." href="/experience" label="View experience" />
+</Base>
