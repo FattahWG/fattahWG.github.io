@@ -1,8 +1,9 @@
-name: Deploy to GitHub Pages
+name: Test and deploy
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -11,12 +12,14 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  test:
+    name: Build and test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,13 +27,45 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Playwright end-to-end tests
+        run: npm run test:e2e
+
+      - name: Bruno HTTP checks
+        run: |
+          npx astro preview --host 127.0.0.1 --port 4321 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:4321/ && break; sleep 1; done
+          mkdir -p reports
+          cd tests/api
+          npx bru run --env local -r --reporter-html ../../reports/api.html --reporter-junit ../../reports/api-junit.xml
+
+      - name: Add the test reports to the site
+        run: |
+          mkdir -p dist/qa-report
+          cp -r playwright-report/. dist/qa-report/
+          cp reports/api.html dist/qa-report/api.html
+
+      - name: Keep the reports when a test fails
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            playwright-report
+            reports
+          retention-days: 14
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
-    needs: build
+    name: Deploy to GitHub Pages
+    needs: test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

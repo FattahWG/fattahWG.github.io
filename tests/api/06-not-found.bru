@@ -1,0 +1,20 @@
+meta {
+  name: Unknown page returns 404
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseURL}}/this-page-does-not-exist
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-006: returns 404", function () {
+    expect(res.getStatus()).to.equal(404);
+  });
+  test("TC-HTTP-006: shows the custom 404 page", function () {
+    expect(res.getBody()).to.contain("This page does not exist");
+  });
+}

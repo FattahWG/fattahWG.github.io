@@ -1,0 +1,29 @@
+meta {
+  name: Contact at a clean URL
+  type: http
+  seq: 5
+  tags: [
+    smoke
+  ]
+}
+
+get {
+  url: {{baseURL}}/contact
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-005: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-005: is an HTML page", function () {
+    expect(res.getHeader("content-type")).to.contain("text/html");
+  });
+  test("TC-HTTP-005: has the expected title", function () {
+    expect(res.getBody()).to.contain("<title>Contact | Fattah Widjaya Gandhi</title>");
+  });
+  test("TC-HTTP-005: canonical URL has no .html", function () {
+    expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);
+  });
+}

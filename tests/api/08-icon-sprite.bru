@@ -1,0 +1,20 @@
+meta {
+  name: Icon sprite
+  type: http
+  seq: 8
+}
+
+head {
+  url: {{baseURL}}/assets/icons.svg
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-008: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-008: is served as image/svg+xml", function () {
+    expect(res.getHeader("content-type")).to.contain("image/svg+xml");
+  });
+}

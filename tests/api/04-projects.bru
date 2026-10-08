@@ -1,0 +1,29 @@
+meta {
+  name: Projects at a clean URL
+  type: http
+  seq: 4
+  tags: [
+    smoke
+  ]
+}
+
+get {
+  url: {{baseURL}}/projects
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-004: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-004: is an HTML page", function () {
+    expect(res.getHeader("content-type")).to.contain("text/html");
+  });
+  test("TC-HTTP-004: has the expected title", function () {
+    expect(res.getBody()).to.contain("<title>Projects | Fattah Widjaya Gandhi</title>");
+  });
+  test("TC-HTTP-004: canonical URL has no .html", function () {
+    expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);
+  });
+}

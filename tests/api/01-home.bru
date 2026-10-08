@@ -1,0 +1,29 @@
+meta {
+  name: Home page
+  type: http
+  seq: 1
+  tags: [
+    smoke
+  ]
+}
+
+get {
+  url: {{baseURL}}/
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-001: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-001: is an HTML page", function () {
+    expect(res.getHeader("content-type")).to.contain("text/html");
+  });
+  test("TC-HTTP-001: has the expected title", function () {
+    expect(res.getBody()).to.contain("<title>Fattah Widjaya Gandhi | SQA Engineer</title>");
+  });
+  test("TC-HTTP-001: canonical URL has no .html", function () {
+    expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);
+  });
+}

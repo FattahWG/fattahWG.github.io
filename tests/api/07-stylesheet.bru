@@ -1,0 +1,20 @@
+meta {
+  name: Stylesheet
+  type: http
+  seq: 7
+}
+
+head {
+  url: {{baseURL}}/assets/style.css
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-007: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-007: is served as text/css", function () {
+    expect(res.getHeader("content-type")).to.contain("text/css");
+  });
+}

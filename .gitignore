@@ -3,5 +3,8 @@ dist/
 .astro/
 .env
 .env.*
+playwright-report/
+test-results/
+reports/
 .DS_Store
 Thumbs.db
