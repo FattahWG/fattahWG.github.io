@@ -22,8 +22,12 @@ import { GAMES, LINKS } from "../data/site.js";
       <article class="raised card repo-card" id="portfolio-tests">
         <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
         <h3>Portfolio test suite</h3>
-        <p>Playwright end-to-end, accessibility (axe), and phone-layout tests, plus a Bruno collection for HTTP checks.
-          GitHub Actions runs them on every push, a failing test blocks the deploy, and the latest report is published.</p>
+        <dl class="case-facts">
+          <div><dt>Objective</dt><dd>Check the key visitor flows and quality rules before every deploy.</dd></div>
+          <div><dt>Coverage</dt><dd>Smoke path, navigation, links, CV download, contact actions, phone layouts, accessibility, and HTTP status codes.</dd></div>
+          <div><dt>Stack</dt><dd>Playwright on desktop and mobile profiles, axe, and a Bruno collection.</dd></div>
+          <div><dt>CI</dt><dd>GitHub Actions runs every push. A failing test blocks the deploy, and the reports are published.</dd></div>
+        </dl>
         <Chips items={["Playwright", "Bruno", "axe", "GitHub Actions"]} />
         <div class="btn-row">
           <a class="btn small primary" href={LINKS.report}><Icon name="i-list-checks" />Playwright report</a>
@@ -34,8 +38,8 @@ import { GAMES, LINKS } from "../data/site.js";
       <article class="raised card repo-card">
         <span class="badge"><Icon name="i-folder-kanban" class="icon icon-lg" /></span>
         <h3>Automations Test Preset</h3>
-        <p>My starting kit for web test automation with Playwright and Bruno CLI: setup guides, test case structure,
-          reporting, and the rules that AI agents must follow when they work with me.</p>
+        <p>A workflow preset, not a framework: setup guides, test case structure, reporting conventions, and the rules
+          that AI agents follow when they work with me. The working automation lives in the portfolio test suite.</p>
         <Chips items={["Playwright", "Bruno CLI", "Claude Code"]} />
         <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
       </article>
