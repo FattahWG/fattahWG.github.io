@@ -30,6 +30,7 @@ const cards = [
         <div class="btn-row">
           <button class="btn" type="button" data-copy={LINKS.email}><Icon name="i-copy" /><span data-copy-label>Copy email</span></button>
           <a class="btn primary" href={`mailto:${LINKS.email}`}><Icon name="i-mail" />Send email</a>
+          <a class="btn" href={LINKS.cv} download="CV-Fattah Widjaya Gandhi.pdf"><Icon name="i-file-down" />Download CV</a>
         </div>
       </div>
       {cards.map((c) => (

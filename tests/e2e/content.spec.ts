@@ -55,6 +55,22 @@ test.describe('Content and links', () => {
     }
   });
 
+  for (const path of ['/', '/experience', '/contact']) {
+    test(`TC-CNT-006 Download CV on ${path} saves the PDF`, async ({ page }) => {
+      await page.goto(path);
+      const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.getByRole('link', { name: /Download CV/ }).first().click(),
+      ]);
+      expect(download.suggestedFilename()).toBe('CV-Fattah Widjaya Gandhi.pdf');
+      const file = await download.path();
+      const fs = await import('node:fs');
+      const head = fs.readFileSync(file).subarray(0, 5).toString('latin1');
+      expect(head, 'PDF signature').toBe('%PDF-');
+      expect(fs.statSync(file).size, 'PDF size in bytes').toBeGreaterThan(20_000);
+    });
+  }
+
   test('TC-CNT-005 Demo videos and their posters load', async ({ page, request }) => {
     await page.goto('/experience');
     const sources = await page.locator('video source[type="video/mp4"]').evaluateAll((s) => s.map((x) => x.getAttribute('src')));

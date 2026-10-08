@@ -12,6 +12,7 @@ export const LINKS = {
   ci: "https://github.com/FattahWG/fattahWG.github.io/actions/workflows/deploy.yml",
   report: "/qa-report/",
   apiReport: "/qa-report/api",
+  cv: "/assets/cv/Fattah-Widjaya-Gandhi-CV.pdf",
 };
 
 export const NAV = [

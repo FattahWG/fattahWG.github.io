@@ -4,7 +4,7 @@ import Icon from "../components/Icon.astro";
 import Chips from "../components/Chips.astro";
 import Cta from "../components/Cta.astro";
 import DemoVideo from "../components/DemoVideo.astro";
-import { QA_ITEMS, GAME_ITEMS, SKILLS } from "../data/site.js";
+import { QA_ITEMS, GAME_ITEMS, SKILLS, LINKS } from "../data/site.js";
 import { hasVideo } from "../data/video.js";
 
 const qaMedia = hasVideo("qa-playwright");
@@ -15,6 +15,9 @@ const gameMedia = hasVideo("studio-loop");
     <p class="kicker">Career</p>
     <h1 class="page-title">Experience</h1>
     <p class="lead">My main career is in software quality. Game development is a side project that I take seriously.</p>
+    <div class="btn-row" style="margin-top:24px">
+      <a class="btn primary" href={LINKS.cv} download="CV-Fattah Widjaya Gandhi.pdf"><Icon name="i-file-down" />Download CV (PDF)</a>
+    </div>
   </section>
 
   <section class="container">
