@@ -105,4 +105,14 @@ test.describe('Content and links', () => {
       expect(res.status(), `HEAD ${url}`).toBe(200);
     }
   });
+
+  test('TC-CNT-009 The test demo card links to the live showcase, its dashboard, and the repository', async ({ page }) => {
+    await page.goto('/projects');
+    const card = page.locator('#test-demo');
+    await expect(card.getByRole('link', { name: 'Open the test demo' })).toHaveAttribute('href', LINKS.showcase);
+    await expect(card.getByRole('link', { name: 'Test dashboard' })).toHaveAttribute('href', LINKS.showcaseDashboard);
+    await expect(card.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute('href', LINKS.preset);
+    await page.goto('/');
+    await expect(page.getByRole('link', { name: 'Open the test demo' })).toHaveAttribute('href', LINKS.showcase);
+  });
 });

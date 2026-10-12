@@ -560,3 +560,5 @@ section + section { margin-top: clamp(56px, 8vw, 96px); }
 }
 
 .email-card .addr { display: block; }
+.nav a.nav-ext { display: inline-flex; align-items: center; gap: 4px; }
+.nav .nav-ext-icon { width: 14px; height: 14px; }

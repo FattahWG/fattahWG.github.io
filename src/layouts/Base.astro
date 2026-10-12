@@ -56,7 +56,9 @@ const canonical = new URL(path, Astro.site);
       </button>
       <nav id="site-nav" class="nav" aria-label="Main">
         {NAV.map((item) => (
-          <a href={item.href} aria-current={item.href === path ? "page" : undefined}>{item.label}</a>
+          item.external
+            ? <a href={item.href} class="nav-ext" rel="noopener">{item.label}<Icon name="i-arrow-up-right" class="icon nav-ext-icon" /></a>
+            : <a href={item.href} aria-current={item.href === path ? "page" : undefined}>{item.label}</a>
         ))}
       </nav>
     </div>

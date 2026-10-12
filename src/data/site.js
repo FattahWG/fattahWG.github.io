@@ -7,6 +7,9 @@ export const LINKS = {
   discord: "https://discord.gg/WujZkWJ3uz",
   group: "https://www.roblox.com/communities/510724970/Lawak-Gamehouse",
   preset: "https://github.com/FattahWG/Automations-Test-Preset",
+  showcase: "https://fattahwg.github.io/Automations-Test-Preset/",
+  showcaseStore: "https://fattahwg.github.io/Automations-Test-Preset/store/",
+  showcaseDashboard: "https://fattahwg.github.io/Automations-Test-Preset/dashboard/",
   repo: "https://github.com/FattahWG/fattahWG.github.io",
   tests: "https://github.com/FattahWG/fattahWG.github.io/tree/main/tests",
   ci: "https://github.com/FattahWG/fattahWG.github.io/actions/workflows/deploy.yml",
@@ -21,6 +24,8 @@ export const NAV = [
   { href: "/experience", label: "Experience" },
   { href: "/projects", label: "Projects" },
   { href: "/contact", label: "Contact" },
+  // External: the live Lawak Store QA showcase (its own GitHub Pages site).
+  { href: "https://fattahwg.github.io/Automations-Test-Preset/", label: "Test Demo", external: true },
 ];
 
 // Chips with an entry here render as links to the official site.

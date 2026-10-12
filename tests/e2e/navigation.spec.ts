@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { LINKS } from '../../src/data/site.js';
 import { PAGES, isMobile, openNav } from './support';
 
 test.describe('Navigation', () => {
@@ -50,5 +51,15 @@ test.describe('Navigation', () => {
     await expect(skip).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/#main$/);
+  });
+
+  test('TC-NAV-006 Test Demo in the menu links to the live Lawak Store showcase', { tag: '@smoke' }, async ({ page, request }) => {
+    await page.goto('/');
+    const nav = await openNav(page);
+    const demo = nav.getByRole('link', { name: 'Test Demo' });
+    await expect(demo).toHaveAttribute('href', LINKS.showcase);
+    await expect(demo).not.toHaveAttribute('aria-current', 'page');
+    const res = await request.get(LINKS.showcase);
+    expect(res.status(), `GET ${LINKS.showcase}`).toBe(200);
   });
 });

@@ -35,13 +35,21 @@ import { GAMES, LINKS } from "../data/site.js";
           <a class="btn small" href={LINKS.tests} target="_blank" rel="noopener"><Icon name="b-github" />View the tests</a>
         </div>
       </article>
-      <article class="raised card repo-card">
+      <article class="raised card repo-card" id="test-demo">
         <span class="badge"><Icon name="i-folder-kanban" class="icon icon-lg" /></span>
-        <h3>Automations Test Preset</h3>
-        <p>A workflow preset, not a framework: setup guides, test case structure, reporting conventions, and the rules
-          that AI agents follow when they work with me. The working automation lives in the portfolio test suite.</p>
-        <Chips items={["Playwright", "Bruno CLI", "Claude Code"]} />
-        <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
+        <h3>Test demo: Lawak Store</h3>
+        <dl class="case-facts">
+          <div><dt>Objective</dt><dd>Show the full QA flow on one product: test case, automated run, evidence, and report.</dd></div>
+          <div><dt>System under test</dt><dd>Lawak Store, a demo shop with an admin panel. It runs in the browser with a mock backend.</dd></div>
+          <div><dt>Coverage</dt><dd>50 cases: 41 Playwright UI cases and 9 Bruno CLI API cases, grouped into Smoke, Regression, and Full Cycle suites by phase, sprint, and module.</dd></div>
+          <div><dt>Evidence</dt><dd>Each run makes a Word evidence document with a screenshot per step, updates the Excel test cases, and appears on the test dashboard.</dd></div>
+        </dl>
+        <Chips items={["Playwright", "Bruno CLI", "Python"]} />
+        <div class="btn-row">
+          <a class="btn small primary" href={LINKS.showcase}><Icon name="i-play" />Open the test demo</a>
+          <a class="btn small" href={LINKS.showcaseDashboard}><Icon name="i-list-checks" />Test dashboard</a>
+          <a class="btn small" href={LINKS.preset} target="_blank" rel="noopener"><Icon name="b-github" />View on GitHub</a>
+        </div>
       </article>
     </div>
   </section>
