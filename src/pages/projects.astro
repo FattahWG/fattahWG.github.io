@@ -3,22 +3,25 @@ import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import Chips from "../components/Chips.astro";
 import Cta from "../components/Cta.astro";
+import GameArt from "../components/GameArt.astro";
 import { GAMES, LINKS } from "../data/site.js";
 ---
 <Base title="Projects | Fattah Widjaya Gandhi" description="Public test automation work, and the Roblox games Fattah directs at Lawak Studio.">
-  <section class="container" data-reveal>
-    <p class="kicker">Projects</p>
-    <h1 class="page-title">Projects</h1>
-    <p class="lead">Test automation that you can open and check, and the Roblox games I direct at Lawak Studio.</p>
+  <section class="container stage stage-short">
+    <GameArt />
+    <div class="glass stage-card">
+      <h1 class="page-title">Projects</h1>
+      <p class="lead">Test automation that you can open and check, and the Roblox games I direct at Lawak Studio.</p>
+    </div>
   </section>
 
   <section class="container">
-    <div data-reveal>
+    <div>
       <p class="kicker">QA &amp; automation</p>
       <h2 class="section-title">Testing work</h2>
       <p class="section-sub">Real suites with real results. The portfolio itself is the system under test.</p>
     </div>
-    <div class="grid-2" data-reveal data-stagger>
+    <div class="grid-2">
       <article class="raised card repo-card" id="portfolio-tests">
         <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
         <h3>Portfolio test suite</h3>
@@ -55,13 +58,13 @@ import { GAMES, LINKS } from "../data/site.js";
   </section>
 
   <section class="container">
-    <div data-reveal>
+    <div>
       <p class="kicker game">Roblox games</p>
       <h2 class="section-title">Games at Lawak Studio</h2>
       <p class="section-sub">Lawak Studio publishes its games under the Lawak Gamehouse community on Roblox. I direct these
         projects with our programmers, level designers, and 3D artists.</p>
     </div>
-    <div class="grid-2" data-reveal data-stagger>
+    <div class="grid-2">
       {GAMES.map((g) => (
         <article class="raised game-card" id={g.slug}>
           <div class="cover">
@@ -83,7 +86,7 @@ import { GAMES, LINKS } from "../data/site.js";
     </div>
   </section>
 
-  <section class="container" data-reveal>
+  <section class="container">
     <div class="raised community">
       <img src="/assets/img/lawak-gamehouse.webp" alt="Lawak Gamehouse logo" width="84" height="84" loading="lazy" />
       <div>
@@ -97,5 +100,5 @@ import { GAMES, LINKS } from "../data/site.js";
     </div>
   </section>
 
-  <Cta title="Like what you see?" text="Say hi, or join the Lawak Gamehouse Discord." href="/contact" label="Contact me" />
+  <Cta title="Questions about a test or a game?" text="Email me, or join the Lawak Gamehouse Discord." href="/contact" label="Contact me" />
 </Base>

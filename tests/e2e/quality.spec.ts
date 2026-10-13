@@ -32,3 +32,26 @@ test.describe('Accessibility and layout', () => {
     }
   });
 });
+
+test.describe('Security', () => {
+  for (const p of PAGES) {
+    test(`TC-SEC-001 ${p.nav} has a strict content policy and breaks none of it`, async ({ page }) => {
+      const problems: string[] = [];
+      page.on('console', (m) => {
+        if (m.type() === 'error' || /Content Security Policy/i.test(m.text())) problems.push(m.text());
+      });
+      page.on('pageerror', (e) => problems.push(String(e)));
+      await page.goto(p.path, { waitUntil: 'networkidle' });
+
+      const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+      expect(csp, 'CSP meta tag').toContain("script-src 'self';");
+      expect(csp).toContain("object-src 'none'");
+      expect(csp).toContain("base-uri 'self'");
+      expect(csp).not.toContain('unsafe-eval');
+
+      const inline = await page.locator('script:not([src])').count();
+      expect(inline, 'inline scripts (the policy blocks them)').toBe(0);
+      expect(problems, `console on ${p.path}`).toEqual([]);
+    });
+  }
+});

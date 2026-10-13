@@ -18,6 +18,9 @@ const pageLabel = NAV.find((item) => item.href === path)?.label ?? "Not found";
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- GitHub Pages cannot send headers, so the policy is a meta tag. Keep every script in a file under public/assets. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="theme-color" content="#121215" />
@@ -35,17 +38,7 @@ const pageLabel = NAV.find((item) => item.href === path)?.label ?? "Not found";
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" />
   <link rel="stylesheet" href={asset("/assets/style.css")} />
-  <script is:inline>
-    try {
-      if (localStorage.getItem("sidebar") === "collapsed") document.documentElement.classList.add("nav-collapsed");
-    } catch (e) { /* storage blocked: the sidebar starts open */ }
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("motion-ready");
-      setTimeout(function () {
-        if (!window.__motionOk) document.documentElement.classList.remove("motion-ready");
-      }, 2500);
-    }
-  </script>
+  <script is:inline src={asset("/assets/boot.js")}></script>
   <script is:inline type="module" src={asset("/assets/main.js")}></script>
 </head>
 <body>

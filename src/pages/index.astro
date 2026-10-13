@@ -3,73 +3,76 @@ import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import Cta from "../components/Cta.astro";
 import DemoVideo from "../components/DemoVideo.astro";
+import GameArt from "../components/GameArt.astro";
 import { GAMES, LINKS } from "../data/site.js";
 ---
 <Base
   title="Fattah Widjaya Gandhi | SQA Engineer"
   description="Fattah Widjaya Gandhi: SQA Engineer with 2.5+ years in banking, insurance, and enterprise QA, building automation with Playwright and Bruno. Studio Director at Lawak Studio (Roblox)."
 >
-  <section class="container hero">
-    <div data-reveal>
-      <p class="kicker">SQA Engineer &middot; Studio Director</p>
-      <h1>Fattah Widjaya Gandhi<span>I test software for a living and build Roblox games on the side.</span></h1>
-      <p class="lead">I'm an SQA Engineer with 2.5+ years in banking, insurance, and enterprise QA. I've automated with
-        UFT One, Selenium, and Rest Assured, and now I build with Playwright and Bruno: a suite tests this site before
-        every deploy. Outside work, I lead Roblox game projects at Lawak Studio.</p>
-      <div class="btn-row">
-        <a class="btn primary" href="/experience">View experience<Icon name="i-arrow-right" /></a>
-        <a class="btn" href={LINKS.cv} download="CV-Fattah Widjaya Gandhi.pdf"><Icon name="i-file-down" />Download CV</a>
-        <a class="btn" href="/projects"><Icon name="i-gamepad-2" />Play my games</a>
+  <section class="container stage">
+    <GameArt />
+    <div class="hero">
+      <div class="glass stage-card">
+        <p class="kicker">SQA Engineer &middot; Studio Director</p>
+        <h1>Fattah Widjaya Gandhi<span>I test software for a living and build Roblox games on the side.</span></h1>
+        <p class="lead">I'm an SQA Engineer with 2.5+ years in banking, insurance, and enterprise QA. I've automated with
+          UFT One, Selenium, and Rest Assured, and now I build with Playwright and Bruno: a suite tests this site before
+          every deploy. Outside work, I lead Roblox game projects at Lawak Studio.</p>
+        <div class="btn-row">
+          <a class="btn primary" href="/experience">View experience</a>
+          <a class="btn" href={LINKS.cv} download="CV-Fattah Widjaya Gandhi.pdf"><Icon name="i-file-down" />Download CV</a>
+          <a class="btn" href="/projects"><Icon name="i-gamepad-2" />Play my games</a>
+        </div>
       </div>
-    </div>
-    <div class="raised portrait" data-reveal>
-      <img src="/assets/img/github-avatar.webp" alt="Portrait of Fattah Widjaya Gandhi" width="320" height="320" />
-      <span class="status"><span class="dot" aria-hidden="true"></span>Playwright + Bruno in CI</span>
+      <div class="raised portrait">
+        <img src="/assets/img/github-avatar.webp" alt="Portrait of Fattah Widjaya Gandhi" width="320" height="320" />
+      </div>
     </div>
   </section>
 
   <section class="container">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div>
         <p class="kicker">What I do</p>
         <h2 class="section-title">From QA to automation, plus games</h2>
         <p class="section-sub">Three areas, in the order where most of my time goes.</p>
       </div>
     </div>
-    <div class="path" data-reveal data-stagger>
-      <a class="raised path-card" href="/experience">
+    <div class="path">
+      <a class="raised path-card lead-card" href="/experience">
         <span class="badge"><Icon name="i-shield-check" class="icon icon-lg" /></span>
         <span class="step">01 &middot; Career</span>
         <h3>QA / SQA engineering</h3>
         <p>2.5+ years of SIT, UAT, regression, API, and performance testing for banking, insurance, and enterprise apps.</p>
-        <span class="more">Experience<Icon name="i-arrow-right" /></span>
+        <span class="more">Experience</span>
       </a>
       <a class="raised path-card" href="/experience#automation">
         <span class="badge"><Icon name="i-workflow" class="icon icon-lg" /></span>
         <span class="step">02 &middot; Automation</span>
-        <h3>Automation &amp; modern testing</h3>
+        <h3>Automation in CI</h3>
         <p>UFT One at work, Selenium and Rest Assured before that, and now Playwright and Bruno running in CI.</p>
-        <span class="more">Automation<Icon name="i-arrow-right" /></span>
+        <span class="more">Automation</span>
       </a>
       <a class="raised path-card game" href="/projects">
         <span class="badge game"><Icon name="i-gamepad-2" class="icon icon-lg" /></span>
         <span class="step">03 &middot; Side project</span>
         <h3>Roblox game development</h3>
         <p>As Studio Director at Lawak Studio, I take game ideas from first concept to playtest with the team.</p>
-        <span class="more">Projects<Icon name="i-arrow-right" /></span>
+        <span class="more">Projects</span>
       </a>
     </div>
   </section>
 
   <section class="container">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div>
         <p class="kicker">Featured QA work</p>
         <h2 class="section-title">Automation you can check</h2>
         <p class="section-sub">This site is my test subject. The suite runs in GitHub Actions, and a failing test stops the deploy.</p>
       </div>
     </div>
-    <div class="featured-qa raised" data-reveal>
+    <div class="featured-qa raised">
       <DemoVideo slug="qa-playwright" caption="The smoke test from the suite, recorded in Microsoft Edge." />
       <ul class="proof-list">
         <li>
@@ -98,14 +101,14 @@ import { GAMES, LINKS } from "../data/site.js";
   </section>
 
   <section class="container">
-    <div class="section-head" data-reveal>
+    <div class="section-head">
       <div>
         <p class="kicker game">Lawak Studio</p>
         <h2 class="section-title">Games we made</h2>
       </div>
-      <a class="text-link game" href="/projects">All projects<Icon name="i-arrow-right" /></a>
+      <a class="text-link game" href="/projects">All projects</a>
     </div>
-    <div class="mini-games" data-reveal data-stagger>
+    <div class="mini-games">
       {GAMES.map((g) => (
         <a class="raised mini-game" href={`/projects#${g.slug}`}>
           <img src={`/assets/img/${g.slug}-icon.webp`} alt="" width="52" height="52" loading="lazy" />

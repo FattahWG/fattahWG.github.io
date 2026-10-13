@@ -168,7 +168,7 @@ export const SKILLS = [
     items: ["Performance testing", "JMeter", "Grafana"] },
   { icon: "i-layers", title: "Tools", game: false,
     items: ["Jira", "Postman", "Swagger", "Git", "GitHub Actions", "IntelliJ IDEA"] },
-  { icon: "i-bot", title: "Languages & AI pair tools", game: false,
+  { icon: "i-braces", title: "Languages & AI pair tools", game: false,
     items: ["Java", "Python", "SQL", "Luau", "Claude Code", "GitHub Copilot"] },
   { icon: "i-users", title: "Ways of working", game: false,
     items: ["Independent QA ownership", "Requirement analysis", "Business process validation", "Working with dev and business teams", "Writing rules for AI agents"] },
@@ -178,7 +178,7 @@ export const SKILLS = [
 
 export const FOCUS = [
   { icon: "i-workflow", title: "Test automation in CI", text: "Growing the Playwright and Bruno suite that checks this site on every deploy.", game: false },
-  { icon: "i-bot", title: "Working with AI agents", text: "Writing clear rules for Claude Code and GitHub Copilot, so they take the repetitive work while I keep the test decisions.", game: false },
+  { icon: "i-clipboard-list", title: "Working with AI agents", text: "Writing clear rules for Claude Code and GitHub Copilot, so they take the repetitive work while I keep the test decisions.", game: false },
   { icon: "i-gamepad-2", title: "Gameplay systems", text: "Building gameplay systems and UI in Roblox Studio with Luau.", game: true },
   { icon: "i-repeat", title: "Playtest and iterate", text: "Improving our games through playtesting and player feedback.", game: true },
 ];

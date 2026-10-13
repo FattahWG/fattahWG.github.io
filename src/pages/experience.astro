@@ -14,8 +14,7 @@ const gameMedia = hasVideo("studio-loop");
   title="Experience | Fattah Widjaya Gandhi"
   description="Work history: QA Software Engineer at Astragraphia Information Technology and QA Engineer at Nawa Data Solutions, plus automation, skills, and education."
 >
-  <section class="container" data-reveal>
-    <p class="kicker">Career</p>
+  <section class="container">
     <h1 class="page-title">Experience</h1>
     <p class="lead">{CAREER_SUMMARY} Game development is a side project that I take seriously.</p>
     <div class="btn-row" style="margin-top:24px">
@@ -24,13 +23,13 @@ const gameMedia = hasVideo("studio-loop");
   </section>
 
   <section class="container" id="work">
-    <div data-reveal>
+    <div>
       <p class="kicker">Work history</p>
       <h2 class="section-title">Where I test</h2>
     </div>
     <div class="timeline">
       {EXPERIENCE.map((job) => (
-        <article class="raised role job" data-reveal>
+        <article class="raised role job">
           <div class="role-head">
             <div>
               <h2>{job.company}</h2>
@@ -54,7 +53,7 @@ const gameMedia = hasVideo("studio-loop");
   </section>
 
   <section class="container" id="automation">
-    <article class="raised role" data-reveal>
+    <article class="raised role">
       <div class="role-head">
         <div>
           <h2>Test automation</h2>
@@ -79,11 +78,11 @@ const gameMedia = hasVideo("studio-loop");
   </section>
 
   <section class="container" id="side-project">
-    <div data-reveal>
+    <div>
       <p class="kicker game">Side project</p>
       <h2 class="section-title">Outside work</h2>
     </div>
-    <article class="raised role game-role" data-reveal>
+    <article class="raised role game-role">
       <div class="role-head">
         <div>
           <h2>Studio Director</h2>
@@ -101,12 +100,12 @@ const gameMedia = hasVideo("studio-loop");
   </section>
 
   <section class="container" id="skills">
-    <div data-reveal>
+    <div>
       <p class="kicker">Skills</p>
       <h2 class="section-title">Skills and tools</h2>
       <p class="section-sub">What I use in my QA work and in my game projects.</p>
     </div>
-    <div class="grid-2" data-reveal data-stagger>
+    <div class="grid-2">
       {SKILLS.map((s) => (
         <div class={`raised card skill-group${s.game ? " game" : ""}`}>
           <h3><span class={`badge${s.game ? " game" : ""}`}><Icon name={s.icon} /></span>{s.title}</h3>
@@ -117,7 +116,7 @@ const gameMedia = hasVideo("studio-loop");
   </section>
 
   <section class="container" id="education">
-    <div class="raised card education" data-reveal>
+    <div class="raised card education">
       <h3><span class="badge"><Icon name="i-clipboard-list" /></span>Education and certification</h3>
       <ul>
         {EDUCATION.map((e) => (

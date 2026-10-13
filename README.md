@@ -47,7 +47,7 @@ npm run test:api:prod             # Bruno against the live site
 
 | URL | Source | Content |
 | --- | --- | --- |
-| `/` | `src/pages/index.astro` | Hero, the QA → automation → games path, featured QA work, game tiles |
+| `/` | `src/pages/index.astro` | Hero on the game art, the QA → automation → games path, featured QA work, game tiles |
 | `/about` | `src/pages/about.astro` | About me, how I work, current focus |
 | `/experience` | `src/pages/experience.astro` | SQA role, Studio Director role, demo videos, skills |
 | `/projects` | `src/pages/projects.astro` | Test suites, the automation preset, Roblox games |
@@ -55,8 +55,9 @@ npm run test:api:prod             # Bruno against the live site
 
 - [Astro](https://astro.build) 7 static site. Pages build to `about.html` and so on, which GitHub Pages serves at `/about`.
 - `src/layouts/Base.astro` holds the head, header, and footer. `src/data/site.js` holds all content lists and links.
-- Dark soft-UI theme in `public/assets/style.css`, with a light [Motion](https://motion.dev) scroll reveal.
-  Visitors who ask for reduced motion get no animation, and the demo videos wait for a click.
+- Design direction is in [`DESIGN.md`](DESIGN.md): a dark creator dashboard with glass on the top bar and on one
+  card over the game art. The styles are in `public/assets/style.css`. There is no scroll animation.
+  Visitors who ask for reduced transparency get solid surfaces, and with reduced motion the demo videos wait for a click.
 - Icons: SVG sprite from [Lucide](https://github.com/lucide-icons/lucide) (ISC) and
   [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0).
 

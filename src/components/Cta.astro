@@ -1,5 +1,4 @@
 ---
-import Icon from "./Icon.astro";
 
 interface Props {
   title: string;
@@ -10,9 +9,9 @@ interface Props {
 }
 const { title, text, href, label, variant = "primary" } = Astro.props;
 ---
-<section class="container" data-reveal>
+<section class="container">
   <div class="raised cta">
     <div><h2>{title}</h2><p>{text}</p></div>
-    <a class={`btn ${variant}`} href={href}>{label}<Icon name="i-arrow-right" /></a>
+    <a class={`btn ${variant}`} href={href}>{label}</a>
   </div>
 </section>

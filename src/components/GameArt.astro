@@ -1,0 +1,10 @@
+---
+import { GAMES } from "../data/site.js";
+
+// The four game covers behind a glass card. Decoration only: the cards below name the games.
+---
+<div class="stage-art" aria-hidden="true">
+  {GAMES.map((g) => (
+    <img src={`/assets/img/${g.slug}-cover.webp`} alt="" width="768" height="432" decoding="async" />
+  ))}
+</div>
