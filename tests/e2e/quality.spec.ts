@@ -5,6 +5,8 @@ import { PAGES } from './support';
 test.describe('Accessibility and layout', () => {
   for (const p of PAGES) {
     test(`TC-A11Y-001 ${p.nav} has no serious or critical axe violations`, async ({ page }) => {
+      // Scan the final colors. With motion on, the reveal fade gives axe half-transparent text.
+      await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto(p.path);
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
       const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
