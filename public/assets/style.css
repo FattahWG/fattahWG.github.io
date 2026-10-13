@@ -1,29 +1,25 @@
-/* Creator dashboard look: flat dark surfaces, thin borders, a left sidebar. Glass only on the top bar and the art stage card. See DESIGN.md. */
+/* White and red glass: warm white surfaces, a left sidebar, glass only on the top bar and the hero card over the red spheres. See DESIGN.md. */
 :root {
-  --bg: #121215;
-  --surface-hi: #1a1b1f;
-  --surface-lo: #1a1b1f;
-  --surface: #1a1b1f;
-  --sunken: #0d0d10;
-  --hover: rgba(208, 217, 251, 0.08);
-  --hover-strong: rgba(208, 217, 251, 0.12);
-  --line: rgba(208, 217, 251, 0.08);
-  --line-strong: rgba(208, 217, 251, 0.16);
-  --shadow-dark: transparent;
-  --shadow-light: transparent;
+  --bg: #f5f1ee;
+  --surface: #ffffff;
+  --surface-hover: #fffaf8;
+  --sunken: #ece6e2;
+  --hover: rgba(36, 28, 32, 0.05);
+  --hover-strong: rgba(36, 28, 32, 0.09);
+  --line: rgba(36, 28, 32, 0.1);
+  --line-strong: rgba(36, 28, 32, 0.18);
 
-  --text: #e5e5e6;
-  --heading: #f7f7f8;
-  --muted: #bcbec8;
-  --faint: #9a9cab;
+  --text: #3a3035;
+  --heading: #241c20;
+  --muted: #5c5257;
+  --faint: #6b6166;
 
-  --blue: #335fff;
-  --blue-hover: #4a72ff;
-  --qa: #8aa6ff;
-  --game: #f6b702;
-  --ok: #39c582;
-  --qa-soft: rgba(51, 95, 255, 0.16);
-  --game-soft: rgba(246, 183, 2, 0.14);
+  --primary: #c8262b;
+  --primary-hover: #b0201f;
+  --qa: #b0201f;
+  --red-deep: #961a1c;
+  --game: #a84a0c;
+  --ok: #1d7a48;
 
   --radius-lg: 16px;
   --radius-md: 12px;
@@ -40,12 +36,12 @@
   --max: 1120px;
   --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
-  --glass-bar: rgba(18, 18, 21, 0.62);
-  --glass-card: rgba(22, 23, 27, 0.6);
-  --glass-edge: rgba(255, 255, 255, 0.1);
-  --glass-blur: blur(16px) saturate(140%);
+  --glass-bar: rgba(245, 241, 238, 0.72);
+  --glass-card: rgba(255, 255, 255, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.85);
+  --glass-blur: blur(20px) saturate(160%);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @view-transition { navigation: auto; }
@@ -131,8 +127,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-radius: 7px;
   font: 800 12px/1 var(--font);
   letter-spacing: -0.02em;
-  color: var(--bg);
-  background: var(--heading);
+  color: #fff;
+  background: var(--primary);
   transform: rotate(-10deg);
 }
 .brand-name { font-size: 19px; font-weight: 800; letter-spacing: 0.04em; color: var(--heading); white-space: nowrap; }
@@ -185,7 +181,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .topbar::after { content: ""; position: absolute; inset: auto 0 0; height: 1px; background: var(--line); pointer-events: none; }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .topbar::before {
-    background: linear-gradient(to bottom, rgba(18, 18, 21, 0.8), var(--glass-bar) 50%, transparent 50%);
+    background: linear-gradient(to bottom, rgba(245, 241, 238, 0.86), var(--glass-bar) 50%, transparent 50%);
     -webkit-backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
   }
@@ -216,7 +212,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .avatar { display: block; width: 36px; height: 36px; margin-left: 6px; border-radius: 50%; overflow: hidden; border: 1px solid var(--line-strong); }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-.scrim { position: fixed; inset: 0; z-index: 55; background: rgba(0, 0, 0, 0.6); }
+.scrim { position: fixed; inset: 0; z-index: 55; background: rgba(36, 28, 32, 0.35); }
 .scrim[hidden] { display: none; }
 
 /* Icon rail: chosen with the collapse button, or automatic on mid-size screens. */
@@ -288,10 +284,10 @@ section + section { margin-top: clamp(48px, 7vw, 80px); }
 }
 .btn:hover { background: var(--hover); color: var(--heading); }
 .btn:active { background: var(--hover-strong); }
-.btn.primary { color: #fff; background: var(--blue); border-color: var(--blue); }
-.btn.primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); }
+.btn.primary { color: #fff; background: var(--primary); border-color: var(--primary); }
+.btn.primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
 .btn.game { color: var(--bg); background: var(--heading); border-color: var(--heading); }
-.btn.game:hover { background: #fff; }
+.btn.game:hover { background: var(--text); border-color: var(--text); }
 .btn.small { min-height: 40px; padding: 9px 14px; font-size: 14px; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
@@ -414,7 +410,7 @@ section + section { margin-top: clamp(48px, 7vw, 80px); }
 .chip { cursor: default; }
 .chip-link { gap: 6px; cursor: pointer; transition: color 0.2s, box-shadow 0.15s, transform 0.2s; }
 .chip-link .chip-ext { width: 13px; height: 13px; color: var(--faint); transition: color 0.2s, transform 0.2s; }
-.chip-link:hover { color: #fff; transform: translateY(-1px); }
+.chip-link:hover { color: var(--heading); transform: translateY(-1px); }
 .chip-link:hover .chip-ext { color: var(--qa); transform: translate(1px, -1px); }
 .chip-link:active { transform: none; box-shadow: var(--press); }
 .skill-group.game .chip-link:hover .chip-ext { color: var(--game); }
@@ -600,27 +596,37 @@ section + section { margin-top: clamp(48px, 7vw, 80px); }
 .tag { border-radius: 9999px; }
 .cover { background: var(--sunken); border: 1px solid var(--line); border-radius: 12px; }
 .game-card, .path-card, .contact-card, .mini-game { transition: border-color 0.15s, background 0.15s; }
-.game-card:hover, .path-card:hover, .contact-card:hover, .mini-game:hover { transform: none; border-color: var(--line-strong); background: #1e1f24; }
+.game-card:hover, .path-card:hover, .contact-card:hover, .mini-game:hover { transform: none; border-color: var(--line-strong); background: var(--surface-hover); }
 .chip { padding: 4px 12px; border-radius: 9999px; font-size: 13px; font-weight: 600; color: var(--heading); background: var(--hover); border: 0; }
 .chip-link:hover { transform: none; background: var(--hover-strong); }
 .chip-link:active { background: var(--hover-strong); }
 .portrait { border-radius: 24px; padding: 12px; }
 .portrait img { border-radius: 16px; }
 .hero h1 { font-weight: 800; letter-spacing: -0.02em; }
-.media-badge { color: #fff; background: rgba(51, 95, 255, 0.92); }
-.media.game .media-badge { color: var(--bg); background: rgba(246, 183, 2, 0.92); }
+.media-badge { color: #fff; background: rgba(200, 38, 43, 0.94); }
+.media.game .media-badge { color: #fff; background: rgba(168, 74, 12, 0.94); }
 .socials a { border-radius: var(--radius-sm); background: transparent; border: 1px solid var(--line-strong); }
 .socials a:hover { background: var(--hover); }
 .site-footer { margin-top: auto; }
 .game-title img, .mini-game img, .community img { box-shadow: none; border: 1px solid var(--line); }
 .project-dates, .path-card .step { font-family: var(--font); font-weight: 600; }
 
-/* Art stage: the four game covers behind one glass card (Home hero, Projects header). */
-.stage { position: relative; isolation: isolate; overflow: hidden; padding: clamp(16px, 3vw, 32px); border-radius: 24px; border: 1px solid var(--line); background: var(--sunken); }
-.stage-art { position: absolute; inset: 0; z-index: -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-.stage-art img { width: 100%; height: 100%; min-height: 0; object-fit: cover; filter: brightness(0.5) saturate(1.1); }
-.stage-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13, 13, 16, 0.5), rgba(13, 13, 16, 0.1)); }
-.stage-short .stage-art { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+/* Hero stage: red glossy spheres (the owner's reference motif) behind one glass card. Home hero and Projects header only. */
+.stage { position: relative; isolation: isolate; overflow: hidden; padding: clamp(16px, 3vw, 32px); border-radius: 24px; border: 1px solid var(--line); background: linear-gradient(135deg, #fbf8f6, #f0e9e5); }
+.spheres { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+.sphere {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #ffd6c8 0 5%, #ff7a52 22%, #e2362f 52%, #9e1423 100%);
+  box-shadow: inset -14px -20px 40px rgba(110, 10, 25, 0.3);
+}
+.sphere.orange { background: radial-gradient(circle at 32% 28%, #ffe2c4 0 5%, #ffa057 24%, #f0602e 56%, #b8341a 100%); }
+.s1 { width: clamp(150px, 22vw, 300px); aspect-ratio: 1; left: -6%; top: 28%; }
+.s2 { width: clamp(90px, 11vw, 150px); aspect-ratio: 1; left: 44%; top: -40px; }
+.s3 { width: clamp(160px, 20vw, 260px); aspect-ratio: 1; right: -4%; bottom: -70px; }
+.s4 { width: clamp(44px, 5vw, 70px); aspect-ratio: 1; left: 58%; bottom: 8%; }
+.stage-short .s1 { top: -30%; }
+.stage-short .s3 { bottom: -60%; }
 .stage-short .stage-card { max-width: 720px; }
 .stage-short .stage-card .lead { color: var(--text); margin-bottom: 0; }
 
@@ -628,18 +634,16 @@ section + section { margin-top: clamp(48px, 7vw, 80px); }
   background: var(--surface);
   border: 1px solid var(--glass-edge);
   border-radius: var(--radius-lg);
-  /* The only shadow on the site: it lifts the glass card off the art. */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  /* The only shadow on the site: it lifts the glass card off the spheres. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 24px 48px -28px rgba(120, 30, 35, 0.35);
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass { background: var(--glass-card); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
 }
 .stage-card { padding: clamp(20px, 3.5vw, 36px); }
+/* Text on glass uses only colors that pass AA over the darkest sphere. */
+.glass .kicker { color: var(--red-deep); }
 .stage .portrait { background: var(--surface); }
-
-@media (max-width: 860px) {
-  .stage-short .stage-art { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-}
 
 /* About: three habits as one list, not three equal cards. */
 .habits { display: grid; margin: 0; padding: 0; }
