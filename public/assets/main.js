@@ -1,25 +1,41 @@
 const root = document.documentElement;
 
-// Mobile menu
+// Phone menu: the sidebar opens as a drawer over the page.
 const menuBtn = document.querySelector(".menu-btn");
-const nav = document.getElementById("site-nav");
-if (menuBtn && nav) {
+const sidebar = document.getElementById("sidebar");
+const scrim = document.querySelector(".scrim");
+if (menuBtn && sidebar) {
   const setOpen = (open) => {
     menuBtn.setAttribute("aria-expanded", String(open));
     menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    nav.classList.toggle("open", open);
+    sidebar.classList.toggle("open", open);
+    if (scrim) scrim.hidden = !open;
   };
   menuBtn.addEventListener("click", () => setOpen(menuBtn.getAttribute("aria-expanded") !== "true"));
+  scrim?.addEventListener("click", () => setOpen(false));
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && nav.classList.contains("open")) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
       setOpen(false);
       menuBtn.focus();
     }
   });
-  document.addEventListener("click", (e) => {
-    if (nav.classList.contains("open") && !nav.contains(e.target) && !menuBtn.contains(e.target)) setOpen(false);
-  });
   matchMedia("(min-width: 761px)").addEventListener("change", (e) => e.matches && setOpen(false));
+}
+
+// Desktop: collapse the sidebar to an icon rail. The head script applies the saved state before paint.
+const collapseBtn = document.querySelector(".collapse-btn");
+if (collapseBtn) {
+  const sync = () => {
+    collapseBtn.setAttribute("aria-pressed", String(root.classList.contains("nav-collapsed")));
+  };
+  sync();
+  collapseBtn.addEventListener("click", () => {
+    root.classList.toggle("nav-collapsed");
+    try {
+      localStorage.setItem("sidebar", root.classList.contains("nav-collapsed") ? "collapsed" : "open");
+    } catch { /* storage blocked: the choice lasts for this page only */ }
+    sync();
+  });
 }
 
 // Copy email

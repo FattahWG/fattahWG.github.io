@@ -19,13 +19,18 @@ export const LINKS = {
 };
 
 export const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/experience", label: "Experience" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
-  // External: the live Lawak Store QA showcase (its own GitHub Pages site).
-  { href: "https://fattahwg.github.io/Automations-Test-Preset/", label: "Test Demo", external: true },
+  { href: "/", label: "Home", icon: "i-house" },
+  { href: "/about", label: "About", icon: "i-user" },
+  { href: "/experience", label: "Experience", icon: "i-briefcase" },
+  { href: "/projects", label: "Projects", icon: "i-folder-kanban" },
+  { href: "/contact", label: "Contact", icon: "i-mail" },
+];
+
+// Second sidebar group: the live Lawak Store QA showcase (its own GitHub Pages site).
+export const DEMO_NAV = [
+  { href: "https://fattahwg.github.io/Automations-Test-Preset/", label: "Test Demo", icon: "i-flask-conical" },
+  { href: "https://fattahwg.github.io/Automations-Test-Preset/store/", label: "Lawak Store", icon: "i-shopping-bag" },
+  { href: "https://fattahwg.github.io/Automations-Test-Preset/dashboard/", label: "Test Dashboard", icon: "i-layout-dashboard" },
 ];
 
 // Chips with an entry here render as links to the official site.

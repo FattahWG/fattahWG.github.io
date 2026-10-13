@@ -62,4 +62,18 @@ test.describe('Navigation', () => {
     const res = await request.get(LINKS.showcase);
     expect(res.status(), `GET ${LINKS.showcase}`).toBe(200);
   });
+
+  test('TC-NAV-007 Sidebar links to the Lawak Store and the test dashboard, and collapses on desktop', async ({ page }) => {
+    await page.goto('/');
+    const nav = await openNav(page);
+    await expect(nav.getByRole('link', { name: 'Lawak Store' })).toHaveAttribute('href', LINKS.showcaseStore);
+    await expect(nav.getByRole('link', { name: 'Test Dashboard' })).toHaveAttribute('href', LINKS.showcaseDashboard);
+    if (isMobile(page)) return;
+    const collapse = page.getByRole('button', { name: 'Collapse sidebar' });
+    await collapse.click();
+    await expect(collapse).toHaveAttribute('aria-pressed', 'true');
+    await page.reload();
+    await expect(page.getByRole('button', { name: 'Collapse sidebar' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(nav.getByRole('link', { name: 'Home' })).toBeVisible();
+  });
 });
