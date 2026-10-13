@@ -50,10 +50,10 @@ document.querySelectorAll("[data-copy]").forEach((btn) => {
       return;
     }
     if (label) label.textContent = "Copied";
-    if (icon) icon.setAttribute("href", "/assets/icons.svg#i-check");
+    if (icon) icon.setAttribute("href", icon.getAttribute("href").replace(/#.*/, "#i-check"));
     setTimeout(() => {
       if (label) label.textContent = "Copy email";
-      if (icon) icon.setAttribute("href", "/assets/icons.svg#i-copy");
+      if (icon) icon.setAttribute("href", icon.getAttribute("href").replace(/#.*/, "#i-copy"));
     }, 1800);
   });
 });

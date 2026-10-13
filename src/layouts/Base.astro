@@ -1,5 +1,6 @@
 ---
 import Icon from "../components/Icon.astro";
+import { asset } from "../data/assets.js";
 import { DEMO_NAV, LINKS, NAV } from "../data/site.js";
 
 interface Props {
@@ -33,7 +34,7 @@ const pageLabel = NAV.find((item) => item.href === path)?.label ?? "Not found";
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" />
-  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href={asset("/assets/style.css")} />
   <script is:inline>
     try {
       if (localStorage.getItem("sidebar") === "collapsed") document.documentElement.classList.add("nav-collapsed");
@@ -45,7 +46,7 @@ const pageLabel = NAV.find((item) => item.href === path)?.label ?? "Not found";
       }, 2500);
     }
   </script>
-  <script is:inline type="module" src="/assets/main.js"></script>
+  <script is:inline type="module" src={asset("/assets/main.js")}></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
