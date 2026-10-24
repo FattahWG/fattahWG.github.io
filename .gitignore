@@ -1,8 +1,11 @@
 node_modules/
 dist/
-.astro/
+dist-ssr/
+.wrangler/
+.dev.vars
 .env
 .env.*
+!.env.example
 playwright-report/
 test-results/
 reports/

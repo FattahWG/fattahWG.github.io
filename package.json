@@ -1,19 +1,20 @@
 {
   "name": "fattahwg-portfolio",
-  "type": "module",
-  "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "dev": "npm run dev -w apps/frontend",
+    "build": "npm run build -w apps/frontend",
+    "preview": "npm run preview -w apps/frontend",
+    "typecheck": "npm run typecheck -w apps/frontend && npm run typecheck -w apps/backend",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test --grep @smoke",
     "test:api": "cd tests/api && bru run --env local -r",
     "test:api:prod": "cd tests/api && bru run --env production -r"
-  },
-  "dependencies": {
-    "astro": "7.3.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

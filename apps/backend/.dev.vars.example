@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `wrangler dev`. Never commit .dev.vars.
+RUNNER_TOKEN=local-runner-token
+IP_HASH_SALT=local-salt
+GITHUB_TOKEN=
+TURNSTILE_SECRET_KEY=

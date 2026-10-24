@@ -19,6 +19,9 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # Origin of the QA Lab API Worker. Empty: the QA Lab shows the recorded run only.
+      VITE_API_URL: ${{ vars.QA_LAB_API_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,14 +30,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run build
+
+      - name: Typecheck the frontend and the QA Lab backend
+        run: npm run typecheck
+
+      - name: Build and prerender the site
+        run: npm run build
 
       - name: Playwright end-to-end tests
         run: npm run test:e2e
 
       - name: Bruno HTTP checks
         run: |
-          npx astro preview --host 127.0.0.1 --port 4321 &
+          node apps/frontend/scripts/serve.mjs &
           for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:4321/ && break; sleep 1; done
           mkdir -p reports
           cd tests/api
@@ -42,9 +50,9 @@ jobs:
 
       - name: Add the test reports to the site
         run: |
-          mkdir -p dist/qa-report
-          cp -r playwright-report/. dist/qa-report/
-          cp reports/api.html dist/qa-report/api.html
+          mkdir -p apps/frontend/dist/qa-report
+          cp -r playwright-report/. apps/frontend/dist/qa-report/
+          cp reports/api.html apps/frontend/dist/qa-report/api.html
 
       - name: Keep the reports when a test fails
         if: ${{ failure() }}
@@ -59,7 +67,7 @@ jobs:
       - if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: apps/frontend/dist
 
   deploy:
     name: Deploy to GitHub Pages

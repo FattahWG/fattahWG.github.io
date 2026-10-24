@@ -16,12 +16,14 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? `http://127.0.0.1:${PORT}`,
     trace: CI ? 'on-first-retry' : 'retain-on-failure',
     screenshot: 'only-on-failure',
+    locale: 'en-US',
   },
   // Tests run against the production build. Run `npm run build` first.
+  // serve.mjs answers like GitHub Pages: clean URLs and a real 404 status.
   webServer: process.env.BASE_URL
     ? undefined
     : {
-        command: `npx astro preview --host 127.0.0.1 --port ${PORT}`,
+        command: `node apps/frontend/scripts/serve.mjs`,
         url: `http://127.0.0.1:${PORT}`,
         reuseExistingServer: !CI,
         timeout: 60_000,

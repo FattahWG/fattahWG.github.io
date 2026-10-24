@@ -1,10 +1,7 @@
 meta {
-  name: Contact at a clean URL
+  name: Old Contact URL
   type: http
   seq: 5
-  tags: [
-    smoke
-  ]
 }
 
 get {
@@ -21,7 +18,7 @@ tests {
     expect(res.getHeader("content-type")).to.contain("text/html");
   });
   test("TC-HTTP-005: has the expected title", function () {
-    expect(res.getBody()).to.contain("<title>Contact | Fattah Widjaya Gandhi</title>");
+    expect(res.getBody()).to.contain("<title>Contact · Fattah Widjaya Gandhi</title>");
   });
   test("TC-HTTP-005: canonical URL has no .html", function () {
     expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);

@@ -21,9 +21,12 @@ tests {
     expect(res.getHeader("content-type")).to.contain("text/html");
   });
   test("TC-HTTP-001: has the expected title", function () {
-    expect(res.getBody()).to.contain("<title>Fattah Widjaya Gandhi | SQA Engineer</title>");
+    expect(res.getBody()).to.contain("<title>Fattah Widjaya Gandhi · SQA Engineer</title>");
   });
   test("TC-HTTP-001: canonical URL has no .html", function () {
     expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);
+  });
+  test("TC-HTTP-001: the content is in the HTML (prerendered)", function () {
+    expect(res.getBody()).to.contain("Hi, I&#x27;m Fattah.");
   });
 }

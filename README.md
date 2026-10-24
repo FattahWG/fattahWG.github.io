@@ -6,29 +6,57 @@ Personal portfolio of Fattah Widjaya Gandhi: SQA Engineer working on QA automati
 Roblox games at Lawak Studio.
 
 - Live site: https://fattahwg.github.io/
+- QA Lab (run the Lawak Store suite live): https://fattahwg.github.io/lab
 - Latest Playwright report: https://fattahwg.github.io/qa-report/
 - Latest Bruno report: https://fattahwg.github.io/qa-report/api
 
 The site is also the system under test. Every push builds the site, runs the test suites, and deploys only if
 every test passes.
 
+## Structure
+
+| Folder | Contents |
+| --- | --- |
+| `apps/frontend` | React 19 + Vite + Tailwind site. The build prerenders every route to static HTML for GitHub Pages. |
+| `apps/backend` | QA Lab API: a Cloudflare Worker (Hono) with D1 for run data and R2 for screenshots and videos. |
+| `packages/shared` | Profile, experience, projects, and games in English and Indonesian, and the runner data contract. |
+| `tests/e2e`, `tests/api` | Playwright and Bruno suites for this site. |
+
+All text is in `packages/shared/src/profile.ts` and `projects.ts`. UI labels are in `apps/frontend/src/lib/i18n.tsx`.
+The design direction is in [`DESIGN.md`](DESIGN.md).
+
+## QA Lab
+
+The QA Lab runs the Lawak Store UI suite (41 Playwright cases) from
+[Automations-Test-Preset](https://github.com/FattahWG/Automations-Test-Preset) on GitHub Actions, and shows each
+step, log line, screenshot, and video while it runs.
+
+1. A visitor presses **Run** on `/lab`. Cloudflare Turnstile and a rate limit protect the button.
+2. The Worker stores a queued run in D1 and starts `e2e-lawak-store.yml` in the test repo.
+3. The workflow starts the local demo server and runs the suite in Chromium. A cloud reporter sends the events,
+   screenshots, and videos back to the Worker.
+4. The page reads the run every 2 seconds. Old runs stay available for replay for 14 days.
+
+The suite only targets its local demo server. One failure is expected: DEF-001 is planted on purpose.
+Setup steps for Cloudflare and GitHub are in [`docs/QA-LAB-SETUP.md`](docs/QA-LAB-SETUP.md).
+Without the API URL, the Lab shows the last recorded run.
+
 ## Test suite
 
 | Suite | Tool | What it checks |
 | --- | --- | --- |
-| `tests/e2e/smoke.spec.ts` | Playwright | The visitor path from Home to Contact (the same steps as the video on `/experience`) |
-| `tests/e2e/navigation.spec.ts` | Playwright | Clean URLs, the active nav link, the 404 page, the phone menu, the skip link |
-| `tests/e2e/content.spec.ts` | Playwright | Tool and game links, contact links, page metadata, demo video files |
-| `tests/e2e/contact.spec.ts` | Playwright | Copy email to the clipboard |
-| `tests/e2e/quality.spec.ts` | Playwright + axe | WCAG 2.1 A/AA scan on every page, no sideways scroll, touch target size |
-| `tests/api/*.bru` | Bruno CLI | Status codes, content types, titles, and canonical URLs over plain HTTP |
+| `tests/e2e/smoke.spec.ts` | Playwright | The visitor path from Home to the QA Lab and Contact |
+| `tests/e2e/navigation.spec.ts` | Playwright | Clean URLs, old URLs, the 404 page, the menu, the skip link, language and theme switches |
+| `tests/e2e/content.spec.ts` | Playwright | Game and contact links, page metadata, the CV download, CV content, the QA Lab sample run |
+| `tests/e2e/quality.spec.ts` | Playwright + axe | WCAG 2.1 A/AA scan of each page in light and dark, no sideways scroll, touch targets, CSP |
+| `tests/api/*.bru` | Bruno CLI | Status codes, content types, titles, canonical URLs, and prerendered text over plain HTTP |
 
 Every Playwright test runs on two profiles: `desktop` (Desktop Chrome) and `mobile` (Pixel 7). Test names start
 with a test case ID, for example `TC-NAV-003`. Smoke tests have the `@smoke` tag.
 
-The suite follows the rules from my [Automations Test Preset](https://github.com/FattahWG/Automations-Test-Preset):
-a failing test is fixed in the script only when the script is wrong. When the site is wrong, the site gets fixed.
-For example, `TC-NAV-001` caught that the Home link lost its active state after the move to Astro 7.
+A failing test is fixed in the script only when the script is wrong. When the site is wrong, the site gets fixed.
+For example, `TC-A11Y-001` found that the original green failed WCAG contrast in the light theme, so the light
+theme now uses a darker green.
 
 ### Run the tests
 
@@ -36,45 +64,31 @@ For example, `TC-NAV-001` caught that the Home link lost its active state after 
 npm ci
 npx playwright install chromium   # once; locally the config uses Microsoft Edge instead
 npm run build
-npm run test:e2e                  # all Playwright tests
+npm run test:e2e                  # all Playwright tests (starts the local server by itself)
 npm run test:smoke                # smoke tests only
-npx astro preview --port 4321     # in a second terminal, for the Bruno checks
+npm run preview                   # in a second terminal, for the Bruno checks
 npm run test:api                  # Bruno against the local build
 npm run test:api:prod             # Bruno against the live site
 ```
 
-## Site structure
-
-| URL | Source | Content |
-| --- | --- | --- |
-| `/` | `src/pages/index.astro` | Hero over the red spheres, the QA → automation → games path, featured QA work, game tiles |
-| `/about` | `src/pages/about.astro` | About me, how I work, current focus |
-| `/experience` | `src/pages/experience.astro` | SQA role, Studio Director role, demo videos, skills |
-| `/projects` | `src/pages/projects.astro` | Test suites, the automation preset, Roblox games |
-| `/contact` | `src/pages/contact.astro` | Email, LinkedIn, GitHub, TikTok, Roblox, Discord |
-
-- [Astro](https://astro.build) 7 static site. Pages build to `about.html` and so on, which GitHub Pages serves at `/about`.
-- `src/layouts/Base.astro` holds the head, header, and footer. `src/data/site.js` holds all content lists and links.
-- Design direction is in [`DESIGN.md`](DESIGN.md): white and red glass, with glass on the top bar and on one
-  hero card over red glossy spheres. The styles are in `public/assets/style.css`. There is no scroll animation.
-  Visitors who ask for reduced transparency get solid surfaces, and with reduced motion the demo videos wait for a click.
-- Icons: SVG sprite from [Lucide](https://github.com/lucide-icons/lucide) (ISC) and
-  [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0).
-
-## Demo videos
-
-Both videos in `public/assets/video/` are our own recordings, so there is no copyright issue:
-
-- `qa-playwright.*`: the smoke test, recorded in Microsoft Edge through the browser screencast.
-- `studio-loop.*`: an illustrated 12 s loop of the idea-to-playtest process, shown with the four game covers.
-
-## Known issues
-
-`npm audit` reports advisories in dependencies of the Bruno CLI (for example `axios` and `@faker-js/faker`).
-Bruno is a dev tool here. It only sends requests to this site in CI and is not part of the published pages.
-I will update it when a fixed Bruno release is available.
+`npm run preview` serves the build like GitHub Pages: `/lab` from `lab.html`, and a real 404 status for unknown URLs.
 
 ## Deploy
 
-`.github/workflows/deploy.yml` runs on every push to `main`: build, Playwright, Bruno, then publish the site with
-both reports. In the repository settings, **Pages → Source** is **GitHub Actions**.
+| Workflow | Trigger | Job |
+| --- | --- | --- |
+| `deploy.yml` | Push to `main` | Typecheck, build, Playwright, Bruno, then publish the site with both reports to GitHub Pages |
+| `deploy-backend.yml` | Push to `main` in `apps/backend` or `packages/shared` | Apply D1 migrations, then deploy the Worker |
+
+In the repository settings, **Pages → Source** is **GitHub Actions**.
+
+## Credits
+
+The visual theme and the QA Lab design are based on the portfolio of Juliardi Dwi Anggoro (Kei),
+[keianggoro12/kei-portofolio](https://github.com/keianggoro12/kei-portofolio). Icons are from
+[Lucide](https://lucide.dev) (ISC). Fonts are Inter, Space Grotesk, and JetBrains Mono (SIL OFL), served from this site.
+
+## Known issues
+
+`npm audit` reports advisories in dependencies of the Bruno CLI. Bruno is a dev tool here. It only sends requests
+to this site in CI and is not part of the published pages.

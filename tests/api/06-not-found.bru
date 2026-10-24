@@ -15,6 +15,6 @@ tests {
     expect(res.getStatus()).to.equal(404);
   });
   test("TC-HTTP-006: shows the custom 404 page", function () {
-    expect(res.getBody()).to.contain("This page does not exist");
+    expect(res.getBody()).to.contain("Test failed: page not found");
   });
 }

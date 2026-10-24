@@ -1,0 +1,36 @@
+name = "fattahwg-qa-lab"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+[observability]
+enabled = true
+
+[vars]
+# The workflow e2e-lawak-store.yml lives in the test repo, next to the tests.
+GITHUB_REPO = "FattahWG/Automations-Test-Preset"
+GITHUB_REF = "main"
+ALLOWED_ORIGINS = "https://fattahwg.github.io,http://localhost:5173,http://127.0.0.1:4321"
+MAX_RUNS_PER_IP_PER_DAY = "3"
+MAX_PUBLIC_RUNS_PER_DAY = "10"
+# The Turnstile site key is public. Empty: the Run button stays off. Set it after you make the widget.
+TURNSTILE_SITE_KEY = "0x4AAAAAAFkUcpqK5WPIx-GJ"
+
+# Secrets (wrangler secret put <NAME>):
+#   GITHUB_TOKEN          fine-grained PAT, repo Automations-Test-Preset only, Actions: Read and write
+#   TURNSTILE_SECRET_KEY  secret key of the Turnstile widget
+#   RUNNER_TOKEN          shared token with GitHub Actions (secret RUNNER_TOKEN in the test repo)
+#   IP_HASH_SALT          salt for the visitor IP hash
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fattahwg-qa-lab"
+database_id = "a3a1e45c-ca32-4f53-8cf4-8c0df79b5c2f"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "ARTIFACTS"
+bucket_name = "fattahwg-qa-lab-artifacts"
+
+# Stuck-run watchdog and retention.
+[triggers]
+crons = ["*/5 * * * *"]

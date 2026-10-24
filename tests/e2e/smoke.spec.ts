@@ -1,35 +1,35 @@
 import { test, expect } from '@playwright/test';
+import { latestRun } from '../../packages/shared/src/projects';
 import { openNav } from './support';
 
-// The same five steps as the recorded video on the Experience page.
-test('TC-SMK-001 Visitor path from home to contact', { tag: '@smoke' }, async ({ page }) => {
+test('TC-SMK-001 Visitor path from home to the QA Lab and contact', { tag: '@smoke' }, async ({ page }) => {
   await test.step('S01 Open the home page', async () => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Fattah Widjaya Gandhi');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText("Hi, I'm Fattah.");
   });
 
-  await test.step('S02 Navigate to Experience', async () => {
+  await test.step('S02 Go to Experience', async () => {
     await (await openNav(page)).getByRole('link', { name: 'Experience' }).click();
-    await expect(page).toHaveURL(/\/experience$/);
-    await expect(page.getByRole('heading', { level: 1, name: 'Experience' })).toBeVisible();
+    await expect(page).toHaveURL(/\/#experience$/);
+    await expect(page.getByRole('heading', { level: 2, name: 'Where I test' })).toBeInViewport();
   });
 
-  await test.step('S03 Tool chip links to playwright.dev', async () => {
-    const chip = page.locator('.tools').getByRole('link', { name: /^Playwright official site/ });
-    await expect(chip).toHaveAttribute('href', 'https://playwright.dev/');
+  await test.step('S03 Open the Lawak Store case study', async () => {
+    await page.locator('#projects').getByRole('link', { name: 'Read the QA case study' }).click();
+    await expect(page).toHaveURL(/\/projects\/lawak-store$/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Lawak Store');
   });
 
-  await test.step('S04 Projects lists every Roblox game', async () => {
-    await (await openNav(page)).getByRole('link', { name: 'Projects' }).click();
-    await expect(page).toHaveURL(/\/projects$/);
-    await expect(page.getByRole('link', { name: 'Play on Roblox' })).toHaveCount(4);
+  await test.step('S04 Open the QA Lab and see the recorded run', async () => {
+    await (await openNav(page)).getByRole('link', { name: 'QA Lab' }).click();
+    await expect(page).toHaveURL(/\/lab$/);
+    await expect(page.getByText(`40/${latestRun.tests.length} passed`)).toBeVisible();
   });
 
-  await test.step('S05 Copy email on Contact', async () => {
-    await (await openNav(page)).getByRole('link', { name: 'Contact' }).click();
-    await expect(page).toHaveURL(/\/contact$/);
-    await page.getByRole('button', { name: 'Copy email' }).click();
-    await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
+  await test.step('S05 Copy the email address', async () => {
+    await page.goto('/#contact');
+    await page.getByTestId('copy-email').click();
+    await expect(page.getByTestId('copy-email')).toHaveText('Copied!');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('off.fattah@gmail.com');
   });
 });

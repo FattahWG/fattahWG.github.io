@@ -1,0 +1,21 @@
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/space-grotesk';
+import { StrictMode } from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
+
+const root = document.getElementById('root')!;
+const app = (
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);
+
+// Pages from the build are prerendered: attach to that HTML. The dev server sends an empty root.
+if (root.firstElementChild) hydrateRoot(root, app);
+else createRoot(root).render(app);

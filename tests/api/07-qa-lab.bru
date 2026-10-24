@@ -1,0 +1,32 @@
+meta {
+  name: QA Lab page
+  type: http
+  seq: 7
+  tags: [
+    smoke
+  ]
+}
+
+get {
+  url: {{baseURL}}/lab
+  body: none
+  auth: none
+}
+
+tests {
+  test("TC-HTTP-007: returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("TC-HTTP-007: is an HTML page", function () {
+    expect(res.getHeader("content-type")).to.contain("text/html");
+  });
+  test("TC-HTTP-007: has the expected title", function () {
+    expect(res.getBody()).to.contain("<title>QA Lab · Fattah Widjaya Gandhi</title>");
+  });
+  test("TC-HTTP-007: canonical URL has no .html", function () {
+    expect(res.getBody()).to.not.match(/rel="canonical" href="[^"]*\.html"/);
+  });
+  test("TC-HTTP-007: the recorded run is in the HTML", function () {
+    expect(res.getBody()).to.contain("TC-CHK-006");
+  });
+}
