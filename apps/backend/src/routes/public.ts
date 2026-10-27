@@ -2,6 +2,7 @@ import { RUNNABLE_PROJECTS, type RunnableProject } from '@fattah/shared';
 import { Hono } from 'hono';
 import { getActiveRunId, getLogs, getRunDetail, listRuns } from '../db';
 import type { AppEnv } from '../env';
+import { parseChoice } from '../choice';
 import { logVisitorRun } from '../discord';
 import { dispatchWorkflow } from '../github';
 import { newId, nowIso, sha256Hex, startOfUtcDay } from '../lib';
@@ -44,9 +45,11 @@ publicRoutes.get('/runs/:id/logs', async (c) => {
 });
 
 publicRoutes.post('/runs', async (c) => {
-  const body = (await c.req.json().catch(() => null)) as { project?: unknown; turnstileToken?: unknown } | null;
+  const body = (await c.req.json().catch(() => null)) as { project?: unknown; turnstileToken?: unknown; suite?: unknown; cases?: unknown } | null;
   const project = body?.project;
   if (!isRunnable(project)) return c.json({ error: 'unknown_project' }, 400);
+  const choice = parseChoice(body?.suite, body?.cases);
+  if (!choice) return c.json({ error: 'invalid_choice' }, 400);
   if (!runnerEnabled(c.env)) return c.json({ error: 'runner_disabled' }, 503);
 
   // A run is active: join it as a viewer, do not start a new run.
@@ -79,9 +82,9 @@ publicRoutes.post('/runs', async (c) => {
   const runId = newId();
   try {
     await c.env.DB.prepare(
-      "INSERT INTO runs (id, project, trigger, status, created_at, requester_hash) VALUES (?, ?, 'visitor', 'queued', ?, ?)"
+      "INSERT INTO runs (id, project, suite, cases, trigger, status, created_at, requester_hash) VALUES (?, ?, ?, ?, 'visitor', 'queued', ?, ?)"
     )
-      .bind(runId, project, nowIso(), requesterHash)
+      .bind(runId, project, choice.suite, choice.cases.join(','), nowIso(), requesterHash)
       .run();
   } catch {
     // The one-active-run index stopped us: another request just made a run.
@@ -91,7 +94,7 @@ publicRoutes.post('/runs', async (c) => {
   }
 
   try {
-    await dispatchWorkflow(c.env, project, runId);
+    await dispatchWorkflow(c.env, project, runId, choice.inputs);
   } catch (err) {
     console.error((err as Error).message);
     // The run never started: delete it, so it is not in the history and does not use the visitor quota.
@@ -99,7 +102,7 @@ publicRoutes.post('/runs', async (c) => {
     return c.json({ error: 'dispatch_failed' }, 502);
   }
 
-  c.executionCtx.waitUntil(logVisitorRun(c.env, { runId, project, visitor: requesterHash.slice(0, 8) }));
+  c.executionCtx.waitUntil(logVisitorRun(c.env, { runId, project, visitor: requesterHash.slice(0, 8), suite: choice.suite, caseCount: choice.cases.length }));
   return c.json({ runId, joined: false }, 201);
 });
 
@@ -117,8 +120,16 @@ publicRoutes.get('/artifacts/*', async (c) => {
   object.writeHttpMetadata(headers);
   headers.set('etag', object.httpEtag);
   headers.set('accept-ranges', 'bytes');
-  // Keys are unique per run and never change after the run ends.
-  headers.set('cache-control', 'public, max-age=86400');
+  if (key.endsWith('/live.jpg')) {
+    // The live frame changes every 2 seconds: never cache it.
+    headers.set('cache-control', 'no-store');
+  } else {
+    // Other keys are unique per run and never change after the run ends.
+    headers.set('cache-control', 'public, max-age=86400');
+  }
+  if (key.endsWith('/evidence.docx')) {
+    headers.set('content-disposition', `attachment; filename="QA-Lab-Evidence-${key.split('/')[1].slice(0, 8)}.docx"`);
+  }
 
   const range = object.range as { offset?: number; length?: number; suffix?: number } | undefined;
   if (hasRange && range) {

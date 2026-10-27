@@ -1,7 +1,7 @@
 import type { Env } from './env';
 
-/** Start the workflow e2e-<project>.yml in the test repo with the input run_id. */
-export async function dispatchWorkflow(env: Env, project: string, runId: string): Promise<void> {
+/** Start the workflow e2e-<project>.yml in the test repo with the input run_id and the visitor's choice. */
+export async function dispatchWorkflow(env: Env, project: string, runId: string, choice: Record<string, string>): Promise<void> {
   const url = `https://api.github.com/repos/${env.GITHUB_REPO}/actions/workflows/e2e-${project}.yml/dispatches`;
   const response = await fetch(url, {
     method: 'POST',
@@ -12,7 +12,7 @@ export async function dispatchWorkflow(env: Env, project: string, runId: string)
       'User-Agent': 'fattahwg-qa-lab',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ ref: env.GITHUB_REF, inputs: { run_id: runId } }),
+    body: JSON.stringify({ ref: env.GITHUB_REF, inputs: { run_id: runId, ...choice } }),
   });
   if (!response.ok) {
     // The GitHub response body holds no token, so it is safe to log.

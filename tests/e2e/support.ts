@@ -29,3 +29,8 @@ export async function openNav(page: Page) {
   }
   return page.getByRole('navigation', { name: 'Main' });
 }
+
+/** The QA Lab shows the recorded sample run only when the live history is empty. Tests must not depend on live runs. */
+export async function emptyRunHistory(page: Page): Promise<void> {
+  await page.route(/\/api\/runs\?/, (route) => route.fulfill({ json: { runs: [] } }));
+}

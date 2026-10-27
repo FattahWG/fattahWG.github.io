@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { education, experiences, profile } from '../../packages/shared/src/profile';
 import { games, latestRun, links } from '../../packages/shared/src/projects';
-import { PAGES } from './support';
+import { emptyRunHistory, PAGES } from './support';
 
 test.describe('Content and links', () => {
   test('TC-CNT-002 Every game card links to its own Roblox game page', async ({ page }) => {
@@ -91,6 +91,7 @@ test.describe('Content and links', () => {
   });
 
   test('TC-CNT-010 The QA Lab shows the recorded run and names the planted defect', { tag: '@smoke' }, async ({ page }) => {
+    await emptyRunHistory(page);
     await page.goto('/lab');
     const failed = latestRun.tests.filter((t) => t.status === 'failed');
     await expect(page.getByText(`${latestRun.tests.length - failed.length}/${latestRun.tests.length} passed`)).toBeVisible();

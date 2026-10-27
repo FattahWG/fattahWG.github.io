@@ -1,4 +1,4 @@
-import type { RunDetail, RunLog, RunStatus, RunSummary } from '@fattah/shared';
+import type { RunDetail, RunLog, RunStatus, RunSuite, RunSummary } from '@fattah/shared';
 import { useEffect, useState } from 'react';
 import { API_URL } from './config';
 
@@ -29,8 +29,8 @@ export const api = {
   runs: (project: string) => request<{ runs: RunSummary[] }>(`/runs?project=${project}&limit=20`).then((r) => r.runs),
   run: (id: string) => request<{ run: RunDetail }>(`/runs/${encodeURIComponent(id)}`).then((r) => r.run),
   logs: (id: string, after: number) => request<{ logs: RunLog[] }>(`/runs/${encodeURIComponent(id)}/logs?after=${after}`).then((r) => r.logs),
-  createRun: (project: string, turnstileToken: string) =>
-    request<{ runId: string; joined: boolean }>('/runs', { method: 'POST', body: JSON.stringify({ project, turnstileToken }) }),
+  createRun: (project: string, turnstileToken: string, suite: RunSuite, cases: string[]) =>
+    request<{ runId: string; joined: boolean }>('/runs', { method: 'POST', body: JSON.stringify({ project, turnstileToken, suite, cases }) }),
 };
 
 export function artifactUrl(key: string): string {

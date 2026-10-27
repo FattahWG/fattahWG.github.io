@@ -1,4 +1,4 @@
-import { projects, type RunSummary } from '@fattah/shared';
+import { LAB_CASES, LAB_MODULES, projects, RUN_SUITES, type LabCase, type RunSuite, type RunSummary } from '@fattah/shared';
 import { Activity, Cloud, Loader2, MousePointerClick, Play, Server } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,9 +9,99 @@ import { Turnstile } from '@/components/Turnstile';
 import { api, ApiError, isActive, runUrl, useLabConfig } from '@/lib/api';
 import { API_URL } from '@/lib/config';
 import { useLang } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
 
 const PROJECT = 'lawak-store';
 const FLOW_ICONS = [MousePointerClick, Server, Cloud, Activity];
+const UI_CASES = LAB_CASES.filter((c) => c.kind === 'ui');
+
+function casesFor(suite: RunSuite, modules: Set<string>, picked: Set<string>): LabCase[] {
+  if (suite === 'api') return LAB_CASES.filter((c) => c.kind === 'api');
+  if (suite === 'smoke') return UI_CASES.filter((c) => c.smoke);
+  if (suite === 'regression') return UI_CASES;
+  return UI_CASES.filter((c) => modules.has(c.module) && picked.has(c.id));
+}
+
+const chip = (on: boolean) =>
+  cn('min-h-10 rounded-full border px-4 py-2 text-sm transition', on ? 'border-emerald-400 bg-emerald-400/15 text-white' : 'border-white/15 text-white/70 hover:border-white/40 hover:text-white');
+
+/** Suite, then modules, then test cases. The backend checks the same list again. */
+function RunPicker({ suite, setSuite, modules, setModules, picked, setPicked }: {
+  suite: RunSuite;
+  setSuite: (s: RunSuite) => void;
+  modules: Set<string>;
+  setModules: (m: Set<string>) => void;
+  picked: Set<string>;
+  setPicked: (p: Set<string>) => void;
+}) {
+  const { ui, lang } = useLang();
+  const toggle = (set: Set<string>, value: string) => {
+    const next = new Set(set);
+    if (next.has(value)) next.delete(value);
+    else next.add(value);
+    return next;
+  };
+  const visible = UI_CASES.filter((c) => modules.has(c.module));
+
+  return (
+    <div className="space-y-5">
+      <fieldset>
+        <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.suiteLabel}</legend>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {RUN_SUITES.map((s) => (
+            <button key={s} type="button" aria-pressed={suite === s} onClick={() => setSuite(s)} className={chip(suite === s)}>
+              {ui.runner.suites[s]}
+              <span className="ml-2 font-mono text-xs text-white/50">{casesFor(s, new Set(LAB_MODULES.map((m) => m.code)), new Set(UI_CASES.map((c) => c.id))).length}</span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-sm text-white/60">{ui.runner.suiteHints[suite]}</p>
+      </fieldset>
+
+      {suite === 'custom' && (
+        <>
+          <fieldset>
+            <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.modulesLabel}</legend>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {LAB_MODULES.map((m) => (
+                <button key={m.code} type="button" aria-pressed={modules.has(m.code)} onClick={() => setModules(toggle(modules, m.code))} className={chip(modules.has(m.code))}>
+                  {m.name[lang]}
+                  <span className="ml-2 font-mono text-xs text-white/50">{UI_CASES.filter((c) => c.module === m.code).length}</span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.casesLabel}</legend>
+            <div className="mt-1 flex flex-wrap items-center justify-end gap-2">
+              <div className="flex gap-2">
+                <button type="button" onClick={() => setPicked(new Set([...picked, ...visible.map((c) => c.id)]))} className="min-h-10 rounded-full px-3 text-sm text-emerald-300 hover:text-emerald-200">
+                  {ui.runner.selectAll}
+                </button>
+                <button type="button" onClick={() => setPicked(new Set([...picked].filter((id) => !visible.some((c) => c.id === id))))} className="min-h-10 rounded-full px-3 text-sm text-white/60 hover:text-white">
+                  {ui.runner.clear}
+                </button>
+              </div>
+            </div>
+            <ul className="mt-3 grid max-h-72 gap-1 overflow-y-auto rounded-2xl border border-white/10 p-2 sm:grid-cols-2">
+              {visible.map((c) => (
+                <li key={c.id}>
+                  <label className="flex min-h-10 cursor-pointer items-start gap-3 rounded-xl px-2 py-2 hover:bg-white/5">
+                    <input type="checkbox" checked={picked.has(c.id)} onChange={() => setPicked(toggle(picked, c.id))} className="mt-1 h-4 w-4 shrink-0 accent-emerald-400" />
+                    <span className="min-w-0 text-sm">
+                      <span className="block font-mono text-[11px] text-white/55">{c.id}</span>
+                      <span className="block text-white/85">{c.title}</span>
+                    </span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+        </>
+      )}
+    </div>
+  );
+}
 
 function RunPanel({ runs }: { runs: RunSummary[] | null }) {
   const { ui } = useLang();
@@ -21,14 +111,18 @@ function RunPanel({ runs }: { runs: RunSummary[] | null }) {
   const [resetKey, setResetKey] = useState(0);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [suite, setSuite] = useState<RunSuite>('smoke');
+  const [modules, setModules] = useState(() => new Set(LAB_MODULES.map((m) => m.code)));
+  const [picked, setPicked] = useState(() => new Set(UI_CASES.map((c) => c.id)));
   const active = runs?.find((run) => isActive(run.status));
+  const chosen = casesFor(suite, modules, picked);
 
   const start = async () => {
-    if (!token) return;
+    if (!token || !chosen.length) return;
     setPending(true);
     setError(null);
     try {
-      const { runId } = await api.createRun(PROJECT, token);
+      const { runId } = await api.createRun(PROJECT, token, suite, suite === 'custom' ? chosen.map((c) => c.id) : []);
       navigate(runUrl(runId));
     } catch (err) {
       const code = err instanceof ApiError ? err.code : 'generic';
@@ -65,14 +159,15 @@ function RunPanel({ runs }: { runs: RunSummary[] | null }) {
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-        <button type="button" onClick={start} disabled={!token || pending} className="btn bg-emerald-400 px-6 text-base text-ink hover:-translate-y-0.5 hover:bg-emerald-300">
+      <RunPicker suite={suite} setSuite={setSuite} modules={modules} setModules={setModules} picked={picked} setPicked={setPicked} />
+      <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:flex-wrap sm:items-center">
+        <button type="button" onClick={start} disabled={!token || pending || !chosen.length} className="btn bg-emerald-400 px-6 text-base text-ink hover:-translate-y-0.5 hover:bg-emerald-300">
           {pending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Play className="h-5 w-5" />}
-          {pending ? ui.runner.starting : ui.runner.run}
+          {pending ? ui.runner.starting : `${ui.runner.run} ${chosen.length} ${ui.runner.cases}`}
         </button>
         <Turnstile siteKey={config.turnstileSiteKey} onToken={setToken} resetKey={resetKey} />
       </div>
-      <p className="mt-3 text-sm text-white/65">{token ? ui.runner.note : ui.runner.verify}</p>
+      <p className="mt-3 text-sm text-white/65">{!chosen.length ? ui.runner.pickOne : token ? ui.runner.note : ui.runner.verify}</p>
       {error && (
         <p role="alert" className="mt-3 rounded-xl bg-red-400/10 px-3 py-2 text-sm text-red-300">
           {error}
@@ -94,7 +189,10 @@ function RunHistory({ runs }: { runs: RunSummary[] }) {
             <Link to={runUrl(run.id)} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3 transition hover:bg-white/[0.04]">
               <RunStatusBadge status={run.status} />
               <span className="min-w-[9rem] flex-1 text-sm text-white/85">{dateFormat.format(new Date(run.createdAt))}</span>
-              <span className="font-mono text-xs text-white/60">{ui.runner.trigger[run.trigger]}</span>
+              <span className="font-mono text-xs text-white/60">
+                {ui.runner.trigger[run.trigger]}
+                {run.suite in ui.runner.suites ? ` · ${ui.runner.suites[run.suite as RunSuite]}` : ''}
+              </span>
               <span className="w-16 text-right font-mono text-xs text-white/75">{run.total ? `${run.passed}/${run.total}` : '–'}</span>
               <span className="w-16 text-right font-mono text-xs text-white/60">{formatMs(run.durationMs)}</span>
             </Link>

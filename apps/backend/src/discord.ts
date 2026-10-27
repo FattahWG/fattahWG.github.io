@@ -8,6 +8,8 @@ export interface RunLogInfo {
   project: string;
   /** First characters of the salted IP hash: the same visitor shows the same tag, the IP stays private. */
   visitor?: string | null;
+  suite?: string | null;
+  caseCount?: number;
   status?: 'passed' | 'failed' | 'cancelled';
   passed?: number;
   failed?: number;
@@ -23,6 +25,7 @@ export async function logVisitorRun(env: Env, info: RunLogInfo): Promise<void> {
     { name: 'Project', value: info.project, inline: true },
   ];
   if (info.visitor) fields.push({ name: 'Visitor', value: info.visitor, inline: true });
+  if (info.suite) fields.push({ name: 'Suite', value: `${info.suite}${info.caseCount ? ` (${info.caseCount} cases)` : ''}`, inline: true });
   if (info.status) {
     fields.push(
       { name: 'Result', value: `${info.passed ?? 0} passed, ${info.failed ?? 0} failed, ${info.skipped ?? 0} skipped`, inline: true },

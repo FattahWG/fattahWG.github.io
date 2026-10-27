@@ -37,6 +37,10 @@ export type RunnerEvent =
 export interface RunSummary {
   id: string;
   project: string;
+  /** smoke, regression, custom or api; 'full' for runs made before the picker. */
+  suite: string;
+  /** R2 key of the Word evidence document, when the runner uploaded one. */
+  reportKey: string | null;
   trigger: RunTrigger;
   status: RunStatus;
   githubRunUrl: string | null;

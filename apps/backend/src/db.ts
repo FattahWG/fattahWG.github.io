@@ -3,6 +3,8 @@ import type { RunDetail, RunLog, RunStatus, RunSummary, RunTest, RunTrigger, Tes
 interface RunRow {
   id: string;
   project: string;
+  suite: string;
+  report_key: string | null;
   trigger: string;
   status: string;
   github_run_url: string | null;
@@ -37,12 +39,14 @@ interface StepRow {
 }
 
 const RUN_COLUMNS =
-  'id, project, trigger, status, github_run_url, created_at, started_at, finished_at, total, passed, failed, skipped, duration_ms';
+  'id, project, suite, report_key, trigger, status, github_run_url, created_at, started_at, finished_at, total, passed, failed, skipped, duration_ms';
 
 function toSummary(row: RunRow): RunSummary {
   return {
     id: row.id,
     project: row.project,
+    suite: row.suite,
+    reportKey: row.report_key,
     trigger: row.trigger as RunTrigger,
     status: row.status as RunStatus,
     githubRunUrl: row.github_run_url,

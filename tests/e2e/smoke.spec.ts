@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { latestRun } from '../../packages/shared/src/projects';
-import { openNav } from './support';
+import { emptyRunHistory, openNav } from './support';
 
 test('TC-SMK-001 Visitor path from home to the QA Lab and contact', { tag: '@smoke' }, async ({ page }) => {
+  await emptyRunHistory(page);
   await test.step('S01 Open the home page', async () => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText("Hi, I'm Fattah.");

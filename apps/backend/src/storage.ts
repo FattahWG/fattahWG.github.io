@@ -39,6 +39,15 @@ export async function uploadBlock(env: Env, size: number): Promise<StorageBlock 
   return null;
 }
 
+/** Delete files from R2 and their rows. A delete is free in R2. */
+export async function deleteArtifacts(env: Env, keys: string[]): Promise<void> {
+  for (let i = 0; i < keys.length; i += 1000) {
+    const batch = keys.slice(i, i + 1000);
+    await env.ARTIFACTS.delete(batch);
+    await env.DB.batch(batch.map((key) => env.DB.prepare('DELETE FROM artifacts WHERE key = ?').bind(key)));
+  }
+}
+
 /** Record the file before the put: a failed put only over-counts until the retention cron deletes the row. */
 export async function recordUpload(db: D1Database, key: string, runId: string, size: number): Promise<void> {
   await db.batch([

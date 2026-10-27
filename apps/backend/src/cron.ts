@@ -1,10 +1,12 @@
 import type { Env } from './env';
 import { isoMinutesAgo, nowIso } from './lib';
+import { deleteArtifacts } from './storage';
 
 const QUEUED_TIMEOUT_MIN = 15;
 const RUNNING_IDLE_TIMEOUT_MIN = 30;
 const RETENTION_DAYS = 14;
 const RETENTION_BATCH = 10;
+const SHOT_RETENTION_HOURS = 24;
 
 /** Stuck runs become expired. Then delete runs older than the retention time, except pinned runs. */
 export async function runScheduled(env: Env): Promise<void> {
@@ -15,6 +17,18 @@ export async function runScheduled(env: Env): Promise<void> {
   )
     .bind(nowIso(), isoMinutesAgo(QUEUED_TIMEOUT_MIN), isoMinutesAgo(RUNNING_IDLE_TIMEOUT_MIN))
     .run();
+
+  // Failed-step screenshots stay 1 day. A live frame stays only while its run is active.
+  // The Word evidence document stays with its run (RETENTION_DAYS).
+  const { results: old } = await env.DB.prepare(
+    `SELECT a.key FROM artifacts a LEFT JOIN runs r ON r.id = a.run_id
+     WHERE a.key NOT LIKE '%/evidence.docx'
+       AND (a.created_at < ? OR (a.key LIKE '%/live.jpg' AND COALESCE(r.status, 'expired') NOT IN ('queued', 'running')))
+     LIMIT 500`
+  )
+    .bind(isoMinutesAgo(SHOT_RETENTION_HOURS * 60))
+    .all<{ key: string }>();
+  if (old.length) await deleteArtifacts(env, old.map((row) => row.key));
 
   const { results } = await env.DB.prepare('SELECT id FROM runs WHERE created_at < ? AND pinned = 0 LIMIT ?')
     .bind(isoMinutesAgo(RETENTION_DAYS * 24 * 60), RETENTION_BATCH)

@@ -1,5 +1,5 @@
-import type { RunDetail, RunLog, RunTest } from '@fattah/shared';
-import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink, Loader2 } from 'lucide-react';
+import type { RunDetail, RunLog, RunSuite, RunTest } from '@fattah/shared';
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, ExternalLink, Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { formatMs, RunStatusBadge, TestStatusIcon } from '@/components/RunStatusBadge';
@@ -8,7 +8,40 @@ import { useLang } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 const POLL_MS = 2000;
-type Tab = 'steps' | 'video' | 'log' | 'report';
+type Tab = 'live' | 'steps' | 'log' | 'report';
+
+/** The runner replaces one JPEG every 2 seconds while the run is active. Load it again on the same beat. */
+function LivePane({ run }: { run: RunDetail }) {
+  const { ui } = useLang();
+  const live = isActive(run.status);
+  const [tick, setTick] = useState(0);
+  const [missing, setMissing] = useState(true);
+  useEffect(() => {
+    if (!live) return;
+    const timer = window.setInterval(() => setTick((t) => t + 1), POLL_MS);
+    return () => window.clearInterval(timer);
+  }, [live]);
+
+  if (run.suite === 'api') return <Empty text={ui.runner.liveApi} />;
+  if (!live) return <Empty text={ui.runner.liveEnded} />;
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-black">
+      {/* Keep the last good frame on screen: a new frame replaces it only after it loaded. */}
+      <img
+        src={`${artifactUrl(`runs/${run.id}/live.jpg`)}?t=${tick}`}
+        alt=""
+        onLoad={() => setMissing(false)}
+        onError={() => setMissing(true)}
+        className={cn('aspect-video w-full object-contain object-top', missing && 'hidden')}
+      />
+      {missing && <Empty text={ui.runner.liveWaiting} />}
+      <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 font-mono text-[11px] font-bold text-white">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+        {ui.runner.liveBadge}
+      </span>
+    </div>
+  );
+}
 
 /** Read the run and its new log lines every 2 seconds while the run is active. */
 function useLiveRun(runId: string) {
@@ -193,7 +226,7 @@ export default function RunView() {
   const { ui } = useLang();
   const { run, logs, missing } = useLiveRun(runId);
   const elapsed = useElapsed(run);
-  const [tab, setTab] = useState<Tab>('steps');
+  const [tab, setTab] = useState<Tab | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
 
   if (missing) {
@@ -210,7 +243,9 @@ export default function RunView() {
   const live = run ? isActive(run.status) : false;
   // No visitor choice: follow the running test, else the last one.
   const selected = run?.tests.find((t) => t.id === picked) ?? run?.tests.find((t) => t.status === 'running') ?? run?.tests.at(-1) ?? null;
-  const tabs: Tab[] = ['steps', 'video', 'log', 'report'];
+  const tabs: Tab[] = ['live', 'steps', 'log', 'report'];
+  // No visitor choice: a live UI run opens on Live, a live API run on Log, an ended run on Report.
+  const shown: Tab = tab ?? (live ? (run?.suite === 'api' ? 'log' : 'live') : 'report');
 
   return (
     <div className="min-h-screen bg-ink pb-24 pt-24 text-white">
@@ -222,7 +257,10 @@ export default function RunView() {
 
         <header className="mt-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-white/60">lawak-store / chromium · {run ? ui.runner.trigger[run.trigger] : '…'}</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-white/60">
+              lawak-store / {run?.suite === 'api' ? 'bruno' : 'chromium'} · {run ? ui.runner.trigger[run.trigger] : '…'}
+              {run && run.suite in ui.runner.suites ? ` · ${ui.runner.suites[run.suite as RunSuite]}` : ''}
+            </p>
             <h1 className="mt-2 font-display text-3xl font-bold sm:text-4xl">Run {runId.slice(0, 8)}</h1>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -235,6 +273,12 @@ export default function RunView() {
             <span className="font-mono text-sm text-white/60">
               {ui.runner.elapsed} {formatMs(elapsed)}
             </span>
+            {run?.reportKey && (
+              <a href={artifactUrl(run.reportKey)} download className="btn min-h-10 bg-white/10 text-sm text-white hover:bg-white/20">
+                <Download className="h-4 w-4" />
+                {ui.runner.evidence}
+              </a>
+            )}
             {run?.githubRunUrl && (
               <a href={run.githubRunUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-emerald-300 hover:text-emerald-200">
                 {ui.runner.github} <ExternalLink className="h-3.5 w-3.5" />
@@ -283,20 +327,15 @@ export default function RunView() {
           <section className="min-w-0 rounded-3xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
             <div className="mb-4 flex gap-1 overflow-x-auto rounded-full bg-white/5 p-1" role="tablist">
               {tabs.map((key) => (
-                <button key={key} type="button" role="tab" aria-selected={tab === key} onClick={() => setTab(key)} className={cn('flex-1 rounded-full px-4 py-2 text-sm font-medium transition', tab === key ? 'bg-white text-ink' : 'text-white/60 hover:text-white')}>
+                <button key={key} type="button" role="tab" aria-selected={shown === key} onClick={() => setTab(key)} className={cn('flex-1 rounded-full px-4 py-2 text-sm font-medium transition', shown === key ? 'bg-white text-ink' : 'text-white/60 hover:text-white')}>
                   {ui.runner.tabs[key]}
                 </button>
               ))}
             </div>
-            {tab === 'steps' && (selected ? <StepsPane test={selected} live={live && selected.status === 'running'} /> : <Empty text={ui.runner.noSteps} />)}
-            {tab === 'video' &&
-              (selected?.videoKey ? (
-                <video key={selected.videoKey} src={artifactUrl(selected.videoKey)} controls playsInline className="aspect-video w-full rounded-2xl bg-black" />
-              ) : (
-                <Empty text={ui.runner.noVideo} />
-              ))}
-            {tab === 'log' && <LogPane logs={logs} />}
-            {tab === 'report' && run && <ReportPane run={run} />}
+            {shown === 'live' && run && <LivePane run={run} />}
+            {shown === 'steps' && (selected ? <StepsPane test={selected} live={live && selected.status === 'running'} /> : <Empty text={ui.runner.noSteps} />)}
+            {shown === 'log' && <LogPane logs={logs} />}
+            {shown === 'report' && run && <ReportPane run={run} />}
           </section>
         </div>
       </div>

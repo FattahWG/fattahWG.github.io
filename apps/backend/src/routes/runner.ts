@@ -2,8 +2,8 @@ import { RUNNABLE_PROJECTS, artifactPrefix, type RunnerEvent } from '@fattah/sha
 import { Hono } from 'hono';
 import { logVisitorRun } from '../discord';
 import type { AppEnv } from '../env';
-import { clip, newId, nowIso, safeEqual } from '../lib';
-import { newRunBlock, recordUpload, uploadBlock } from '../storage';
+import { clip, isoMinutesAgo, newId, nowIso, safeEqual } from '../lib';
+import { deleteArtifacts, newRunBlock, recordUpload, uploadBlock } from '../storage';
 
 // Endpoints for GitHub Actions only. The runner has no Cloudflare credentials:
 // every write to D1 and R2 goes through here.
@@ -134,17 +134,21 @@ runnerRoutes.post('/events', async (c) => {
 
   const finished = events.find((event) => event.type === 'run.finished');
   if (finished) {
+    // The live view ends with the run: remove its frame.
+    c.executionCtx.waitUntil(deleteArtifacts(c.env, [`${artifactPrefix(runId)}live.jpg`]));
     const run = await c.env.DB.prepare(
-      "SELECT project, requester_hash, status, passed, failed, skipped, duration_ms FROM runs WHERE id = ? AND trigger = 'visitor'"
+      "SELECT project, suite, cases, requester_hash, status, passed, failed, skipped, duration_ms FROM runs WHERE id = ? AND trigger = 'visitor'"
     )
       .bind(runId)
-      .first<{ project: string; requester_hash: string | null; status: string; passed: number; failed: number; skipped: number; duration_ms: number | null }>();
+      .first<{ project: string; suite: string; cases: string | null; requester_hash: string | null; status: string; passed: number; failed: number; skipped: number; duration_ms: number | null }>();
     if (run && ['passed', 'failed', 'cancelled'].includes(run.status)) {
       c.executionCtx.waitUntil(
         logVisitorRun(c.env, {
           runId,
           project: run.project,
           visitor: run.requester_hash?.slice(0, 8),
+          suite: run.suite,
+          caseCount: run.cases ? run.cases.split(',').length : undefined,
           status: run.status as 'passed' | 'failed' | 'cancelled',
           passed: run.passed,
           failed: run.failed,
@@ -163,7 +167,12 @@ runnerRoutes.put('/artifacts/*', async (c) => {
   if (!match || key.includes('..') || !key.startsWith(artifactPrefix(match[1]))) {
     return c.json({ error: 'invalid_key' }, 400);
   }
-  if (!(await activeRun(c.env.DB, match[1]))) return c.json({ error: 'run_not_active' }, 409);
+  // The Word evidence document is built after the tests, so it can come up to an hour after the run ended.
+  const evidence = key === `${artifactPrefix(match[1])}evidence.docx`;
+  const open = evidence
+    ? await c.env.DB.prepare('SELECT 1 AS ok FROM runs WHERE id = ? AND (finished_at IS NULL OR finished_at > ?)').bind(match[1], isoMinutesAgo(60)).first()
+    : await activeRun(c.env.DB, match[1]);
+  if (!open) return c.json({ error: 'run_not_active' }, 409);
   const size = Number(c.req.header('content-length') ?? 0);
   if (!size || size > MAX_ARTIFACT_BYTES) return c.json({ error: 'invalid_size' }, 413);
   const storageBlock = await uploadBlock(c.env, size);
@@ -173,5 +182,6 @@ runnerRoutes.put('/artifacts/*', async (c) => {
   await c.env.ARTIFACTS.put(key, c.req.raw.body, {
     httpMetadata: { contentType: c.req.header('content-type') ?? 'application/octet-stream' },
   });
+  if (evidence) await c.env.DB.prepare('UPDATE runs SET report_key = ? WHERE id = ?').bind(key, match[1]).run();
   return c.json({ ok: true, key }, 201);
 });

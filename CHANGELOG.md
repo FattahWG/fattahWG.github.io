@@ -2,6 +2,31 @@
 
 Every push adds a dated entry below, newest first: what changed, where, and why.
 
+## 2026-10-28: QA Lab picker, live view and Word evidence
+
+### What
+
+- On `/lab`, a visitor picks a suite: Smoke (13 UI cases), Regression (41), Custom, or API (9 Bruno cases). Custom lets the visitor pick modules, then test cases. The Run button shows the number of cases.
+- The backend accepts only case IDs from the shared list, never free text, and sends the choice to the workflow.
+- The run page has a Live tab: the browser frame updates every 2 seconds while the run is active. An API run opens on the Log tab. The Video tab is gone.
+- Each run has a "Download Word evidence" button when the runner uploaded the document.
+- Storage: the live frame is deleted when the run ends, failed-step screenshots after 1 day, the Word document with its run after 14 days.
+- The Discord run log shows the suite and the number of cases.
+- TC-CNT-010 and TC-SMK-001 use an empty run history, so live runs cannot change their result.
+
+### Where
+
+- `packages/shared/src/lawakCases.ts`: the case list, copied from the test repo catalog. `runner.ts`: `suite` and `reportKey` on a run.
+- `apps/backend/src/choice.ts`: the choice check. `routes/public.ts`, `routes/runner.ts`, `github.ts`, `cron.ts`, `storage.ts`, `discord.ts`, `db.ts`.
+- `apps/backend/migrations/0003_run_choice.sql`: columns `cases` and `report_key`.
+- `apps/frontend/src/pages/Lab.tsx` (picker), `RunView.tsx` (Live tab, Word download), `lib/api.ts`, `lib/i18n.tsx`.
+- `tests/e2e/support.ts`: `emptyRunHistory`.
+
+### Why
+
+- Visitors can choose what to test, like in a real QA team, and keep a Word record of the run.
+- The live view replaces videos, so R2 keeps almost nothing.
+
 ## 2026-10-28: R2 free tier guard and a shorter tools list
 
 ### What
