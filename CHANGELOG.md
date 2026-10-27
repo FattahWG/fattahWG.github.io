@@ -9,6 +9,7 @@ Every push adds a dated entry below, newest first: what changed, where, and why.
 - The QA Lab stops before it goes over the R2 free tier (10 GB-month, 1 million Class A operations a month). For safety, the bucket stays at half of the storage limit. No new run starts at 4 GB stored or at 900,000 writes this month. No upload can take the bucket over 5 GB. Visitors see a clear message in English and Indonesian.
 - The retention job deletes files by the keys in D1. It does not list the bucket, because a list is a Class A operation.
 - One "QA Tools" group replaces the four tool groups: Python, Playwright, Bruno API, Swagger UI, Google Docs, Jira. The hero shows the same six tools. "Performance testing" moved to the Testing group.
+- The QA Lab is live on `https://fattahwg-qa-lab.off-fattah.workers.dev`. TC-SEC-001 no longer waits for a quiet network, because the QA Lab polls the API. It ignores errors inside the Turnstile frame, because Turnstile refuses the headless browser.
 
 ### Where
 

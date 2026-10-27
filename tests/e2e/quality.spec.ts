@@ -40,10 +40,14 @@ test.describe('Security', () => {
     test(`TC-SEC-001 ${p.name} has a strict content policy and breaks none of it`, async ({ page }) => {
       const problems: string[] = [];
       page.on('console', (m) => {
+        // Turnstile refuses the headless browser inside its own frame; that is the bot check working, not a site error.
+        if (m.location().url.startsWith('https://challenges.cloudflare.com/') && !/Content Security Policy/i.test(m.text())) return;
         if (m.type() === 'error' || /Content Security Policy/i.test(m.text())) problems.push(m.text());
       });
       page.on('pageerror', (e) => problems.push(String(e)));
-      await page.goto(p.path, { waitUntil: 'networkidle' });
+      // With the live API, the QA Lab polls and Turnstile keeps a connection, so the network is never idle.
+      await page.goto(p.path, { waitUntil: 'load' });
+      await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
 
       const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
       // Scripts come from the site, plus Cloudflare Turnstile for the QA Lab Run button.
