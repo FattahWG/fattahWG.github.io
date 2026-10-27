@@ -1,5 +1,6 @@
 import { RUNNABLE_PROJECTS, artifactPrefix, type RunnerEvent } from '@fattah/shared';
 import { Hono } from 'hono';
+import { logVisitorRun } from '../discord';
 import type { AppEnv } from '../env';
 import { clip, newId, nowIso, safeEqual } from '../lib';
 import { newRunBlock, recordUpload, uploadBlock } from '../storage';
@@ -130,6 +131,29 @@ runnerRoutes.post('/events', async (c) => {
   const statements = events.flatMap((event) => statementsFor(c.env.DB, runId, event, at));
   statements.push(c.env.DB.prepare('UPDATE runs SET last_event_at = ? WHERE id = ?').bind(at, runId));
   await c.env.DB.batch(statements);
+
+  const finished = events.find((event) => event.type === 'run.finished');
+  if (finished) {
+    const run = await c.env.DB.prepare(
+      "SELECT project, requester_hash, status, passed, failed, skipped, duration_ms FROM runs WHERE id = ? AND trigger = 'visitor'"
+    )
+      .bind(runId)
+      .first<{ project: string; requester_hash: string | null; status: string; passed: number; failed: number; skipped: number; duration_ms: number | null }>();
+    if (run && ['passed', 'failed', 'cancelled'].includes(run.status)) {
+      c.executionCtx.waitUntil(
+        logVisitorRun(c.env, {
+          runId,
+          project: run.project,
+          visitor: run.requester_hash?.slice(0, 8),
+          status: run.status as 'passed' | 'failed' | 'cancelled',
+          passed: run.passed,
+          failed: run.failed,
+          skipped: run.skipped,
+          durationMs: run.duration_ms ?? 0,
+        })
+      );
+    }
+  }
   return c.json({ ok: true, applied: events.length });
 });
 

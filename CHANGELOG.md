@@ -10,12 +10,14 @@ Every push adds a dated entry below, newest first: what changed, where, and why.
 - The retention job deletes files by the keys in D1. It does not list the bucket, because a list is a Class A operation.
 - One "QA Tools" group replaces the four tool groups: Python, Playwright, Bruno API, Swagger UI, Google Docs, Jira. The hero shows the same six tools. "Performance testing" moved to the Testing group.
 - The QA Lab is live on `https://fattahwg-qa-lab.off-fattah.workers.dev`. TC-SEC-001 no longer waits for a quiet network, because the QA Lab polls the API. It ignores errors inside the Turnstile frame, because Turnstile refuses the headless browser.
+- Each visitor run posts to the owner's private Discord channel twice: when it starts and when it ends, with the result and a link to the run. The visitor shows as the first 8 characters of the salted IP hash, never the IP.
 
 ### Where
 
 - `apps/backend/migrations/0002_r2_usage.sql`: tables `artifacts` (key, run, bytes) and `r2_usage` (Class A count per month).
 - `apps/backend/src/storage.ts`: the guard. `routes/public.ts`, `routes/runner.ts` and `cron.ts` use it. The limits are vars in `wrangler.toml`.
 - `apps/frontend/src/lib/i18n.tsx`: messages `storage_full` and `r2_writes_full`.
+- `apps/backend/src/discord.ts`: the run log. Secret `DISCORD_RUNS_WEBHOOK_URL`, var `SITE_URL`. Without the secret, nothing posts.
 - `packages/shared/src/profile.ts`, `apps/frontend/src/components/Hero.tsx`: the tools list.
 
 ### Why

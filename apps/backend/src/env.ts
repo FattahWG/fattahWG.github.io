@@ -17,6 +17,10 @@ export interface Env {
   TURNSTILE_SECRET_KEY?: string;
   RUNNER_TOKEN?: string;
   IP_HASH_SALT?: string;
+  /** Private Discord webhook for visitor runs (discord.ts). Empty: no log. */
+  DISCORD_RUNS_WEBHOOK_URL?: string;
+  /** The portfolio, for the run links in the log. */
+  SITE_URL: string;
 }
 
 export type AppEnv = { Bindings: Env };

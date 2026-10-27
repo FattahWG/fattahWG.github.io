@@ -2,6 +2,7 @@ import { RUNNABLE_PROJECTS, type RunnableProject } from '@fattah/shared';
 import { Hono } from 'hono';
 import { getActiveRunId, getLogs, getRunDetail, listRuns } from '../db';
 import type { AppEnv } from '../env';
+import { logVisitorRun } from '../discord';
 import { dispatchWorkflow } from '../github';
 import { newId, nowIso, sha256Hex, startOfUtcDay } from '../lib';
 import { newRunBlock } from '../storage';
@@ -98,6 +99,7 @@ publicRoutes.post('/runs', async (c) => {
     return c.json({ error: 'dispatch_failed' }, 502);
   }
 
+  c.executionCtx.waitUntil(logVisitorRun(c.env, { runId, project, visitor: requesterHash.slice(0, 8) }));
   return c.json({ runId, joined: false }, 201);
 });
 
