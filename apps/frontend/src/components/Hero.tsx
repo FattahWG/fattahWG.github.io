@@ -5,7 +5,7 @@ import { useLang } from '@/lib/i18n';
 import { formatDuration } from '@/lib/utils';
 import { TestTerminal } from './TestTerminal';
 
-const TECH = ['Playwright', 'Bruno', 'UFT One', 'JMeter', 'Jira', 'Postman', 'GitHub Actions', 'Selenium', 'Rest Assured', 'Grafana', 'Roblox Studio'];
+const TECH = ['Python', 'Playwright', 'Bruno API', 'Swagger UI', 'Google Docs', 'Jira'];
 
 export function Hero() {
   const { ui, t, lang } = useLang();

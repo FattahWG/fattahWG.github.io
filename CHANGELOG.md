@@ -2,6 +2,26 @@
 
 Every push adds a dated entry below, newest first: what changed, where, and why.
 
+## 2026-10-28: R2 free tier guard and a shorter tools list
+
+### What
+
+- The QA Lab stops before it goes over the R2 free tier (10 GB-month, 1 million Class A operations a month). For safety, the bucket stays at half of the storage limit. No new run starts at 4 GB stored or at 900,000 writes this month. No upload can take the bucket over 5 GB. Visitors see a clear message in English and Indonesian.
+- The retention job deletes files by the keys in D1. It does not list the bucket, because a list is a Class A operation.
+- One "QA Tools" group replaces the four tool groups: Python, Playwright, Bruno API, Swagger UI, Google Docs, Jira. The hero shows the same six tools. "Performance testing" moved to the Testing group.
+
+### Where
+
+- `apps/backend/migrations/0002_r2_usage.sql`: tables `artifacts` (key, run, bytes) and `r2_usage` (Class A count per month).
+- `apps/backend/src/storage.ts`: the guard. `routes/public.ts`, `routes/runner.ts` and `cron.ts` use it. The limits are vars in `wrangler.toml`.
+- `apps/frontend/src/lib/i18n.tsx`: messages `storage_full` and `r2_writes_full`.
+- `packages/shared/src/profile.ts`, `apps/frontend/src/components/Hero.tsx`: the tools list.
+
+### Why
+
+- Cloudflare bills R2 use above the free tier. It does not block it.
+- The old tools list was too long.
+
 ## 2026-10-25: New theme and the QA Lab
 
 ### What

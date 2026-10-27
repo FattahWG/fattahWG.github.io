@@ -2,6 +2,7 @@ import { RUNNABLE_PROJECTS, artifactPrefix, type RunnerEvent } from '@fattah/sha
 import { Hono } from 'hono';
 import type { AppEnv } from '../env';
 import { clip, newId, nowIso, safeEqual } from '../lib';
+import { newRunBlock, recordUpload, uploadBlock } from '../storage';
 
 // Endpoints for GitHub Actions only. The runner has no Cloudflare credentials:
 // every write to D1 and R2 goes through here.
@@ -29,6 +30,8 @@ runnerRoutes.post('/runs', async (c) => {
     return c.json({ error: 'unknown_project' }, 400);
   }
   const trigger = body.trigger === 'schedule' ? 'schedule' : 'owner';
+  const storageBlock = await newRunBlock(c.env);
+  if (storageBlock) return c.json({ error: storageBlock }, 503);
   const runId = newId();
   try {
     await c.env.DB.prepare("INSERT INTO runs (id, project, trigger, status, created_at) VALUES (?, ?, ?, 'queued', ?)")
@@ -139,7 +142,10 @@ runnerRoutes.put('/artifacts/*', async (c) => {
   if (!(await activeRun(c.env.DB, match[1]))) return c.json({ error: 'run_not_active' }, 409);
   const size = Number(c.req.header('content-length') ?? 0);
   if (!size || size > MAX_ARTIFACT_BYTES) return c.json({ error: 'invalid_size' }, 413);
+  const storageBlock = await uploadBlock(c.env, size);
+  if (storageBlock) return c.json({ error: storageBlock }, 507);
 
+  await recordUpload(c.env.DB, key, match[1], size);
   await c.env.ARTIFACTS.put(key, c.req.raw.body, {
     httpMetadata: { contentType: c.req.header('content-type') ?? 'application/octet-stream' },
   });

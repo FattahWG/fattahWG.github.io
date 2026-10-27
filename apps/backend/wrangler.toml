@@ -12,6 +12,12 @@ GITHUB_REF = "main"
 ALLOWED_ORIGINS = "https://fattahwg.github.io,http://localhost:5173,http://127.0.0.1:4321"
 MAX_RUNS_PER_IP_PER_DAY = "3"
 MAX_PUBLIC_RUNS_PER_DAY = "10"
+# R2 free tier is 10 GB-month and 1 million Class A operations a month; Cloudflare bills more.
+# The bucket stays at half of it: no new run at 4 GB stored, no upload over 5 GB,
+# no new run or upload at 900k writes this month.
+R2_STOP_RUNS_GB = "4"
+R2_STOP_UPLOADS_GB = "5"
+R2_MAX_CLASS_A_PER_MONTH = "900000"
 # The Turnstile site key is public. Empty: the Run button stays off. Set it after you make the widget.
 TURNSTILE_SITE_KEY = "0x4AAAAAAFkUcpqK5WPIx-GJ"
 

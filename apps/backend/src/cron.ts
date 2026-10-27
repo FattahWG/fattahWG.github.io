@@ -20,13 +20,13 @@ export async function runScheduled(env: Env): Promise<void> {
     .bind(isoMinutesAgo(RETENTION_DAYS * 24 * 60), RETENTION_BATCH)
     .all<{ id: string }>();
   for (const { id } of results) {
-    let cursor: string | undefined;
-    do {
-      const page = await env.ARTIFACTS.list({ prefix: `runs/${id}/`, cursor });
-      if (page.objects.length) await env.ARTIFACTS.delete(page.objects.map((o) => o.key));
-      cursor = page.truncated ? page.cursor : undefined;
-    } while (cursor);
+    // Keys come from D1, not from an R2 list: a list is a Class A operation, a delete is free.
+    const { results: files } = await env.DB.prepare('SELECT key FROM artifacts WHERE run_id = ?').bind(id).all<{ key: string }>();
+    for (let i = 0; i < files.length; i += 1000) {
+      await env.ARTIFACTS.delete(files.slice(i, i + 1000).map((f) => f.key));
+    }
     await env.DB.batch([
+      env.DB.prepare('DELETE FROM artifacts WHERE run_id = ?').bind(id),
       env.DB.prepare('DELETE FROM steps WHERE run_id = ?').bind(id),
       env.DB.prepare('DELETE FROM run_logs WHERE run_id = ?').bind(id),
       env.DB.prepare('DELETE FROM test_results WHERE run_id = ?').bind(id),

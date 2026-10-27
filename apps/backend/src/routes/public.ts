@@ -4,6 +4,7 @@ import { getActiveRunId, getLogs, getRunDetail, listRuns } from '../db';
 import type { AppEnv } from '../env';
 import { dispatchWorkflow } from '../github';
 import { newId, nowIso, sha256Hex, startOfUtcDay } from '../lib';
+import { newRunBlock } from '../storage';
 import { verifyTurnstile } from '../turnstile';
 
 export const publicRoutes = new Hono<AppEnv>();
@@ -50,6 +51,9 @@ publicRoutes.post('/runs', async (c) => {
   // A run is active: join it as a viewer, do not start a new run.
   const active = await getActiveRunId(c.env.DB, project);
   if (active) return c.json({ runId: active, joined: true });
+
+  const storageBlock = await newRunBlock(c.env);
+  if (storageBlock) return c.json({ error: storageBlock }, 503);
 
   const ip = c.req.header('cf-connecting-ip') ?? '';
   const token = typeof body?.turnstileToken === 'string' ? body.turnstileToken : '';

@@ -210,27 +210,12 @@ export const skillGroups: SkillGroup[] = [
   {
     icon: 'list',
     title: { en: 'Testing', id: 'Testing' },
-    items: ['Test planning', 'Test case design', 'Manual testing (web & mobile)', 'Functional & regression', 'Exploratory testing', 'SIT & UAT', 'API testing', 'Defect management'],
-  },
-  {
-    icon: 'workflow',
-    title: { en: 'Automation', id: 'Automation' },
-    items: ['Playwright', 'Bruno', 'UFT One', 'Selenium', 'Serenity BDD', 'Cucumber', 'Rest Assured', 'Appium'],
-  },
-  {
-    icon: 'gauge',
-    title: { en: 'Performance & monitoring', id: 'Performance & monitoring' },
-    items: ['Performance testing', 'JMeter', 'Grafana'],
+    items: ['Test planning', 'Test case design', 'Manual testing (web & mobile)', 'Functional & regression', 'Exploratory testing', 'SIT & UAT', 'API testing', 'Performance testing', 'Defect management'],
   },
   {
     icon: 'layers',
-    title: { en: 'Tools', id: 'Tools' },
-    items: ['Jira', 'Postman', 'Swagger', 'Git', 'GitHub Actions', 'IntelliJ IDEA'],
-  },
-  {
-    icon: 'braces',
-    title: { en: 'Languages & AI pair tools', id: 'Bahasa & AI pair tools' },
-    items: ['Java', 'Python', 'SQL', 'Luau', 'Claude Code', 'GitHub Copilot'],
+    title: { en: 'QA Tools', id: 'QA Tools' },
+    items: ['Python', 'Playwright', 'Bruno API', 'Swagger UI', 'Google Docs', 'Jira'],
   },
   {
     icon: 'users',

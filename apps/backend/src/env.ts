@@ -5,6 +5,10 @@ export interface Env {
   GITHUB_REF: string;
   MAX_RUNS_PER_IP_PER_DAY: string;
   MAX_PUBLIC_RUNS_PER_DAY: string;
+  /** R2 free tier guard (storage.ts). */
+  R2_STOP_RUNS_GB: string;
+  R2_STOP_UPLOADS_GB: string;
+  R2_MAX_CLASS_A_PER_MONTH: string;
   TURNSTILE_SITE_KEY: string;
   /** Comma-separated origins that can call the public API (the site on GitHub Pages, local dev). */
   ALLOWED_ORIGINS: string;
