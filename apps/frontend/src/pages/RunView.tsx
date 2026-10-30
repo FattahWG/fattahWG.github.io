@@ -35,7 +35,7 @@ function LivePane({ run }: { run: RunDetail }) {
         className={cn('aspect-video w-full object-contain object-top', missing && 'hidden')}
       />
       {missing && <Empty text={ui.runner.liveWaiting} />}
-      <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 font-mono text-[11px] font-bold text-white">
+      <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 font-mono text-xs font-bold text-white">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
         {ui.runner.liveBadge}
       </span>
@@ -205,7 +205,7 @@ function ReportPane({ run }: { run: RunDetail }) {
               <td className="whitespace-nowrap px-3 py-3 font-mono text-xs text-white/60">{test.tcId}</td>
               <td className="px-3 py-3 text-white/85">
                 {test.title}
-                {test.error && <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-red-400/10 p-2 font-mono text-[11px] text-red-300">{test.error}</pre>}
+                {test.error && <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-red-400/10 p-2 font-mono text-xs text-red-300">{test.error}</pre>}
               </td>
               <td className="whitespace-nowrap py-3 pr-4 text-right font-mono text-xs text-white/60">{formatMs(test.durationMs)}</td>
             </tr>
@@ -257,7 +257,7 @@ export default function RunView() {
 
         <header className="mt-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-white/60">
+            <p className="font-mono text-xs text-white/60">
               lawak-store / {run?.suite === 'api' ? 'bruno' : 'chromium'} · {run ? ui.runner.trigger[run.trigger] : '…'}
               {run && run.suite in ui.runner.suites ? ` · ${ui.runner.suites[run.suite as RunSuite]}` : ''}
             </p>
@@ -302,7 +302,7 @@ export default function RunView() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[300px_1fr]">
           <aside className="min-w-0 rounded-3xl border border-white/10 bg-white/[0.03] p-3">
-            <p className="px-2 py-2 font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.tests}</p>
+            <p className="px-2 py-2 font-mono text-xs text-white/60">{ui.runner.tests}</p>
             {!run && <div className="h-40 animate-pulse rounded-2xl bg-white/5" />}
             <ul className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:block lg:space-y-1 lg:overflow-visible lg:px-0 lg:pb-0">
               {run?.tests.map((test) => (
@@ -314,10 +314,10 @@ export default function RunView() {
                   >
                     <TestStatusIcon status={test.status} />
                     <span className="min-w-0 flex-1">
-                      <span className="block font-mono text-[11px] text-white/55">{test.tcId}</span>
+                      <span className="block font-mono text-xs text-white/55">{test.tcId}</span>
                       <span className="block text-sm text-white/85">{test.title}</span>
                     </span>
-                    <span className="font-mono text-[11px] text-white/55">{formatMs(test.durationMs)}</span>
+                    <span className="font-mono text-xs text-white/55">{formatMs(test.durationMs)}</span>
                   </button>
                 </li>
               ))}

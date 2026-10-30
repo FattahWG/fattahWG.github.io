@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Backdrop } from '@/components/Backdrop';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/showcase';
 import { LangProvider } from '@/lib/i18n';
@@ -39,6 +40,7 @@ function Layout() {
         Skip to content
       </a>
       <ScrollManager />
+      <Backdrop />
       <Navbar />
       <main id="main">
         <Outlet />

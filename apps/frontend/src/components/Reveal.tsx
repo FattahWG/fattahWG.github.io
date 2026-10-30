@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 /** Fades in when it enters the viewport. The CSS in index.css hides it only when JavaScript runs. */
-export function Reveal({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function Reveal({ children, className, delay = 0, as: Tag = 'div' }: { children: ReactNode; className?: string; delay?: number; as?: 'div' | 'li' }) {
+  const ref = useRef<HTMLDivElement & HTMLLIElement>(null);
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,8 @@ export function Reveal({ children, className, delay = 0 }: { children: ReactNode
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        // Also show blocks the page jumped past (an anchor link or a fast scroll), so none stays hidden above.
+        if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
           setShown(true);
           observer.disconnect();
         }
@@ -27,17 +28,17 @@ export function Reveal({ children, className, delay = 0 }: { children: ReactNode
   }, [shown]);
 
   return (
-    <div ref={ref} style={delay ? { transitionDelay: `${delay}ms` } : undefined} className={cn('reveal', shown && 'is-shown', className)}>
+    <Tag ref={ref} style={delay ? { transitionDelay: `${delay}ms` } : undefined} className={cn('reveal', shown && 'is-shown', className)}>
       {children}
-    </div>
+    </Tag>
   );
 }
 
 export function SectionHeader({ eyebrow, title, subtitle, className, game }: { eyebrow: string; title: string; subtitle?: string; className?: string; game?: boolean }) {
   return (
     <Reveal className={cn('max-w-2xl', className)}>
-      <p className={cn('eyebrow', game && '!text-accent')}>
-        <span className={cn('h-px w-6', game ? 'bg-accent' : 'bg-primary')} />
+      <p className={cn('eyebrow', game && '!text-accent-text')}>
+        <span className="h-px w-6 bg-primary" />
         {eyebrow}
       </p>
       <h2 className="heading mt-4 text-balance">{title}</h2>

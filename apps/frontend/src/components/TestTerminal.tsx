@@ -52,7 +52,7 @@ export function TestTerminal({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-2xl border border-white/10 bg-ink/95 font-mono text-[12.5px] leading-relaxed text-emerald-50 shadow-2xl shadow-black/40 backdrop-blur',
+        'overflow-hidden rounded-2xl border border-white/15 bg-ink/90 font-[ui-monospace,Consolas,monospace] text-[12.5px] leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur-xl',
         className
       )}
       role="img"

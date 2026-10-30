@@ -5,6 +5,8 @@ export interface Engagement {
   name: string;
   start?: string; // YYYY-MM
   end?: string | null; // null = now
+  /** A few words for the ledger row. */
+  kind: Localized;
   domain: Localized;
   items: Localized[];
 }
@@ -107,6 +109,7 @@ export const experiences: Experience[] = [
         name: 'Manulife Insurance – EBClick',
         start: '2026-04',
         end: null,
+        kind: { en: 'Insurance web apps', id: 'Aplikasi web asuransi' },
         domain: {
           en: 'Insurance web applications and their business workflows.',
           id: 'Aplikasi web asuransi dan alur bisnisnya.',
@@ -134,6 +137,7 @@ export const experiences: Experience[] = [
         name: 'Toyota Astra Motor (TAM) – Employee Self-Service',
         start: '2025-10',
         end: '2026-04',
+        kind: { en: 'Employee self-service', id: 'Layanan mandiri karyawan' },
         domain: {
           en: 'An ESS platform that connects attendance, employee claims, company news, and employee services.',
           id: 'Platform ESS yang menghubungkan absensi, klaim karyawan, berita perusahaan, dan layanan karyawan.',
@@ -164,6 +168,7 @@ export const experiences: Experience[] = [
     projects: [
       {
         name: 'Client: CIMB Niaga – Banking E-Procurement System',
+        kind: { en: 'Banking e-procurement', id: 'E-procurement perbankan' },
         domain: {
           en: 'Procurement from vendor management to payment: purchase requests and orders, tenders, approvals, budgets, contracts, and invoices.',
           id: 'Pengadaan dari manajemen vendor sampai pembayaran: purchase request dan order, tender, approval, budget, kontrak, dan invoice.',

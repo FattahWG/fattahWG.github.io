@@ -2,6 +2,29 @@
 
 Every push adds a dated entry below, newest first: what changed, where, and why.
 
+## 2026-10-31: Glassmorphism theme
+
+### What
+
+- New theme for the whole site, dark and light glass: frosted glass cards on a faint grid with soft violet glows, Montserrat, one violet accent. The theme switch follows the system setting first.
+- The home page keeps the earlier structure and contact section, now in glass: hero with photo and test terminal, stats, about, experience, skills, projects, QA Lab, games, education, contact.
+- One page backdrop for every page; the upper glow drifts toward the pointer.
+- Floating glass navbar and a slim glass footer.
+- Violet text uses a lighter tone than the violet buttons, so links and labels pass WCAG AA in dark mode.
+- New social image (built in FigCraft) and portfolio screenshot.
+
+### Where
+
+- `apps/frontend/src/index.css`, `tailwind.config.ts`: tokens, `.glass`, `.glass-strong`, `.glass-nav`.
+- `apps/frontend/src/components/Backdrop.tsx` (new), `Navbar.tsx`, `showcase.tsx` (footer, glass run report and step gallery), `Hero.tsx`, `sections.tsx`, `TestTerminal.tsx`, `Reveal.tsx`, `App.tsx`, `main.tsx`, `lib/i18n.tsx`.
+- `packages/shared/src/profile.ts`: a short `kind` for each client project.
+- `apps/frontend/public/assets/og.png`, `projects/portfolio.webp`.
+- `design/`: FigCraft boards (`portfolio-glass.figcraft` is the chosen one), the social image, and their build scripts. `DESIGN.md`: the new direction.
+
+### Why
+
+Fattah asked for glassmorphism after a Behance reference, chose both themes from two FigCraft boards, and asked to keep the home structure and contact section of the earlier version. The Playwright suite passes (79 passed, 3 skipped), with axe scans in light and dark.
+
 ## 2026-10-28: QA Lab picker, live view and Word evidence
 
 ### What

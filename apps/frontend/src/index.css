@@ -3,36 +3,54 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light glass: soft grey-blue ground, white frosted cards, lavender and sky glows. */
   :root {
-    --background: 150 20% 98%;
-    --foreground: 160 30% 8%;
+    --background: 230 33% 96%;
+    --foreground: 233 25% 12%;
     --card: 0 0% 100%;
-    --muted: 150 16% 94%;
-    --muted-foreground: 160 8% 38%;
-    --border: 150 14% 87%;
-    /* Darker than the dark-theme green, so white text and green text pass WCAG AA (4.5:1). */
-    --primary: 158 84% 27%;
+    --muted: 230 30% 92%;
+    --muted-foreground: 229 13% 38%;
+    --border: 230 20% 84%;
+    --primary: 249 72% 57%;
     --primary-foreground: 0 0% 100%;
-    --accent: 262 70% 56%;
-    --accent-foreground: 0 0% 100%;
-    --danger: 0 72% 52%;
-    /* The terminal and the QA Lab stay dark in both themes. */
-    --ink: 160 35% 5%;
+    --accent-text: 248 57% 50%;
+    --fail: 9 76% 43%;
+    --pass: 156 69% 39%;
+    --wait: 40 90% 45%;
+    /* The QA Lab panels stay dark in both themes. */
+    --ink: 240 8% 9%;
+    --glass: rgb(255 255 255 / 0.55);
+    --glass-strong: rgb(255 255 255 / 0.75);
+    --nav: rgb(250 251 255 / 0.9);
+    --glass-edge: rgb(255 255 255 / 0.9);
+    --glass-shadow: 0 12px 32px -12px rgb(22 24 39 / 0.18);
+    --grid-line: rgb(20 23 36 / 0.06);
+    --glow-1: rgb(185 174 255 / 0.75);
+    --glow-2: rgb(189 231 255 / 0.8);
   }
 
+  /* Dark glass: charcoal ground, frosted cards with a thin light edge, a soft violet glow. */
   .dark {
-    --background: 160 30% 4%;
-    --foreground: 150 20% 95%;
-    --card: 160 22% 7%;
-    --muted: 160 16% 11%;
-    --muted-foreground: 155 8% 64%;
-    --border: 160 14% 15%;
-    --primary: 156 72% 52%;
-    --primary-foreground: 160 35% 5%;
-    --accent: 262 85% 72%;
-    --accent-foreground: 160 35% 5%;
-    --danger: 0 80% 64%;
-    --ink: 160 35% 3%;
+    --background: 240 8% 8%;
+    --foreground: 240 14% 95%;
+    --card: 240 7% 12%;
+    --muted: 240 6% 16%;
+    --muted-foreground: 240 8% 69%;
+    --border: 240 6% 24%;
+    --primary: 250 89% 64%;
+    --accent-text: 249 100% 84%;
+    --fail: 8 100% 67%;
+    --pass: 154 60% 60%;
+    --wait: 45 100% 60%;
+    --ink: 240 8% 7%;
+    --glass: rgb(255 255 255 / 0.06);
+    --glass-strong: rgb(255 255 255 / 0.1);
+    --nav: rgb(22 22 27 / 0.82);
+    --glass-edge: rgb(255 255 255 / 0.16);
+    --glass-shadow: 0 16px 40px -16px rgb(0 0 0 / 0.6);
+    --grid-line: rgb(255 255 255 / 0.04);
+    --glow-1: rgb(94 74 210 / 0.36);
+    --glow-2: rgb(48 42 122 / 0.45);
   }
 
   * {
@@ -41,16 +59,24 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
-    font-feature-settings: 'cv11', 'ss01';
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
   }
 
   ::selection {
-    @apply bg-primary/25;
+    @apply bg-primary text-primary-foreground;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -68,60 +94,103 @@
 }
 
 @layer components {
-  .section {
-    @apply py-16 sm:py-28;
+  /* Frosted glass: a translucent fill, a thin light edge, and a blur of what lies behind. */
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
+  .glass-strong {
+    @apply glass;
+    background: var(--glass-strong);
+  }
+  /* The nav floats over light and dark panels, so it keeps a fuller fill for readable links. */
+  .glass-nav {
+    @apply glass;
+    background: var(--nav);
   }
 
-  .eyebrow {
-    @apply inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-primary;
+  /* The page backdrop: a faint grid that fades out, and two soft glows. */
+  .backdrop-grid {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 85%);
+  }
+  .glow {
+    @apply pointer-events-none absolute rounded-full;
+    filter: blur(90px);
+  }
+
+  .section {
+    @apply relative py-20 sm:py-28;
   }
 
   .heading {
-    @apply font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl;
+    @apply font-display font-bold;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .lead {
+    font-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+    line-height: 1.55;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-accent-text;
   }
 
   .card {
-    @apply rounded-3xl border bg-card shadow-[0_1px_0_0_hsl(var(--border)),0_20px_40px_-24px_hsl(var(--foreground)/0.18)];
+    @apply glass rounded-3xl text-foreground;
   }
 
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur;
+    @apply glass inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium text-muted-foreground shadow-none;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold transition-[transform,background-color,color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-primary text-primary-foreground shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.7)] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-12px_hsl(var(--primary)/0.8)];
+    @apply btn bg-primary text-primary-foreground shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.7)] hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.85)];
   }
 
   .btn-ghost {
-    @apply btn border bg-card/60 text-foreground backdrop-blur hover:-translate-y-0.5 hover:border-primary/50;
+    @apply btn glass text-foreground shadow-none;
   }
 
-  /* Thin grid background, like test plan paper. */
-  .bg-grid {
-    background-image:
-      linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
-    background-size: 44px 44px;
+  .link {
+    @apply font-semibold text-accent-text underline decoration-1 underline-offset-4 transition-colors hover:decoration-2;
   }
 
-  /* Scroll reveal. Content hides only when JavaScript runs and motion is allowed, so it never stays hidden. */
-  @media (prefers-reduced-motion: no-preference) {
+  /* Scroll entrance. Content hides only when JavaScript runs and motion is allowed, so it never stays hidden. */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
     .js .reveal {
       transition:
-        opacity 0.7s ease-out,
-        transform 0.7s ease-out;
+        opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .js .reveal:not(.is-shown) {
       opacity: 0;
-      transform: translateY(1.5rem);
+      transform: translateY(32px);
     }
   }
 
+  /* The second hero line: a calm violet gradient between the two accent tones. */
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-emerald-400 to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-text to-primary bg-clip-text text-transparent;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }

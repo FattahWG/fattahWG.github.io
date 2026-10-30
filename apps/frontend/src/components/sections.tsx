@@ -56,7 +56,7 @@ export function Stats() {
           <Reveal key={stat.label} delay={i * 80} className="bg-card p-6 sm:p-8">
             <p className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
               <CountUp value={stat.value} decimals={stat.decimals} />
-              <span className="text-primary">{stat.suffix}</span>
+              <span className="text-accent-text">{stat.suffix}</span>
             </p>
             <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
           </Reveal>
@@ -92,7 +92,7 @@ export function About() {
                   <span
                     className={cn(
                       'grid h-11 w-11 place-items-center rounded-2xl transition',
-                      game ? 'bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground' : 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground'
+                      game ? 'bg-accent/10 text-accent-text group-hover:bg-accent group-hover:text-accent-foreground' : 'bg-primary/10 text-accent-text group-hover:bg-primary group-hover:text-primary-foreground'
                     )}
                   >
                     <Icon className="h-5 w-5" />
@@ -140,7 +140,7 @@ export function ExperienceSection() {
                         </p>
                       </div>
                       <div className="sm:text-right">
-                        <p className={cn('chip', current && 'border-primary/40 text-primary')}>
+                        <p className={cn('chip', current && 'border-primary/40 text-accent-text')}>
                           {formatMonth(job.start, lang)} – {job.end ? formatMonth(job.end, lang) : ui.experience.present}
                         </p>
                         <p className="mt-1.5 font-mono text-xs text-muted-foreground">{formatDuration(months, lang)}</p>
@@ -161,7 +161,7 @@ export function ExperienceSection() {
                           <ul className="mt-4 space-y-2.5">
                             {project.items.map((item) => (
                               <li key={item.en} className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground">
-                                <span className="mt-0.5 font-mono text-primary" aria-hidden>
+                                <span className="mt-0.5 font-mono text-accent-text" aria-hidden>
                                   ✓
                                 </span>
                                 {t(item)}
@@ -192,7 +192,7 @@ export function ExperienceSection() {
                     <h3 className="font-display text-xl font-semibold">{ui.experience.automation}</h3>
                     <p className="mt-1 text-muted-foreground">{ui.experience.automationSub}</p>
                   </div>
-                  <p className="chip border-accent/40 text-accent">
+                  <p className="chip border-accent/40 text-accent-text">
                     <Workflow className="h-3.5 w-3.5" />
                     {ui.experience.growing}
                   </p>
@@ -200,7 +200,7 @@ export function ExperienceSection() {
                 <ul className="mt-5 space-y-2.5">
                   {automationHistory.map((item) => (
                     <li key={item.en} className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground">
-                      <span className="mt-0.5 font-mono text-primary" aria-hidden>
+                      <span className="mt-0.5 font-mono text-accent-text" aria-hidden>
                         ✓
                       </span>
                       {t(item)}
@@ -244,7 +244,7 @@ export function SkillsSection() {
           return (
             <Reveal key={group.icon} delay={(gi % 3) * 90} className={cn('card p-6 sm:p-8', group.game && 'border-accent/30')}>
               <h3 className="flex items-center gap-3 font-display text-lg font-semibold">
-                <span className={cn('grid h-10 w-10 place-items-center rounded-2xl', group.game ? 'bg-accent/10 text-accent' : 'bg-primary/10 text-primary')}>
+                <span className={cn('grid h-10 w-10 place-items-center rounded-2xl', group.game ? 'bg-accent/10 text-accent-text' : 'bg-primary/10 text-accent-text')}>
                   <Icon className="h-5 w-5" />
                 </span>
                 {t(group.title)}
@@ -274,7 +274,7 @@ export function EducationSection() {
           const Icon = item.kind === 'school' ? GraduationCap : Award;
           return (
             <Reveal key={item.name} delay={i * 90} className="card flex flex-col p-6 sm:p-8">
-              <Icon className={cn('h-8 w-8', item.kind === 'school' ? 'text-primary' : 'text-accent')} />
+              <Icon className={cn('h-8 w-8', item.kind === 'school' ? 'text-accent-text' : 'text-accent-text')} />
               <h3 className="mt-5 font-display text-xl font-semibold">{item.name}</h3>
               <p className="mt-1 text-muted-foreground">{t(item.detail)}</p>
               <p className="mt-4 font-mono text-xs text-muted-foreground">{item.dates}</p>

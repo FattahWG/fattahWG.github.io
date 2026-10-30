@@ -50,7 +50,7 @@ export default function ProjectDetail() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={100} className="relative overflow-hidden rounded-3xl border bg-muted shadow-2xl shadow-primary/10">
+          <Reveal delay={100} className="relative overflow-hidden rounded-3xl border bg-muted">
             <img src={project.image} alt={`${project.name} screenshot`} className="aspect-[16/10] w-full object-cover object-top" />
             <AutomationBadge project={project} className="absolute left-4 top-4" />
           </Reveal>

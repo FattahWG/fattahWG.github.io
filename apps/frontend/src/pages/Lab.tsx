@@ -46,7 +46,7 @@ function RunPicker({ suite, setSuite, modules, setModules, picked, setPicked }: 
   return (
     <div className="space-y-5">
       <fieldset>
-        <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.suiteLabel}</legend>
+        <legend className="font-mono text-xs text-white/60">{ui.runner.suiteLabel}</legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {RUN_SUITES.map((s) => (
             <button key={s} type="button" aria-pressed={suite === s} onClick={() => setSuite(s)} className={chip(suite === s)}>
@@ -61,7 +61,7 @@ function RunPicker({ suite, setSuite, modules, setModules, picked, setPicked }: 
       {suite === 'custom' && (
         <>
           <fieldset>
-            <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.modulesLabel}</legend>
+            <legend className="font-mono text-xs text-white/60">{ui.runner.modulesLabel}</legend>
             <div className="mt-3 flex flex-wrap gap-2">
               {LAB_MODULES.map((m) => (
                 <button key={m.code} type="button" aria-pressed={modules.has(m.code)} onClick={() => setModules(toggle(modules, m.code))} className={chip(modules.has(m.code))}>
@@ -72,7 +72,7 @@ function RunPicker({ suite, setSuite, modules, setModules, picked, setPicked }: 
             </div>
           </fieldset>
           <fieldset>
-            <legend className="font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.casesLabel}</legend>
+            <legend className="font-mono text-xs text-white/60">{ui.runner.casesLabel}</legend>
             <div className="mt-1 flex flex-wrap items-center justify-end gap-2">
               <div className="flex gap-2">
                 <button type="button" onClick={() => setPicked(new Set([...picked, ...visible.map((c) => c.id)]))} className="min-h-10 rounded-full px-3 text-sm text-emerald-300 hover:text-emerald-200">
@@ -89,7 +89,7 @@ function RunPicker({ suite, setSuite, modules, setModules, picked, setPicked }: 
                   <label className="flex min-h-10 cursor-pointer items-start gap-3 rounded-xl px-2 py-2 hover:bg-white/5">
                     <input type="checkbox" checked={picked.has(c.id)} onChange={() => setPicked(toggle(picked, c.id))} className="mt-1 h-4 w-4 shrink-0 accent-emerald-400" />
                     <span className="min-w-0 text-sm">
-                      <span className="block font-mono text-[11px] text-white/55">{c.id}</span>
+                      <span className="block font-mono text-xs text-white/55">{c.id}</span>
                       <span className="block text-white/85">{c.title}</span>
                     </span>
                   </label>
@@ -182,7 +182,7 @@ function RunHistory({ runs }: { runs: RunSummary[] }) {
   const dateFormat = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' });
   return (
     <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
-      <p className="border-b border-white/10 px-5 py-3 font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.history}</p>
+      <p className="border-b border-white/10 px-5 py-3 font-mono text-xs text-white/60">{ui.runner.history}</p>
       <ul className="divide-y divide-white/5">
         {runs.map((run) => (
           <li key={run.id}>
@@ -252,7 +252,7 @@ export default function Lab() {
               <RunHistory runs={runs} />
             ) : (
               <>
-                <p className="mb-3 font-mono text-xs uppercase tracking-widest text-white/60">{ui.runner.sample}</p>
+                <p className="mb-3 font-mono text-xs text-white/60">{ui.runner.sample}</p>
                 <RunReport />
               </>
             )}

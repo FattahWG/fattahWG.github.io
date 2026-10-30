@@ -14,9 +14,6 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-36">
       {/* Background: grid plus a green and a purple glow */}
-      <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px]" />
-      <div className="pointer-events-none absolute right-[-10%] top-40 h-[360px] w-[360px] rounded-full bg-accent/20 blur-[120px]" />
 
       <div className="container relative grid items-center gap-14 pb-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pb-28">
         <div>
@@ -45,7 +42,7 @@ export function Hero() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link to="/lab" className="btn-ghost">
-              <PlayCircle className="h-4 w-4 text-primary" />
+              <PlayCircle className="h-4 w-4 text-accent-text" />
               {ui.hero.cta.lab}
             </Link>
             {profile.resumeUrl && (
@@ -58,11 +55,11 @@ export function Hero() {
 
           <div className="mt-8 flex animate-fade-up flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground [animation-delay:320ms]">
             <span className="inline-flex items-center gap-1.5">
-              <Sparkles className="h-4 w-4 text-primary" />
+              <Sparkles className="h-4 w-4 text-accent-text" />
               {formatDuration(qaMonths(), lang)} {ui.stats.qa}
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Gamepad2 className="h-4 w-4 text-accent" />
+              <Gamepad2 className="h-4 w-4 text-accent-text" />
               {ui.hero.side}
             </span>
           </div>
@@ -85,11 +82,11 @@ export function Hero() {
       </div>
 
       {/* Tech marquee */}
-      <div className="relative border-y bg-card/50 py-4 backdrop-blur" aria-hidden>
+      <div className="glass relative border-x-0 py-4 shadow-none" aria-hidden>
         <div className="flex w-max animate-marquee gap-10 pr-10 font-mono text-sm text-muted-foreground [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
           {[...TECH, ...TECH, ...TECH].map((tech, i) => (
             <span key={i} className="inline-flex items-center gap-2 whitespace-nowrap">
-              <span className="text-primary">✓</span>
+              <span className="text-accent-text">✓</span>
               {tech}
             </span>
           ))}

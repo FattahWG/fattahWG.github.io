@@ -18,7 +18,7 @@ export function DemoVideo({ slug, caption, className }: { slug: string; caption:
   }, []);
 
   return (
-    <figure className={cn('overflow-hidden rounded-3xl border bg-ink', className)}>
+    <figure className={cn('overflow-hidden bg-ink', className)}>
       <video
         ref={ref}
         muted

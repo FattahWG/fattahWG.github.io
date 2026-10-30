@@ -4,6 +4,33 @@ import type { Lang } from './utils';
 
 const en = {
   nav: { about: 'About', experience: 'Experience', projects: 'Projects', games: 'Games', lab: 'QA Lab', contact: 'Contact', hire: "Let's talk" },
+  home: {
+    line2: 'I test software.',
+    tagline: 'I test software and build Roblox games.',
+    support: 'SQA Engineer in Jakarta with 2.5+ years in banking, insurance, and enterprise QA. On the side, I direct Roblox games at Lawak Studio.',
+    work: { side: 'Side project', now: 'now', open: 'Show details for' },
+    hero: { years: 'years in QA', clients: 'client projects', games: 'Roblox games' },
+    run: {
+      note1: '50 cases from one JSON source: 41 Playwright UI cases and 9 Bruno API cases. Every run writes a Word evidence document.',
+      note2: 'TC-CHK-006 fails on every run. I planted DEF-001 on purpose, so you can see how a failure moves through the evidence and the dashboard.',
+      portfolio: 'This site is under test too. A failing Playwright or Bruno check stops its own deploy.',
+      report: 'Playwright report',
+      again: 'Run again',
+      running: 'Running the smoke steps…',
+    },
+    lab: {
+      title: 'Watch the tests run',
+      recorded: 'Recorded run of the Lawak Store UI suite on',
+      groups: { AUTH: 'Sign in', CAT: 'Catalog', CART: 'Cart', CHK: 'Checkout', ORD: 'Orders', PRD: 'Products', AOR: 'Admin orders', USR: 'Users', DSH: 'Dashboard' },
+      failed: 'failed',
+      filter: 'Filter by module',
+      all: 'All',
+    },
+    games: { frames: 'screenshots from our games' },
+    about: { title: 'About me', based: 'Based in', basedValue: 'Jakarta, Indonesia', now: 'Now', since: 'In QA since', strengths: 'Strengths', skills: 'Skills', education: 'Education' },
+    contact: { title: "Let's talk", ask: 'Hiring a tester?', where: 'Jakarta, Indonesia, UTC+7', elsewhere: 'Elsewhere' },
+    footer: { pages: 'Pages', time: 'Local time in Jakarta', run: 'Run my test suite' },
+  },
   hero: {
     status: 'QA Software Engineer at',
     hi: "Hi, I'm Fattah.",
@@ -159,6 +186,33 @@ type Dict = typeof en;
 
 const id: Dict = {
   nav: { about: 'Tentang', experience: 'Pengalaman', projects: 'Project', games: 'Game', lab: 'QA Lab', contact: 'Kontak', hire: 'Hubungi saya' },
+  home: {
+    line2: 'Penguji software.',
+    tagline: 'Saya menguji software dan membuat game Roblox.',
+    support: 'SQA Engineer di Jakarta dengan pengalaman 2,5+ tahun di QA perbankan, asuransi, dan enterprise. Di luar itu, saya memimpin game Roblox di Lawak Studio.',
+    work: { side: 'Project sampingan', now: 'sekarang', open: 'Tampilkan detail untuk' },
+    hero: { years: 'tahun di QA', clients: 'project klien', games: 'game Roblox' },
+    run: {
+      note1: '50 case dari satu sumber JSON: 41 case UI Playwright dan 9 case API Bruno. Setiap run menulis dokumen evidence Word.',
+      note2: 'TC-CHK-006 gagal di setiap run. Saya sengaja menanam DEF-001, supaya Anda bisa melihat bagaimana kegagalan mengalir ke evidence dan dashboard.',
+      portfolio: 'Situs ini juga dites. Cek Playwright atau Bruno yang gagal menahan deploy-nya sendiri.',
+      report: 'Report Playwright',
+      again: 'Jalankan lagi',
+      running: 'Menjalankan langkah smoke…',
+    },
+    lab: {
+      title: 'Lihat test-nya berjalan',
+      recorded: 'Run suite UI Lawak Store yang direkam pada',
+      groups: { AUTH: 'Sign in', CAT: 'Katalog', CART: 'Keranjang', CHK: 'Checkout', ORD: 'Order', PRD: 'Produk', AOR: 'Order admin', USR: 'User', DSH: 'Dashboard' },
+      failed: 'gagal',
+      filter: 'Saring per modul',
+      all: 'Semua',
+    },
+    games: { frames: 'screenshot dari game kami' },
+    about: { title: 'Tentang saya', based: 'Tinggal di', basedValue: 'Jakarta, Indonesia', now: 'Sekarang', since: 'Di QA sejak', strengths: 'Kekuatan', skills: 'Skill', education: 'Pendidikan' },
+    contact: { title: 'Mari bicara', ask: 'Mencari tester?', where: 'Jakarta, Indonesia, UTC+7', elsewhere: 'Tempat lain' },
+    footer: { pages: 'Halaman', time: 'Waktu lokal di Jakarta', run: 'Jalankan test suite saya' },
+  },
   hero: {
     status: 'QA Software Engineer di',
     hi: 'Halo, saya Fattah.',

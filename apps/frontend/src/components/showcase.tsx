@@ -12,8 +12,8 @@ import { Reveal, SectionHeader } from './Reveal';
 export function AutomationBadge({ project, className }: { project: Project; className?: string }) {
   const { ui } = useLang();
   return (
-    <span className={cn('inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground', className)}>
-      {project.runnable ? <PlayCircle className="h-3 w-3" strokeWidth={3} /> : <Check className="h-3 w-3" strokeWidth={3} />}
+    <span className={cn('inline-flex items-center gap-1.5 bg-primary px-2.5 py-1 text-sm font-medium text-primary-foreground', className)}>
+      {project.runnable ? <PlayCircle className="h-3.5 w-3.5" strokeWidth={2.5} /> : <Check className="h-3.5 w-3.5" strokeWidth={2.5} />}
       {project.runnable ? ui.projects.runnable : ui.projects.automated}
     </span>
   );
@@ -40,7 +40,7 @@ function ProjectCard({ project, featured }: { project: Project; featured: boolea
           ))}
         </div>
         <div className="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-6 text-sm font-semibold">
-          <Link to={`/projects/${project.slug}`} className="inline-flex items-center gap-1.5 text-primary">
+          <Link to={`/projects/${project.slug}`} className="inline-flex items-center gap-1.5 text-accent-text">
             {project.caseStudy ? ui.projects.caseStudy : ui.projects.details}
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
           </Link>
@@ -86,7 +86,7 @@ export function GamesSection() {
               <h3 className="font-display text-xl font-semibold">{ui.games.role}</h3>
               <p className="mt-1 text-muted-foreground">{ui.games.roleSub}</p>
             </div>
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent/10 text-accent">
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent/10 text-accent-text">
               <Gamepad2 className="h-5 w-5" />
             </span>
           </div>
@@ -95,7 +95,7 @@ export function GamesSection() {
               <ul className="space-y-2.5">
                 {studioDuties.map((duty) => (
                   <li key={duty.en} className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground">
-                    <span className="mt-0.5 font-mono text-accent" aria-hidden>
+                    <span className="mt-0.5 font-mono text-accent-text" aria-hidden>
                       ✓
                     </span>
                     {t(duty)}
@@ -135,7 +135,7 @@ export function GamesSection() {
                       </span>
                     ))}
                   </div>
-                  <a href={game.url} target="_blank" rel="noopener" className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-accent">
+                  <a href={game.url} target="_blank" rel="noopener" className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-accent-text">
                     {ui.games.play}
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
@@ -177,44 +177,44 @@ export function RunReport({ className }: { className?: string }) {
   const passed = latestRun.tests.filter((test) => test.status === 'passed').length;
   const total = latestRun.tests.reduce((sum, test) => sum + test.durationMs, 0);
   return (
-    <div className={cn('overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] font-mono text-sm', className)}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
+    <div className={cn('overflow-hidden bg-white/[0.04] text-sm', className)}>
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white/[0.04] px-5 py-4">
         <div>
-          <p className="text-xs uppercase tracking-widest text-white/60">
+          <p className="text-white/70">
             {ui.lab.latest} · {latestRun.date} · {latestRun.source === 'local' ? ui.lab.local : 'GitHub Actions'}
           </p>
           <p className="mt-1 text-white">lawak-store / regression</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-300">
+          <span className="bg-white/10 px-3 py-1 font-medium text-white">
             {passed}/{latestRun.tests.length} {ui.lab.passed}
           </span>
-          <span className="text-xs text-white/60">
+          <span className="text-white/70">
             {ui.lab.duration} {formatSeconds(total)}
           </span>
         </div>
       </div>
       {/* tabIndex: keyboard users can scroll the list too. */}
-      <ul className="max-h-[360px] divide-y divide-white/5 overflow-y-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400" tabIndex={0} aria-label={ui.lab.latest}>
+      <ul className="max-h-[360px] overflow-y-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" tabIndex={0} aria-label={ui.lab.latest}>
         {latestRun.tests.map((test) => (
-          <li key={test.id} className="flex items-center gap-3 px-5 py-3">
+          <li key={test.id} className="flex items-center gap-3 px-5 py-2.5">
             <span
-              className={cn('grid h-5 w-5 shrink-0 place-items-center rounded-full', test.status === 'passed' ? 'bg-emerald-400/20 text-emerald-300' : 'bg-red-400/20 text-red-300')}
+              className={cn('grid h-5 w-5 shrink-0 place-items-center', test.status === 'passed' ? 'bg-white/15 text-white' : 'bg-primary text-primary-foreground')}
               role="img"
               aria-label={test.status}
             >
               {test.status === 'passed' ? <Check className="h-3 w-3" strokeWidth={3} /> : <X className="h-3 w-3" strokeWidth={3} />}
             </span>
-            <span className="hidden w-24 shrink-0 text-xs text-white/55 sm:block">{test.id}</span>
-            <span className="min-w-0 flex-1 font-sans text-white/85 sm:truncate">
-              <span className="block font-mono text-[11px] text-white/55 sm:hidden">{test.id}</span>
+            <span className="hidden w-28 shrink-0 text-white/70 sm:block">{test.id}</span>
+            <span className="min-w-0 flex-1 text-white/90 sm:truncate">
+              <span className="block text-white/70 sm:hidden">{test.id}</span>
               {test.title}
             </span>
-            <span className="text-xs text-white/55">{formatSeconds(test.durationMs)}</span>
+            <span className="text-white/70">{formatSeconds(test.durationMs)}</span>
           </li>
         ))}
       </ul>
-      <p className="border-t border-white/10 px-5 py-3 font-sans text-xs text-white/65">{ui.lab.defect}</p>
+      <p className="bg-white/[0.04] px-5 py-3 text-white/80">{ui.lab.defect}</p>
     </div>
   );
 }
@@ -228,23 +228,23 @@ export function StepGallery({ className }: { className?: string }) {
   const go = (delta: number) => setIndex((i) => (i + delta + steps.length) % steps.length);
 
   return (
-    <div className={cn('overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]', className)}>
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 font-mono text-xs text-white/60">
-        <span className="uppercase tracking-widest">{ui.lab.steps}</span>
+    <div className={cn('overflow-hidden bg-white/[0.04]', className)}>
+      <div className="flex items-center justify-between px-5 py-3 text-sm text-white/70">
+        <span>{ui.lab.steps}</span>
         <span>
           {String(index + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
         </span>
       </div>
       <div className="relative aspect-video bg-black">
         <img key={step.image} src={step.image} alt={t(step.label)} className="h-full w-full animate-fade-up object-cover object-top [animation-duration:.4s]" loading="lazy" />
-        <button type="button" onClick={() => go(-1)} aria-label="Previous step" className="absolute left-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80">
+        <button type="button" onClick={() => go(-1)} aria-label="Previous step" className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center bg-black/70 text-white transition hover:bg-primary hover:text-primary-foreground">
           <ChevronLeft className="h-5 w-5" />
         </button>
-        <button type="button" onClick={() => go(1)} aria-label="Next step" className="absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80">
+        <button type="button" onClick={() => go(1)} aria-label="Next step" className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center bg-black/70 text-white transition hover:bg-primary hover:text-primary-foreground">
           <ChevronRight className="h-5 w-5" />
         </button>
       </div>
-      <p className="px-5 pt-4 text-sm text-white/80">{t(step.label)}</p>
+      <p className="px-5 pt-4 text-white/90">{t(step.label)}</p>
       <div className="flex gap-2 overflow-x-auto px-5 pb-5 pt-3">
         {steps.map((s, i) => (
           <button
@@ -252,7 +252,7 @@ export function StepGallery({ className }: { className?: string }) {
             type="button"
             onClick={() => setIndex(i)}
             aria-label={t(s.label)}
-            className={cn('aspect-video w-20 shrink-0 overflow-hidden rounded-lg border-2 transition', i === index ? 'border-emerald-400' : 'border-transparent opacity-50 hover:opacity-100')}
+            className={cn('aspect-video w-20 shrink-0 overflow-hidden border-2 transition', i === index ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100')}
           >
             <img src={s.image} alt="" className="h-full w-full object-cover object-top" loading="lazy" />
           </button>
@@ -266,13 +266,13 @@ export function LabSection() {
   const { ui } = useLang();
   const runEnabled = useLabConfig()?.runEnabled ?? false;
   return (
-    <section id="lab" className="relative overflow-hidden bg-ink py-20 text-white sm:py-28">
-      <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(hsl(156_72%_52%/0.18)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
-      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-emerald-500/20 blur-[120px]" />
+    <section id="lab" className="relative overflow-hidden bg-ink/95 py-20 text-white sm:py-28">
+      <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(hsl(250_89%_70%/0.18)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
+      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-primary/25 blur-[120px]" />
       <div className="container relative">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow !text-emerald-400">
-            <span className="h-px w-6 bg-emerald-400" />
+          <p className="eyebrow !text-[hsl(249_100%_84%)]">
+            <span className="h-px w-6 bg-[hsl(249_100%_84%)]" />
             {ui.lab.eyebrow}
           </p>
           <h2 className="heading mt-4 text-balance">{ui.lab.title}</h2>
@@ -282,7 +282,7 @@ export function LabSection() {
           <Reveal className="min-w-0">
             <RunReport />
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Link to="/lab" className="btn bg-emerald-400 text-ink hover:-translate-y-0.5 hover:bg-emerald-300">
+              <Link to="/lab" className="btn-primary">
                 <PlayCircle className="h-4 w-4" />
                 {ui.lab.open}
               </Link>
@@ -325,8 +325,7 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="section container">
-      <Reveal className="relative overflow-hidden rounded-[2.5rem] border bg-card px-6 py-16 text-center sm:px-12 sm:py-20">
-        <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]" />
+      <Reveal className="glass relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center sm:px-12 sm:py-20">
         <div className="pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[600px] -translate-x-1/2 rounded-full bg-primary/25 blur-[100px]" />
         <div className="relative">
           <img src={profile.photo} alt="" width={80} height={80} loading="lazy" className="mx-auto h-20 w-20 rounded-full border-4 border-background object-cover shadow-lg" />
@@ -351,7 +350,7 @@ export function ContactSection() {
             data-testid="copy-email"
             className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-full px-3 font-mono text-xs text-muted-foreground transition hover:text-foreground sm:text-sm"
           >
-            {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-accent-text" /> : <Copy className="h-4 w-4" />}
             {copied ? ui.contact.copied : profile.email}
           </button>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -363,7 +362,7 @@ export function ContactSection() {
                 rel="noopener"
                 aria-label={label}
                 title={label}
-                className="grid h-11 w-11 place-items-center rounded-full border bg-background transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+                className="grid h-11 w-11 place-items-center rounded-full border bg-background transition hover:-translate-y-0.5 hover:border-primary hover:text-accent-text"
               >
                 <Icon className="h-5 w-5" />
               </a>
@@ -375,14 +374,15 @@ export function ContactSection() {
   );
 }
 
+/** A slim glass footer, laid out like the GitHub version: name, credits, copyright. */
 export function Footer() {
   const { ui } = useLang();
   return (
-    <footer className="border-t">
-      <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-muted-foreground sm:flex-row">
-        <Logo />
+    <footer className="px-3 pb-3 pt-6">
+      <div className="glass mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-3 rounded-[1.75rem] px-6 py-5 text-sm text-muted-foreground sm:flex-row">
+        <Logo className="text-foreground" />
         <p className="text-center">{ui.footer.built}</p>
-        <p className="font-mono text-xs">
+        <p className="whitespace-nowrap">
           © {new Date().getFullYear()} {profile.name} ·{' '}
           <a href={links.siteRepo} target="_blank" rel="noopener" className="underline-offset-4 hover:text-foreground hover:underline">
             Source

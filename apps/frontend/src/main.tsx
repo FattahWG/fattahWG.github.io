@@ -1,6 +1,4 @@
-import '@fontsource-variable/inter';
-import '@fontsource-variable/jetbrains-mono';
-import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/montserrat';
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
